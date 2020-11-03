@@ -65,16 +65,16 @@
 
                 if(response.status === 200){
                      outtext.innerHTML = "You have registered successfully!";
-                
-                }else{
-                   return outtext.innerHTML = "Something went wrong...";
                     
-                    let div = document.createElement("div");
+                     let div = document.createElement("div");
                         let html = 
                             ` <a href = "index.html">Go back to login</a>
                             `
                         div.innerHTML = html;
                         outtext.appendChild(div);
+                }else{
+                    outtext.innerHTML = "Something went wrong...";
+                    
                 }
 
                 
