@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 5px;
+}
+
+body{
+    background-color: azure;
+}
+
+.header-text{
+    text-align: center;
+    padding: 30px 0;
+    
+}
+.header-text p{
+    font-style: italic;
+}
+
+.form {
+
+   display: grid;
+
+
+}
+
+.form>input {
+    height: 40px;
+    padding: 5px;
+    border: solid black 1px;
+    border-radius:  8px;
+}
+.form>textarea{
+    height:200px;
+    padding: 5px;
+    border: solid black 1px;
+    border-radius: 8px;
+}
+
+.create-acc{
+    text-align: center;
+    color: blue;
+    margin-top: 10px;
+}

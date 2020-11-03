@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account</title>
+    <link rel="stylesheet" href = "css/style.css">
+</head>
+<body>
+    <div class = "header-text">
+        <h1> To do list </h1>
+        <p> some text</p>  
+     </div>
+
+    <h2> Create account</h2>
+
+   <form id="theForm" class="form">
+
+       <label for="createUsername">Username:</label>
+       <input name="username" id="createUsername" type="text" />
+
+       <label for="createPassword">Password:</label>
+       <input name="password" id="createPassword" type="password" />
+
+       <input id="submit" type="submit" value="Create account" />
+
+   </form>
+    <p id = "outtext"></p>
+
+    <script>
+
+        let theForm = document.getElementById("theForm");
+        let createUsername = document.getElementById("createUsername")
+        let createPassword = document.getElementById("createPassword");
+        let outtext = document.getElementById("outtext");
+        let btn = document.getElementById("submit");
+        
+
+       
+       
+        theForm.addEventListener('submit', async function(evt) {
+            
+            evt.preventDefault();
+            
+            let body = {
+                username: createUsername.value,
+                password: createPassword.value
+            }
+
+            let config = {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+
+            
+                
+            
+            try{
+                let response = await fetch("/user", config);
+                let data = await response.json();
+            
+
+                if(response.status === 200){
+                     outtext.innerHTML = "You have registered successfully!";
+                
+                }else{
+                   return outtext.innerHTML = "Something went wrong...";
+                    
+                    let div = document.createElement("div");
+                        let html = 
+                            ` <a href = "index.html">Go back to login</a>
+                            `
+                        div.innerHTML = html;
+                        outtext.appendChild(div);
+                }
+
+                
+                console.log(response.status);
+            
+            }
+            catch(err){
+               outtext.innerHTML = "Something went wrong";
+               
+            }
+
+        });
+
+
+    </script>
+
+</body>
+</html>
