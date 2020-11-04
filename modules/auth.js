@@ -7,7 +7,7 @@ const authenticator = (req, res, next) => {
   const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":");
 
   const user = authenticate(username, password)
-  if (user) {
+  if (!user) {
       return res.status(403).end()
   }
   next();
