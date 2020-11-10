@@ -1,10 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const {
+const {  
   Router
 } = require('express');
 const secureEndpoints = require("./modules/secureEndpoints")
-const user = require("./modules/user")
+const user = require("./modules/user");
+const credentials = process.env.DATABASE_URL || require("./NEI").credentials;
+const db = new (require("./modules/datahandler"))(credentials);
+
 
 const server = express();
 const port = (process.env.PORT || 8080);

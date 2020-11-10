@@ -1,5 +1,5 @@
 const pg = require("pg");
-const dbCredentials = process.env.DATABASE_URL || require("../localenv").credentials;
+//const dbCredentials = process.env.DATABASE_URL || require("../NEI.js").credentials;
 
 class StorageHandler {
 
@@ -17,7 +17,7 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            results = await client.query('INSERT INTO "public"."users"("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
+            results = await client.query('INSERT INTO "public"."User"("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
             results = results.rows[0].message;
             client.end();
         } catch (err) {
@@ -49,4 +49,4 @@ class StorageHandler {
 
 }
 
-module.exports = new StorageHandler(dbCredentials);
+module.exports = StorageHandler;
