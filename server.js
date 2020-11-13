@@ -23,14 +23,8 @@ server.use("/secure", secureEndpoints);
 server.post("/user", async function (req, res) {
   const newUser = new user(req.body.username, req.body.password);
   await newUser.create();
-
-  let result = await db.insertUser(newUser);
-  if (result instanceof Error) {
-      res.status(500).end()
-  } else {
-    res.status(200).json(newUser).end();
-  }
-  
+  res.status(200).json(newUser).end();
+  console.log(req.body);
 });
 
 

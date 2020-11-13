@@ -16,11 +16,11 @@
 
    <form id="theForm" class="form">
 
-       <label for="createUsername">Username:</label>
-       <input name="username" id="createUsername" type="text" />
+       <label for="username">Username:</label>
+       <input name="username" id="username" type="text" />
 
-       <label for="createPassword">Password:</label>
-       <input name="password" id="createPassword" type="password" />
+       <label for="password">Password:</label>
+       <input name="password" id="password" type="password" />
 
        <input id="submit" type="submit" value="Create account" />
 
@@ -30,8 +30,8 @@
     <script>
 
         let theForm = document.getElementById("theForm");
-        let createUsername = document.getElementById("createUsername")
-        let createPassword = document.getElementById("createPassword");
+        let username = document.getElementById("username")
+        let password = document.getElementById("password");
         let outtext = document.getElementById("outtext");
         let btn = document.getElementById("submit");
         
@@ -43,8 +43,8 @@
             evt.preventDefault();
             
             let body = {
-                username: createUsername.value,
-                password: createPassword.value
+                username: username.value,
+                password: password.value
             }
 
             let config = {
@@ -60,7 +60,7 @@
             
             try{
                 let response = await fetch("/user", config);
-                console.log(response);
+                console.log(response.status);
                 let data = await response.json();
             
 
