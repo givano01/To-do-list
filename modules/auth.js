@@ -15,8 +15,8 @@ const authenticator = (req, res, next) => {
 }
 
 function authenticate(username, password) {
-  if( username === "kalleKlovn" && password === "rød nese1"){
-      //return {user="kalleKlovn", email="kalle@magiskoy.no", userID:23};
+  if( username === "georgi" && password === "ivanov"){
+    console.log("Det funker");
   }
   return null;
 }
