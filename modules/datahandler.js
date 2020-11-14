@@ -30,7 +30,7 @@ class StorageHandler {
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
-    async insert(...params) {
+    /*async insert(...params) {
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
@@ -44,7 +44,7 @@ class StorageHandler {
         }
 
         return results;
-    }
+    }*/
 
 
 }

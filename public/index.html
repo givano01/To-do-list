@@ -37,9 +37,9 @@
 
     <script>
 
-        let url = "/user/";
+        //let url = "/user/login";
 
-        let credentials = null;
+        
         const theForm = document.getElementById("theForm")
         const loginUsername = document.getElementById("loginUsername");
         const loginPassword = document.getElementById("loginPassword");
@@ -47,7 +47,7 @@
         
 
         theForm.addEventListener('submit', async function(evt)  {
-
+            let credentials = null;
             let username = loginUsername.value
             let password = loginPassword.value
 
@@ -62,23 +62,23 @@
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
-                    "authorization": credentials,
-                    body: JSON.stringify(body)
+                    "authorization": credentials
+                    //body: JSON.stringify(body)
                 }
             }
 
             try{ 
-                    let response = await fetch(url, config);
-                    let data = await response.json();
+                let response = await fetch(url, config);
+                let data = await response.json();
 
-                    localStorage.setItem("logindata", JSON.stringify(data));
-                    location.href = "msg_list.html";
+                /*localStorage.setItem("logindata", JSON.stringify(data));
+                location.href = "create_account.html";*/
 
-                    console.log(data);
+                console.log(data);
 
-                }
-                catch(err){
-                    console.log("Something went wrong");
+            }
+            catch(err){
+                console.log("Something went wrong");
                 }
 
         })

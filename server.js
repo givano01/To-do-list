@@ -18,10 +18,18 @@ server.use("/secure", secureEndpoints);
 
 
 server.post("/user", async function (req, res) {
+  
   const newUser = new user(req.body.username, req.body.password);
+  
   await newUser.create();
+  
   res.status(200).json(newUser).end();
+  
 });
+
+/*erver.post("/user/login", async function (req, res) {
+  res.status(200).end();
+})*/
 
 
 

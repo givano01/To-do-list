@@ -13,13 +13,16 @@ class User {
         this.password = crypto.createHmac('sha256', secret)
             .update(password)
             .digest('hex');
-        this.valid = false
+         this.valid = false
     }
 
     async create() {
+        
         try {
-            let respons = await database.insertUser(this.username, this.password);
-        } catch (error) {
+            //let respons = await database.insertUser(this.username, this.password);
+           let response = await database.insertUser("user", this.username, this.password);
+        
+        } catch (error) { 
             console.error(error)
         }
     }
