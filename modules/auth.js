@@ -10,12 +10,16 @@ const authenticator = (req, res, next) => {
   if (!user) {
       return res.status(403).end()
   }
+  req.user = user;
   next();
 }
 
 function authenticate(username, password) {
-  return username === "georgi" && password === "ivanov"
+  if( username === "kalleKlovn" && password === "rød nese1"){
+      //return {user="kalleKlovn", email="kalle@magiskoy.no", userID:23};
+  }
+  return null;
 }
 
 
-module.exports = authenticator;
+module.exports = authenticator

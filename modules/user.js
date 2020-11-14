@@ -1,6 +1,6 @@
 const database = require("./datahandler")
 const crypto = require('crypto');
-const secret = process.env.hashSecret || require("../localenv").hashSecret;
+const secret = process.env.hashSecret || require("../NEI").hashSecret;
 /*
 const secret = 'abcdefg';
 const hash = crypto.createHmac('sha256', secret)
@@ -15,7 +15,6 @@ class User {
             .digest('hex');
         this.valid = false
     }
-   
 
     async create() {
         try {

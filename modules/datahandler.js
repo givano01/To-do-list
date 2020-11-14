@@ -1,5 +1,5 @@
 const pg = require("pg");
-//const dbCredentials = process.env.DATABASE_URL || require("../NEI.js").credentials;
+const dbCredentials = process.env.DATABASE_URL || require("../NEI").credentials;
 
 class StorageHandler {
 
@@ -49,4 +49,4 @@ class StorageHandler {
 
 }
 
-module.exports = StorageHandler;
+module.exports = new StorageHandler(dbCredentials);
