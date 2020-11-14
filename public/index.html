@@ -37,7 +37,7 @@
 
     <script>
 
-        let url = "/user/";
+        //let url = "/user/login";
 
         
         const theForm = document.getElementById("theForm")
@@ -68,17 +68,21 @@
             }
 
             try{ 
-                    let response = await fetch(url, config);
-                    let data = await response.json();
+                let response = await fetch(url, config);
+                let data = await response.json();
 
+ 
                     localStorage.setItem("logindata", JSON.stringify(data));
                     location.href = "create_account.html";
+                /*localStorage.setItem("logindata", JSON.stringify(data));
+                location.href = "create_account.html";*/
 
-                    console.log(data);
 
-                }
-                catch(err){
-                    console.log("Something went wrong");
+                console.log(data);
+
+            }
+            catch(err){
+                console.log("Something went wrong");
                 }
 
         })
