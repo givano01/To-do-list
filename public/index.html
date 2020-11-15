@@ -46,17 +46,19 @@
         const outtext = document.getElementById("outtext");
         
 
-        theForm.addEventListener('submit', async function(evt)  {
+        theForm.addEventListener('submit', async function(evt){ 
+            
+            evt.preventDefault();
+            
+            console.log("haha");
+            
             let credentials = null;
             let username = loginUsername.value
             let password = loginPassword.value
 
             credentials = "Basic " + window.btoa(`${username}:${password}`)
 
-            let body = {
-                username: createUsername.value,
-                password: createPassword.value
-            }
+            
 
             let config = {
                 method: "POST",

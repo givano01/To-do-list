@@ -14,12 +14,5 @@ const authenticator = (req, res, next) => {
   next();
 }
 
-function authenticate(username, password) {
-  if( username === "georgi" && password === "ivanov"){
-    console.log("Det funker");
-  }
-  return null;
-}
-
 
 module.exports = authenticator
