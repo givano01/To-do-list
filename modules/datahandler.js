@@ -28,6 +28,22 @@ class StorageHandler {
 
         return results;
     }
+
+    async selectUser(username, password){
+        const client = new pg.Client(this.credentials);
+        let resp = null;
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('SELECT * FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
+            resp = (results.rows.length > 0) ? results.rows[0]:null;
+            client.end();
+        }catch(err){
+            console.log(err);
+        }
+
+        return resp;        
+    }
 }
 
 module.exports = new StorageHandler(dbCredentials);

@@ -50,8 +50,6 @@
             
             evt.preventDefault();
             
-            console.log("haha");
-            
             let credentials = null;
             let username = loginUsername.value
             let password = loginPassword.value
@@ -69,24 +67,45 @@
                 }
             }
 
-            try{ 
+            //try{ 
                 let response = await fetch(url, config);
                 let data = await response.json();
+                serverResp(response, data, 1);
 
  
-                    localStorage.setItem("logindata", JSON.stringify(data));
-                    location.href = "create_account.html";
+                    //localStorage.setItem("logindata", JSON.stringify(data));
+                    //location.href = "create_account.html";
                 
 
                 console.log(data);
 
-            }
-            catch(err){
-                console.log("Something went wrong");
-                }
+            //}
+            //atch(err){
+              //  console.log("Something went wrong");
+              //  }
 
         })
-    </script>
+
+        function serverResp(res, data, num){
+            console.log(res.status);
+            if(!data.authToken){
+                return;
+            }else{
+                let token = data.authToken.authToken;
+                let user = data.user;
+                if(token !== undefined){
+                    sessionStorage.setItem("token", token);
+                }
+                if(user !== undefined){
+                    sessionStorage.setItem("user", user.username);
+                }
+                if(res.status === 200){
+                    location.href = "create_account.html";
+                }
+            }
+        }
+
+     </script>
 
 
 </body>
