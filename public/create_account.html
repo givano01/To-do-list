@@ -65,14 +65,16 @@
             
 
                 if(response.status === 200){
-                     outtext.innerHTML = "You have registered successfully!";
+                     outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
                     
-                     let div = document.createElement("div");
+                     /*let div = document.createElement("div");
                         let html = 
-                            ` <a href = "index.html">Go back to login</a>
+                            ` <p>Thank you for your registration. You will be now redirected to the login page.</p>
                             `
                         div.innerHTML = html;
-                        outtext.appendChild(div);
+                        outtext.appendChild(div);*/
+
+                        redirect();
                 }else{
                     outtext.innerHTML = "Prøv igjen";
                     
@@ -88,6 +90,13 @@
             }*/
 
         });
+
+        const redirect = () =>{
+            
+            setTimeout(function(){ location.href = "index.html";}, 5000);
+        }
+
+       // setTimeOut(redirect, 2000);
 
 
     </script>
