@@ -18,7 +18,7 @@ class StorageHandler {
         try {
             await client.connect();
             results = await client.query('INSERT INTO "public"."users"("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
-            results = results.rows[0].message;
+            results = results.rows[0];
             client.end();
         } catch (err) {
             client.end();
