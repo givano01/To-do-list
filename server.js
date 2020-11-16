@@ -26,7 +26,7 @@ server.post("/user", async function (req, res) {
   res.status(200).json(newUser).end();
   
 });
-
+ // Dette er en test.
 
 server.post("/user/login", async function (req, res) {
  // console.log(req.headers.authorization); // krypterte strengen brukeren sender inn
