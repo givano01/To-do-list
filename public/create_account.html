@@ -76,14 +76,7 @@
 
                         redirect();
 
-                     outtext.innerHTML = "You have registered successfully!";
-                    
-                     let div = document.createElement("div");
-                        let html = 
-                            ` <a href = "index.html">Go back to login</a>
-                            `
-                        div.innerHTML = html;
-                        outtext.appendChild(div); 
+                     
                 }else{
                     outtext.innerHTML = "Prøv igjen";
                     
@@ -100,14 +93,12 @@
 
         });
 
-
         const redirect = () =>{
             
             setTimeout(function(){ location.href = "index.html";}, 5000);
         }
 
        // setTimeOut(redirect, 2000);
-
 
 
     </script>
