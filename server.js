@@ -5,11 +5,7 @@ const user = require("./modules/user");
 const auth = require("./modules/auth");
 
 const createToken = require("./modules/sbToken").create;
-<<<<<<< HEAD
-
-=======
-// hello world
->>>>>>> d467258 (Hello world test)
+// hello worlds
 const server = express();
 const port = (process.env.PORT || 8080);
 
