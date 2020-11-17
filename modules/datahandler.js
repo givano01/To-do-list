@@ -29,12 +29,12 @@ class StorageHandler {
         return results;
     }
 
-    async insertTask(username, text, status) {
+    async insertTask(task) {
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
             await client.connect();
-            results = await client.query('INSERT INTO "public"."todo-list"("username", "text", "status") VALUES($1, $2, $3) RETURNING *;', [username, text, status]);
+            results = await client.query('INSERT INTO "public"."todo-list"("task") VALUES($1) RETURNING *;', [task]);
             results = results.rows[0];
             client.end();
         } catch (err) {
