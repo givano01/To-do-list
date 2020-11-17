@@ -1,11 +1,72 @@
-<html>
-    <head>
-        <title>Dashboard</title>
-    </head>
-    <body>
-        <h3>Dashboard</h3>
-        <script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>My document</title>
+</head>
+<body>
 
-        </script>
-    </body>
+ <h2> Add new task</h2>
+
+
+<input type = "text" id = "inpTask">
+<input type = "button" id = "btnAdd" value = "Add task">
+
+<hr>
+
+
+
+    <script>    
+
+    let inpTask = document.getElementById("inpTask");
+    let btn = document.getElementById("btnAdd");
+
+
+    btn.addEventListener("click", async function (evt){
+
+        evt.preventDefault();
+
+        let credentials = null;
+
+        let task = inpTask.value;
+
+        let updata = {
+
+            task: inpTask.value
+        }
+
+        credentials = "Basic " + window.btoa(`${task}`)
+
+        let config = {
+            method: "POST",
+            headers: {
+                "content-type" : "application/json",
+                "authorization" : credentials
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try{ 
+                    let response = await fetch("/tasks", config);
+                    let data = await response.json(); 
+                    
+                    //location.href = "msg_list.html"
+
+                }
+                catch(err){
+                    outtext.innerHTML = "Something went wrong";
+                
+                }
+
+    })
+
+    
+    
+    </script>
+    
+</body>
+
+
+
 </html>
