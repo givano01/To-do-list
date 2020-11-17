@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const secureEndpoints = require("./modules/secureEndpoints")
 const user = require("./modules/user");
+const task = require("./modules/task");
 const auth = require("./modules/auth");
 
 const createToken = require("./modules/sbToken").create;
@@ -50,6 +51,16 @@ server.post("/user/login", async function (req, res) {
   } else {
     res.status(403).json("unauthorized").end(); 
   }
+})
+
+server.post("/tasks", async function (req, res, next) {
+
+  const newTask = new task(req.body.task);
+  
+  await newTask.createTask();
+  
+  res.status(200).json(newTask).end();
+
 })
 
  
