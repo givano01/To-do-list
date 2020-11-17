@@ -89,6 +89,7 @@
         function serverResp(res, data, num){
             console.log(res.status);
             if(!data.authToken){
+                outtext.innerHTML = "The user does not exist";
                 return;
             }else{
                 let token = data.authToken.authToken;

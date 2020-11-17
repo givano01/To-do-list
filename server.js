@@ -52,8 +52,9 @@ server.post("/user/login", async function (req, res) {
   }
 })
 
- 
 
+const customersRouter = require('modules/functions')
+app.use('/customers', customersRouter);
 
 
 server.listen(server.get('port'), function () {
