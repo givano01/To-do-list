@@ -70,6 +70,8 @@
             //try{ 
                 let response = await fetch(url, config);
                 let data = await response.json();
+
+                localStorage.setItem("logindata", JSON.stringify(data))
                 serverResp(response, data, 1);
 
  

@@ -11,7 +11,7 @@ class StorageHandler {
             }
         };
     }
-
+    // Inserting user data to the database
     async insertUser(username, password) {
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -28,7 +28,7 @@ class StorageHandler {
 
         return results;
     }
-
+    // Inserting a task data to  database
     async insertTask(task) {
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -46,7 +46,7 @@ class StorageHandler {
         return results;
     }
 
-    
+    //Getting all task data from database
     async getTask(task) {
 
         const client = new pg.Client(this.credentials);
@@ -63,7 +63,7 @@ class StorageHandler {
             results = err;
         }
     }
-
+    // Getting the user data from database
     async selectUser(username, password){
         const client = new pg.Client(this.credentials);
         let resp = null;

@@ -14,55 +14,116 @@
 <input type = "button" id = "btnAdd" value = "Add task">
 
 <hr>
+<br>
+
+<h2> All tasks</h2>
+
+<div id = "container">
+
+</div>
+
+<p id = "outtext"></p>
 
 
 
     <script>    
 
-    let inpTask = document.getElementById("inpTask");
-    let btn = document.getElementById("btnAdd");
-
-
-    btn.addEventListener("click", async function (evt){
-
-
-        evt.preventDefault();
-
-        let credentials = null;
-
-        let task = inpTask.value;
-
-        let updata = {
-
-            task: inpTask.value
-        }
-
-        credentials = "Basic " + window.btoa(`${task}`)
-
-        let config = {
-            method: "POST",
-            headers: {
-                "content-type" : "application/json",
-                "authorization" : credentials
-            },
-            body: JSON.stringify(updata)
-        }
-
-        try{ 
-            let response = await fetch("/user/task", config);
-            let data = await response.json(); 
-            
-            //location.href = "msg_list.html"
-
-        }
-        catch(err){
-            outtext.innerHTML = "Something went wrong";
+        let inpTask = document.getElementById("inpTask");
+        let btn = document.getElementById("btnAdd");
         
-        }
-    })
+        
 
+        btn.addEventListener("click", async function (evt){
+
+            //let logindataJson = localStorage.getItem("logindata");
+            //let logindata = JSON.parse(logindataJson);
+
+            evt.preventDefault();
+
+            let credentials = null;
+
+            let task = inpTask.value;
+
+            let updata = {
+
+                task: inpTask.value
+            }
+
+            credentials = "Basic " + window.btoa(`${task}`);
+
+            let config = {
+                method: "POST",
+                headers: {
+                    "content-type" : "application/json",
+                    "authorization" : logindata.token
+                },
+                body: JSON.stringify(updata)
+            }
+
+            try{ 
+                let response = await fetch("/user/task", config);
+                let data = await response.json(); 
+                
+                //location.href = "msg_list.html"
+
+            }
+            catch(err){
+                outtext.innerHTML = "Something went wrong";
+            
+            }
+        })
     
-    
+    </script>
+
+    <script>
+        let container = document.getElementById("container");
+        let outtext = document.getElementById("outtext");
+
+        loadTasks();
+        
+        async function loadTasks() {
+            
+           // let logindataJson = localStorage.getItem("logindata");
+           // let logindata = JSON.parse(logindataJson);
+             
+            let credentials = null;
+            let task = inpTask.value;
+
+            credentials = "Basic " + window.btoa(`${task}`);
+
+            
+            let config = {
+                    method: "GET",
+                    headers: {"authorization" : credentials}
+                }
+
+            try{
+                let response = await fetch ("/user/task", config);
+                let data = await response.json();
+            
+                for (let tsk of data){
+
+                    let date = new Date(msg.datetime);
+                    date = date.toDateString();
+                    console.log(date);
+                    
+                    let div = document.createElement("div");
+                    l
+                    let html =
+                    `<p>${date}</p>
+                    <h5>${tsk.task}</h5>
+                    <hr>
+                    `
+                    div.innerHTML = html;
+                    container.appendChild(div);
+                }
+           
+         }   
+            catch(err){
+                outtext.innerHTML = "Something went wrong";
+            }
+        }
+
     </script>
     
 </body>

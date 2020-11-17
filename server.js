@@ -60,13 +60,25 @@ server.post("/user/login", async function (req, res) {
 
 
 //CREATE TASK
-server.post("/task", async function (req, res, next) {
+server.post("/user/task", async function (req, res) {
 
   const newTask = new task(req.body.task);
   
   await newTask.createTask();
   
   res.status(200).json(newTask).end();
+
+})
+
+//GET TASK !! NOT DONE
+server.get("/user/task", auth, async function (req, res) {
+  
+  const task =  task(req.body.task);
+
+  await task.getTask();
+
+  res.status(200).end();
+  
 
 })
 
