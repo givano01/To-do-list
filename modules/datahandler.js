@@ -46,6 +46,24 @@ class StorageHandler {
         return results;
     }
 
+    
+    async getTask(task) {
+
+        const client = new pg.Client(this.credentials);
+        let results = null;
+
+        try {
+            await client.connect();
+            results = await client.query('SELECT * FROM "public"."todo-list" WHERE tasks=$1', [task]);
+            results = results.rows;
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+    }
+
     async selectUser(username, password){
         const client = new pg.Client(this.credentials);
         let resp = null;
