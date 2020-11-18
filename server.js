@@ -18,16 +18,21 @@ server.use(bodyParser.json());
 server.use("/secure", secureEndpoints);
 
 
+
+//CREATE USER
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
   
+  console.log(newUser);
   await newUser.create();
   
   res.status(200).json(newUser).end();
   
 });
- // Dette er en test.
+ 
+
+//LOGIN USER
 
 server.post("/user/login", async function (req, res) {
  // console.log(req.headers.authorization); // krypterte strengen brukeren sender inn
@@ -53,7 +58,9 @@ server.post("/user/login", async function (req, res) {
   }
 })
 
-server.post("/tasks", async function (req, res, next) {
+
+//CREATE TASK
+server.post("/user/task", async function (req, res) {
 
   const newTask = new task(req.body.task);
   
@@ -62,6 +69,21 @@ server.post("/tasks", async function (req, res, next) {
   res.status(200).json(newTask).end();
 
 })
+
+//GET TASK !! NOT DONE
+server.get("/user/task", auth, async function (req, res) {
+  
+  const task =  task(req.body.task);
+
+  await task.getTask();
+
+  res.status(200).end();
+  
+
+})
+
+
+
 
 server.listen(server.get('port'), function () {
   console.log('server running', server.get('port'));
