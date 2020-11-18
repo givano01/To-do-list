@@ -4,80 +4,185 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>My document</title>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
-<div style="width: 60%;">
-    <div id="myDiv" class="header">
-        <h2>To-do</h2>
-        <input type="text" id="inpTask">
-        <input type="button" onclick="newElement()" id="btnAdd" value="+">
+<div id="myDIV" class="header">
+    <h2 style="margin:5px; color: #BEF4F9">To-do</h2>
+    <input type="text" id="inpTask" placeholder="Title...">
+    <div class="actions">
+        <input type="button" id="btnAdd" class="addBtn" value="Legg til">
     </div>
-    <ul id="myUL">
-
-    </ul>
-    <p></p>
 </div>
 
-  <script>
+<ul id="myUL">
 
-const db = require('../NEI.js').db;
+</ul>
 
-async function getTodos() {
-  const data = await db.query(
-    'SELECT * FROM todoitems'
-  )
-  return data
-}
+<h2> All tasks</h2>
 
-    let inpTask = document.getElementById("inpTask");
-    let btn = document.getElementById("btnAdd");
-    const outtext = document.getElementById("outtext");
+<div id = "container">
+
+</div>
+
+<p id = "outtext"></p>
 
 
-    btn.addEventListener("click", async function (evt){
+    <script>    
 
-        evt.preventDefault();
-
-        let credentials = null;
-
-        let task = inpTask.value;
-
-        let updata = {
-
-            task: inpTask.value
+    // Lag liste
+    var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
         }
 
-        credentials = "Basic " + window.btoa(`${task}`)
-
-        let config = {
-            method: "POST",
-            headers: {
-                "content-type" : "application/json",
-                "authorization" : credentials
-            },
-            body: JSON.stringify(updata)
+        // Slett element
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
         }
 
-        try{ 
-            let response = await fetch("/tasks", config);
-            let data = await response.json(); 
-            
-            //location.href = "msg_list.html"
+        // hent unorganized list
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
 
-        }
-        catch(err){
-            outtext.innerHTML = "Something went wrong";
         
+        let inpTask = document.getElementById("inpTask");
+        let btn = document.getElementById("btnAdd");
+
+        btn.addEventListener("click", async function (evt){
+
+            let logindataJson = localStorage.getItem("logindata");
+            let logindata = JSON.parse(logindataJson);
+
+            evt.preventDefault();
+
+            // let credentials = null;
+
+            let task = inpTask.value;
+
+            let updata = {
+
+                task: inpTask.value
+            }
+
+            // credentials = "Basic " + window.btoa(`${task}`);
+
+            let config = {
+                method: "POST",
+                headers: {
+                    "content-type" : "application/json",
+                    "authorization" : logindata.authToken
+                },
+                body: JSON.stringify(updata)
+            }
+
+            try { 
+                let response = await fetch("/user/task", config);
+                let data = await response.json(); 
+                
+                //location.href = "msg_list.html"
+
+            }
+            catch(err){
+                outtext.innerHTML = "Something went wrong";
+            
+            }
+        })
+
+
+        var button = document.querySelector(".addBtn");
+        button.addEventListener("click", function onclick(event) {
+            var li = document.createElement("li");
+            var inputValue = document.getElementById("inpTask").value;
+            var t = document.createTextNode(inputValue);
+            li.appendChild(t);
+            if (inputValue === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("myUL").appendChild(li);
+            }
+            document.getElementById("inpTask").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("Slett");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function() {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }
+        });
+
+        // GET 
+        
+        /* let container = document.getElementById("container");
+        let outtext = document.getElementById("outtext");
+
+        loadTasks();
+        
+        async function loadTasks() {
+            
+           // let logindataJson = localStorage.getItem("logindata");
+           // let logindata = JSON.parse(logindataJson);
+             
+            let credentials = null;
+            let task = inpTask.value;
+
+            credentials = "Basic " + window.btoa(`${task}`);
+
+            
+            let config = {
+                    method: "GET",
+                    headers: {"authorization" : credentials}
+                }
+
+            try{
+                let response = await fetch ("/user/task", config);
+                let data = await response.json();
+            
+                for (let tsk of data){
+
+                    let date = new Date(msg.datetime);
+                    date = date.toDateString();
+                    console.log(date);
+                    
+                    let div = document.createElement("div");
+                    l
+                    let html =
+                    `<p>${date}</p>
+                    <h5>${tsk.task}</h5>
+                    <hr>
+                    `
+                    div.innerHTML = html;
+                    container.appendChild(div);
+                }
+           
+         }   
+            catch(err){
+                outtext.innerHTML = "Something went wrong";
+            }
         }
-    })
+    */
 
-    
-    
     </script>
-    
 </body>
-
-
-
 </html>

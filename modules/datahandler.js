@@ -63,6 +63,7 @@ class StorageHandler {
             results = err;
         }
     }
+    
     // Getting the user data from database
     async selectUser(username, password){
         const client = new pg.Client(this.credentials);

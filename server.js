@@ -48,8 +48,8 @@ server.post("/user/login", async function (req, res) {
   console.log(isValid); // isValid = true/false
   
   if(isValid){
-    let sessionToken = createToken(requestUser);
-    // let sessionToken = 1234; //bare for nå siden vi ikke har laget ferdig token modulen
+    // let sessionToken = createToken(username);
+     let sessionToken = 1234; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
     console.log(requestUser);
     console.log(sessionToken);
