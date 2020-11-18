@@ -7,7 +7,6 @@
 </head>
 <body>
 
-<<<<<<< HEAD
 <div style="width: 60%;">
     <div id="myDiv" class="header">
         <h2>To-do</h2>
@@ -22,70 +21,6 @@
 
   <script>
 
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
-
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
-
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("inpTask").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("inpTask").value = "";
-
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
 const db = require('../NEI.js').db;
 
 async function getTodos() {
@@ -98,125 +33,47 @@ async function getTodos() {
     let inpTask = document.getElementById("inpTask");
     let btn = document.getElementById("btnAdd");
     const outtext = document.getElementById("outtext");
-=======
- <h2> Add new task</h2>
 
 
-<input type = "text" id = "inpTask">
-<input type = "button" id = "btnAdd" value = "Add task">
+    btn.addEventListener("click", async function (evt){
 
-<hr>
-<br>
+        evt.preventDefault();
 
-<h2> All tasks</h2>
+        let credentials = null;
 
-<div id = "container">
+        let task = inpTask.value;
 
-</div>
+        let updata = {
 
-<p id = "outtext"></p>
-
-
-
-    <script>    
-
-        let inpTask = document.getElementById("inpTask");
-        let btn = document.getElementById("btnAdd");
-        
-        
-
-        btn.addEventListener("click", async function (evt){
->>>>>>> 7314497f82c7eab401d07ad1222c6ffe92af9e27
-
-            //let logindataJson = localStorage.getItem("logindata");
-            //let logindata = JSON.parse(logindataJson);
-
-            evt.preventDefault();
-
-            let credentials = null;
-
-            let task = inpTask.value;
-
-            let updata = {
-
-                task: inpTask.value
-            }
-
-            credentials = "Basic " + window.btoa(`${task}`);
-
-            let config = {
-                method: "POST",
-                headers: {
-                    "content-type" : "application/json",
-                    "authorization" : logindata.token
-                },
-                body: JSON.stringify(updata)
-            }
-
-            try{ 
-                let response = await fetch("/user/task", config);
-                let data = await response.json(); 
-                
-                //location.href = "msg_list.html"
-
-            }
-            catch(err){
-                outtext.innerHTML = "Something went wrong";
-            
-            }
-        })
-    
-    </script>
-
-    <script>
-        let container = document.getElementById("container");
-        let outtext = document.getElementById("outtext");
-
-        loadTasks();
-        
-        async function loadTasks() {
-            
-           // let logindataJson = localStorage.getItem("logindata");
-           // let logindata = JSON.parse(logindataJson);
-             
-            let credentials = null;
-            let task = inpTask.value;
-
-            credentials = "Basic " + window.btoa(`${task}`);
-
-            
-            let config = {
-                    method: "GET",
-                    headers: {"authorization" : credentials}
-                }
-
-            try{
-                let response = await fetch ("/user/task", config);
-                let data = await response.json();
-            
-                for (let tsk of data){
-
-                    let date = new Date(msg.datetime);
-                    date = date.toDateString();
-                    console.log(date);
-                    
-                    let div = document.createElement("div");
-                    l
-                    let html =
-                    `<p>${date}</p>
-                    <h5>${tsk.task}</h5>
-                    <hr>
-                    `
-                    div.innerHTML = html;
-                    container.appendChild(div);
-                }
-           
-         }   
-            catch(err){
-                outtext.innerHTML = "Something went wrong";
-            }
+            task: inpTask.value
         }
 
+        credentials = "Basic " + window.btoa(`${task}`)
+
+        let config = {
+            method: "POST",
+            headers: {
+                "content-type" : "application/json",
+                "authorization" : credentials
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try{ 
+            let response = await fetch("/tasks", config);
+            let data = await response.json(); 
+            
+            //location.href = "msg_list.html"
+
+        }
+        catch(err){
+            outtext.innerHTML = "Something went wrong";
+        
+        }
+    })
+
+    
+    
     </script>
     
 </body>
