@@ -1,20 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>My document</title>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
- <h2> Add new task</h2>
+<div id="myDIV" class="header">
+    <h2 style="margin:5px; color: #BEF4F9">To-do</h2>
+    <input type="text" id="inpTask" placeholder="Title...">
+    <div class="actions">
+        <input type="button" id="btnAdd" class="addBtn" value="Legg til">
+    </div>
+</div>
 
+<ul id="myUL">
 
-<input type = "text" id = "inpTask">
-<input type = "button" id = "btnAdd" value = "Add task">
-
-<hr>
-<br>
+</ul>
 
 <h2> All tasks</h2>
 
@@ -25,22 +30,49 @@
 <p id = "outtext"></p>
 
 
-
     <script>    
 
+    // Lag liste
+    var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+        }
+
+        // Slett element
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+
+        // hent unorganized list
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
+
+        
         let inpTask = document.getElementById("inpTask");
         let btn = document.getElementById("btnAdd");
-        
-        
 
         btn.addEventListener("click", async function (evt){
 
-            //let logindataJson = localStorage.getItem("logindata");
-            //let logindata = JSON.parse(logindataJson);
+            let logindataJson = localStorage.getItem("logindata");
+            let logindata = JSON.parse(logindataJson);
 
             evt.preventDefault();
 
-            let credentials = null;
+            // let credentials = null;
 
             let task = inpTask.value;
 
@@ -49,18 +81,18 @@
                 task: inpTask.value
             }
 
-            credentials = "Basic " + window.btoa(`${task}`);
+            // credentials = "Basic " + window.btoa(`${task}`);
 
             let config = {
                 method: "POST",
                 headers: {
                     "content-type" : "application/json",
-                    "authorization" : logindata.token
+                    "authorization" : logindata.authToken
                 },
                 body: JSON.stringify(updata)
             }
 
-            try{ 
+            try { 
                 let response = await fetch("/user/task", config);
                 let data = await response.json(); 
                 
@@ -72,13 +104,39 @@
             
             }
         })
-    
-    </script>
 
-    <script>
-        let container = document.getElementById("container");
+
+        var button = document.querySelector(".addBtn");
+        button.addEventListener("click", function onclick(event) {
+            var li = document.createElement("li");
+            var inputValue = document.getElementById("inpTask").value;
+            var t = document.createTextNode(inputValue);
+            li.appendChild(t);
+            if (inputValue === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("myUL").appendChild(li);
+            }
+            document.getElementById("inpTask").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("Slett");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function() {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }
+        });
+
+        // GET 
+        
+        /* let container = document.getElementById("container");
         let outtext = document.getElementById("outtext");
-
         loadTasks();
         
         async function loadTasks() {
@@ -88,21 +146,17 @@
              
             let credentials = null;
             let task = inpTask.value;
-
             credentials = "Basic " + window.btoa(`${task}`);
-
             
             let config = {
                     method: "GET",
                     headers: {"authorization" : credentials}
                 }
-
             try{
                 let response = await fetch ("/user/task", config);
                 let data = await response.json();
             
                 for (let tsk of data){
-
                     let date = new Date(msg.datetime);
                     date = date.toDateString();
                     console.log(date);
@@ -123,11 +177,8 @@
                 outtext.innerHTML = "Something went wrong";
             }
         }
+    */
 
     </script>
-    
 </body>
-
-
-
 </html>
