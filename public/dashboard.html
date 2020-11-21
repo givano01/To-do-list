@@ -34,7 +34,7 @@
 
 <script>    
 
-    // Lag liste
+    // Create list
     var myNodelist = document.getElementsByTagName("LI");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
@@ -45,7 +45,7 @@
             myNodelist[i].appendChild(span);
         }
 
-        // Slett element
+        // Delete list
         var close = document.getElementsByClassName("close");
         var i;
         for (i = 0; i < close.length; i++) {
@@ -55,7 +55,7 @@
             }
         }
 
-        // hent unorganized list
+        // Get unorganized list
         var list = document.querySelector('ul');
         list.addEventListener('click', function(ev) {
             if (ev.target.tagName === 'LI') {
@@ -69,12 +69,10 @@
 
         btn.addEventListener("click", async function (evt){
 
-            let logindataJson = localStorage.getItem("logindata");
-            let logindata = JSON.parse(logindataJson);
-
             evt.preventDefault();
 
-            // let credentials = null;
+            let logindataJson = localStorage.getItem("logindata");
+            let logindata = JSON.parse(logindataJson);
 
             let task = inpTask.value;
 
@@ -82,8 +80,6 @@
 
                 task: inpTask.value
             }
-
-            // credentials = "Basic " + window.btoa(`${task}`);
 
             let config = {
                 method: "POST",
@@ -97,8 +93,6 @@
             try { 
                 let response = await fetch("/user/task", config);
                 let data = await response.json(); 
-                
-                //location.href = "msg_list.html"
 
             }
             catch(err){
@@ -136,57 +130,54 @@
         });
 
         
-        // GET 
+    // GET 
         
-    let container = document.getElementById("container");
-    let outtext = document.getElementById("outtext");
-    loadTasks();
+        let container = document.getElementById("container");
+        let outtext = document.getElementById("outtext");
+        
+        loadTasks();  
 
-
+        async function loadTasks() {
+            
+            let token = sessionStorage.getItem("token");
+            let username = sessionStorage.getItem("user");
     
-
-    async function loadTasks() {
-        
-        let token = sessionStorage.getItem("token");
-        let username = sessionStorage.getItem("user");
- 
-        if(token !== undefined){
-             
-        let body = {
-                authToken: token,
-                user: username,  
-            }
+           // if(token !== undefined){
+                
+                let body = {
+                    authToken: token,
+                    user: username,  
+                }
 
                 let config = {
-                method: "GET",
-            }
+                    method: "GET",
+                }
 
-        try{
-            let response = await fetch ("/user/task", config);
-            let data = await response.json();
+                try{
+                    let response = await fetch ("/user/task", config);
+                    let data = await response.json();
 
-            console.log(data.rows);
+                    console.log(data.rows);
 
-            for(let tsk of data.rows){
-                
-                let div = document.createElement("div");
-                
-                let html =
-                `
-                <br>
-                <h3 style="color: #BEF4F9; padding-left: 20px;">${tsk.task}</h3>
-                <hr style="color: #FFFFFF">
-                `
-                div.innerHTML = html;
-                container.appendChild(div);
-                
-            }
+                    for(let tsk of data.rows){
+                        
+                        let div = document.createElement("div");
+                        
+                        let html =
+                            `
+                            <br>
+                            <h3 style="color: #BEF4F9; padding-left: 20px;">${tsk.task}</h3>
+                            <hr style="color: #FFFFFF">
+                            `
+                        div.innerHTML = html;
+                        container.appendChild(div);
+                        
+                    }
+                } 
+                catch(err){
+                outtext.innerHTML = "Something went wrong";
+            //}
         }   
-        catch(err){
-         outtext.innerHTML = "Something went wrong";
-
-        }
-    }   
 }
 
 </script>
