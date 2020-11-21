@@ -5,40 +5,65 @@
 }
 
 body{
-    background-color: azure;
+    background-color: #201F23;
 }
 
 .header-text{
+    color: #BEF4F9;
     text-align: center;
     padding: 30px 0;
     
 }
-.header-text p{
+.header-text p {
     font-style: italic;
 }
 
 .form {
-
    display: grid;
-
-
 }
 
-.form>input {
-    height: 40px;
-    padding: 5px;
-    border: solid black 1px;
-    border-radius:  8px;
+.form #submit {
+    padding: 10px;
+    width: 25%;
+    background: #6562fc;
+    color: white;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    margin-top: 15px;
+    border-radius: 6px;
 }
-.form>textarea{
-    height:200px;
-    padding: 5px;
-    border: solid black 1px;
-    border-radius: 8px;
+.form #loginPassword, .form #loginUsername {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
 }
 
 .create-acc{
     text-align: center;
     color: blue;
     margin-top: 10px;
+}
+
+#left {
+    width: 50%; float: left; padding: 25px;
+}
+
+#right {
+    width: 50%; float: right; padding: 25px;
+}
+
+.create-acc a {
+    text-decoration: none;
+    color: white;
 }
