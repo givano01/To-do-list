@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,22 +17,21 @@
     </div>
 </div>
 
+<h2 style="color: #BEF4F9; text-align: center; padding-top: 20px;"> All tasks</h2>
+
 <ul id="myUL">
 
 </ul>
 
-<h2> All tasks</h2>
 
-<div id = "container">
+<p id = "outtext">
 
-</div>
-
-<p id = "outtext"></p>
+</p>
 
 
-    <script>    
+<script>    
 
-    // Lag liste
+    // Create list
     var myNodelist = document.getElementsByTagName("LI");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
@@ -42,7 +42,7 @@
             myNodelist[i].appendChild(span);
         }
 
-        // Slett element
+        // Delete list
         var close = document.getElementsByClassName("close");
         var i;
         for (i = 0; i < close.length; i++) {
@@ -52,7 +52,7 @@
             }
         }
 
-        // hent unorganized list
+        // Get unorganized list
         var list = document.querySelector('ul');
         list.addEventListener('click', function(ev) {
             if (ev.target.tagName === 'LI') {
@@ -61,17 +61,16 @@
         }, false);
 
         
+        
         let inpTask = document.getElementById("inpTask");
         let btn = document.getElementById("btnAdd");
 
         btn.addEventListener("click", async function (evt){
 
-            let logindataJson = localStorage.getItem("logindata");
-            let logindata = JSON.parse(logindataJson);
-
             evt.preventDefault();
 
-            // let credentials = null;
+            let logindataJson = localStorage.getItem("logindata");
+            let logindata = JSON.parse(logindataJson);
 
             let task = inpTask.value;
 
@@ -79,8 +78,6 @@
 
                 task: inpTask.value
             }
-
-            // credentials = "Basic " + window.btoa(`${task}`);
 
             let config = {
                 method: "POST",
@@ -94,8 +91,6 @@
             try { 
                 let response = await fetch("/user/task", config);
                 let data = await response.json(); 
-                
-                //location.href = "msg_list.html"
 
             }
             catch(err){
@@ -104,13 +99,18 @@
             }
         })
 
+        
 
         var button = document.querySelector(".addBtn");
+        
         button.addEventListener("click", function onclick(event) {
+            
             var li = document.createElement("li");
             var inputValue = document.getElementById("inpTask").value;
             var t = document.createTextNode(inputValue);
+            
             li.appendChild(t);
+            
             if (inputValue === '') {
                 alert("You must write something!");
             } else {
@@ -130,59 +130,60 @@
                     div.style.display = "none";
                 }
             }
+            location.reload();
         });
 
-        // GET 
         
-        /* let container = document.getElementById("container");
+    // GET 
+        
+        let container = document.getElementById("myUL");
         let outtext = document.getElementById("outtext");
-
-        loadTasks();
         
+        loadTasks();  
+
         async function loadTasks() {
             
-           // let logindataJson = localStorage.getItem("logindata");
-           // let logindata = JSON.parse(logindataJson);
-             
-            let credentials = null;
-            let task = inpTask.value;
+            let token = sessionStorage.getItem("token");
+            let username = sessionStorage.getItem("user");
+    
+           // if(token !== undefined){
+                
+                let body = {
+                    authToken: token,
+                    user: username,  
+                }
 
-            credentials = "Basic " + window.btoa(`${task}`);
-
-            
-            let config = {
+                let config = {
                     method: "GET",
-                    headers: {"authorization" : credentials}
                 }
 
-            try{
-                let response = await fetch ("/user/task", config);
-                let data = await response.json();
-            
-                for (let tsk of data){
+                try{
+                    let response = await fetch ("/user/task", config);
+                    let data = await response.json();
 
-                    let date = new Date(msg.datetime);
-                    date = date.toDateString();
-                    console.log(date);
-                    
-                    let div = document.createElement("div");
-                    l
-                    let html =
-                    `<p>${date}</p>
-                    <h5>${tsk.task}</h5>
-                    <hr>
-                    `
-                    div.innerHTML = html;
-                    container.appendChild(div);
-                }
-           
-         }   
-            catch(err){
+                    console.log(data.rows);
+
+                    for(let tsk of data.rows){
+                        
+                        let div = document.createElement("li");
+                        
+                        let html =
+                            `
+                            ${tsk.task}
+                            <span class="close">x</span>
+                            `
+                        div.innerHTML = html;
+                        container.appendChild(div);
+                        
+                    }
+                } 
+                catch(err){
                 outtext.innerHTML = "Something went wrong";
-            }
-        }
-    */
+            //}
+        }   
+}
 
-    </script>
+
+</script>
 </body>
 </html>

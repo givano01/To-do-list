@@ -1,7 +1,7 @@
 const database = require("./datahandler");
 
 class Task {
-    constructor( task) {
+    constructor(task) {
         //this.username = username;
         this.task = task;
         /*his.password = crypto.createHmac('sha256', secret)
@@ -24,7 +24,14 @@ class Task {
             console.error(error)
         }
     }
-
+    async getTask() {
+        try {
+            let response = await database.getTask(this.task);
+            return response;
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
 
 module.exports = Task

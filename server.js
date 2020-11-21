@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const secureEndpoints = require("./modules/secureEndpoints")
+const db = require("./modules/datahandler");
 const user = require("./modules/user");
 const task = require("./modules/task");
 const auth = require("./modules/auth");
+
 
 const createToken = require("./modules/sbToken").create;
 
@@ -19,7 +21,7 @@ server.use("/secure", secureEndpoints);
 
 
 
-//CREATE USER
+//CREATE USER
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
@@ -70,17 +72,28 @@ server.post("/user/task", async function (req, res) {
 
 })
 
+/*//GET TASK !! NOT DONE
+server.get("/user/task", async function (req, res) {
+  try{
+    let response = await db.getTask();
+    res.status(200).json(response),end();
+    console.table(response);
+
+  }catch(error){
+    console.error(error)
+  }
+})*/
+
 //GET TASK !! NOT DONE
-server.get("/user/task", auth, async function (req, res) {
-  
-  const task =  task(req.body.task);
-
-  await task.getTask();
-
-  res.status(200).end();
-  
-
-})
+    server.get("/user/task", async function (req, res) {
+      try{
+        let response = await db.getTask();
+        res.status(200).json(response).end();
+        console.table(response.rows);
+        }catch(error){
+          console.error(error)
+        }
+    })
 
 
 
