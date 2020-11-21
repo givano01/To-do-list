@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const secureEndpoints = require("./modules/secureEndpoints")
+const db = require("./modules/datahandler");
 const user = require("./modules/user");
 const task = require("./modules/task");
 const auth = require("./modules/auth");
+
 
 const createToken = require("./modules/sbToken").create;
 
@@ -19,7 +21,7 @@ server.use("/secure", secureEndpoints);
 
 
 
-//CREATE USER
+//CREATE USER
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
@@ -48,8 +50,8 @@ server.post("/user/login", async function (req, res) {
   console.log(isValid); // isValid = true/false
   
   if(isValid){
-    //let sessionToken = createToken(requestUser);
-    let sessionToken = 1234; //bare for nå siden vi ikke har laget ferdig token modulen
+    // let sessionToken = createToken(username);
+     let sessionToken = 1234; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
     console.log(requestUser);
     console.log(sessionToken);
@@ -71,13 +73,17 @@ server.post("/user/task", async function (req, res) {
 })
 
 //GET TASK !! NOT DONE
-server.get("/user/task", auth, async function (req, res) {
+server.get("/user/task", async function (req, res) {
+  try{
+    let response = await db.getTask();
+    res.status(200).json(response),end();
+    console.table(response);
+
+  }catch(error){
+    console.error(error)
+  }
   
-  const task =  task(req.body.task);
-
-  await task.getTask();
-
-  res.status(200).end();
+  
   
 
 })

@@ -54,7 +54,7 @@ class StorageHandler {
 
         try {
             await client.connect();
-            results = await client.query('SELECT * FROM "public"."todo-list" WHERE tasks=$1', [task]);
+            results = await client.query('SELECT * FROM "public"."todo-list" WHERE task=$1', [task]);
             results = results.rows;
             client.end();
         } catch (err) {
@@ -63,6 +63,7 @@ class StorageHandler {
             results = err;
         }
     }
+    
     // Getting the user data from database
     async selectUser(username, password){
         const client = new pg.Client(this.credentials);

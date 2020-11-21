@@ -56,8 +56,6 @@
 
             credentials = "Basic " + window.btoa(`${username}:${password}`)
 
-            
-
             let config = {
                 method: "POST",
                 headers: {
@@ -70,9 +68,9 @@
             //try{ 
                 let response = await fetch(url, config);
                 let data = await response.json();
-
-                localStorage.setItem("logindata", JSON.stringify(data))
                 serverResp(response, data, 1);
+                //localStorage.setItem("logindata", JSON.stringify(data))
+                
 
  
                     //localStorage.setItem("logindata", JSON.stringify(data));

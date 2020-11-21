@@ -133,25 +133,33 @@
             }
         });
 
+        
         // GET 
         
-        /* let container = document.getElementById("container");
+        let container = document.getElementById("container");
         let outtext = document.getElementById("outtext");
         loadTasks();
         
-        async function loadTasks() {
+    async function loadTasks() {
             
-           // let logindataJson = localStorage.getItem("logindata");
-           // let logindata = JSON.parse(logindataJson);
-             
-            let credentials = null;
-            let task = inpTask.value;
-            credentials = "Basic " + window.btoa(`${task}`);
+           let token = sessionStorage.getItem("token");
+           let username = sessionStorage.getItem("user");
+
+        if(token !== undefined){
             
-            let config = {
-                    method: "GET",
-                    headers: {"authorization" : credentials}
-                }
+           let body = {
+                authToken: token,
+                user: username,  
+            }
+
+                let config = {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+
             try{
                 let response = await fetch ("/user/task", config);
                 let data = await response.json();
@@ -171,13 +179,42 @@
                     div.innerHTML = html;
                     container.appendChild(div);
                 }
-           
-         }   
+            }   
             catch(err){
                 outtext.innerHTML = "Something went wrong";
+    
             }
-        }
-    */
+        }   
+    }
+    
+
+
+       /* async function getUserPresentations(isPublicOrNot){
+
+let token = sessionStorage.getItem("token");
+let username = sessionStorage.getItem("user");
+if(token !== undefined){
+
+  let body = {
+                authToken: token,
+                user: username,
+                isPublic: isPublicOrNot,
+            };
+            let config = {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+
+  const response = await fetch(`/${username}/presentations/${isPublicOrNot}`, config);
+  const data = await response.json();
+  console.log(response.status);
+  if(response.status === 200){
+  displayPresentations(data, isPublicOrNot);
+  }
+}*/
 
     </script>
 </body>
