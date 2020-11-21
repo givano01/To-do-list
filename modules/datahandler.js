@@ -75,6 +75,7 @@ class StorageHandler {
             await client.connect();
             results = await client.query('SELECT * FROM "public"."todo-list"');
             client.end();
+            
         } catch (err) {
             client.end();
             console.log(err);
@@ -82,6 +83,8 @@ class StorageHandler {
         }
 
         return results;
+
+        
     }
     
     // Getting the user data from database
