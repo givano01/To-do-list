@@ -99,8 +99,6 @@
             }
         })
 
-        
-
         var button = document.querySelector(".addBtn");
         
         button.addEventListener("click", function onclick(event) {
@@ -168,10 +166,8 @@
                         let div = document.createElement("li");
                         
                         let html =
-                            `
-                            ${tsk.task}
-                            <span class="close">x</span>
-                            `
+                            `${tsk.task}
+                            <span class="close">x</span>`
                         div.innerHTML = html;
                         container.appendChild(div);
                         
