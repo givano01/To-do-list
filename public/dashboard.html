@@ -23,9 +23,20 @@
 
 </ul>
 
+<<<<<<< HEAD
 
 <p id = "outtext">
 
+=======
+<h2 style="color: #BEF4F9; text-align: center; padding-top: 20px;"> All tasks</h2>
+
+<div id = "container" >
+
+</div>
+
+<p id = "outtext">
+
+>>>>>>> bd95e9eaa34d6be1a56aa680770163b4abb5a08c
 </p>
 
 
@@ -134,7 +145,11 @@
         
     // GET 
         
+<<<<<<< HEAD
         let container = document.getElementById("myUL");
+=======
+        let container = document.getElementById("container");
+>>>>>>> bd95e9eaa34d6be1a56aa680770163b4abb5a08c
         let outtext = document.getElementById("outtext");
         
         loadTasks();  
@@ -163,11 +178,22 @@
 
                     for(let tsk of data.rows){
                         
+<<<<<<< HEAD
                         let div = document.createElement("li");
                         
                         let html =
                             `${tsk.task}
                             <span class="close">x</span>`
+=======
+                        let div = document.createElement("div");
+                        
+                        let html =
+                            `
+                            <br>
+                            <h3 style="color: #BEF4F9; padding-left: 20px;">${tsk.task}</h3>
+                            <hr style="color: #FFFFFF">
+                            `
+>>>>>>> bd95e9eaa34d6be1a56aa680770163b4abb5a08c
                         div.innerHTML = html;
                         container.appendChild(div);
                         
@@ -178,7 +204,10 @@
             //}
         }   
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> bd95e9eaa34d6be1a56aa680770163b4abb5a08c
 
 </script>
 </body>
