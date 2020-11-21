@@ -103,11 +103,15 @@
 
 
         var button = document.querySelector(".addBtn");
+        
         button.addEventListener("click", function onclick(event) {
+            
             var li = document.createElement("li");
             var inputValue = document.getElementById("inpTask").value;
             var t = document.createTextNode(inputValue);
+            
             li.appendChild(t);
+            
             if (inputValue === '') {
                 alert("You must write something!");
             } else {
@@ -127,6 +131,7 @@
                     div.style.display = "none";
                 }
             }
+            location.reload();
         });
 
         
