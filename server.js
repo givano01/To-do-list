@@ -72,7 +72,7 @@ server.post("/user/task", async function (req, res) {
 
 })
 
-//GET TASK !! NOT DONE
+/*//GET TASK !! NOT DONE
 server.get("/user/task", async function (req, res) {
   try{
     let response = await db.getTask();
@@ -82,11 +82,18 @@ server.get("/user/task", async function (req, res) {
   }catch(error){
     console.error(error)
   }
-  
-  
-  
+})*/
 
-})
+//GET TASK !! NOT DONE
+    server.get("/user/task", async function (req, res) {
+      try{
+        let response = await db.getTask();
+        res.status(200).json(response).end();
+        console.table(response.rows);
+        }catch(error){
+          console.error(error)
+        }
+    })
 
 
 
