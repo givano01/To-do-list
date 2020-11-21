@@ -21,16 +21,18 @@
 
 </ul>
 
-<h2 style="color: #BEF4F9"; text-align: center;> All tasks</h2>
+<h2 style="color: #BEF4F9; text-align: center; padding-top: 20px;"> All tasks</h2>
 
 <div id = "container" >
 
 </div>
 
-<p id = "outtext"></p>
+<p id = "outtext">
+
+</p>
 
 
-    <script>    
+<script>    
 
     // Lag liste
     var myNodelist = document.getElementsByTagName("LI");
@@ -136,133 +138,57 @@
         
         // GET 
         
-        let container = document.getElementById("container");
-        let outtext = document.getElementById("outtext");
-        loadTasks();
+    let container = document.getElementById("container");
+    let outtext = document.getElementById("outtext");
+    loadTasks();
 
 
-        //dashboard.html
+    
 
     async function loadTasks() {
-            
-            let token = sessionStorage.getItem("token");
-            let username = sessionStorage.getItem("user");
- 
-         if(token !== undefined){
-             
-            let body = {
-                 authToken: token,
-                 user: username,  
-             }
- 
-                 let config = {
-                 method: "GET",
-             }
- 
-             try{
-                 let response = await fetch ("/user/task", config);
-                 let data = await response.json();
- 
-                 console.log(data.rows);
-             
-                 for(let tsk of data.rows){
-                     
-                    let div = document.createElement("div");
-                     
-                     let html =
-                     `
-                     <br>
-                     <h3 style="color: #BEF4F9">${tsk.task}</h3>
-                     <hr style="color: #FFFFFF">
-                     `
-                     div.innerHTML = html;
-                     container.appendChild(div);
-                     
-                }
-            }   
-             catch(err){
-                 outtext.innerHTML = "Something went wrong";
-     
-             }
-         }   
-     }
         
-    /*async function loadTasks() {
-            
-           let token = sessionStorage.getItem("token");
-           let username = sessionStorage.getItem("user");
-
+        let token = sessionStorage.getItem("token");
+        let username = sessionStorage.getItem("user");
+ 
         if(token !== undefined){
-            
-           let body = {
+             
+        let body = {
                 authToken: token,
                 user: username,  
             }
 
                 let config = {
                 method: "GET",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(body)
             }
 
-            try{
-                let response = await fetch ("/user/task", config);
-                let data = await response.json();
-            
-                for (let tsk of data){
-                    let date = new Date(msg.datetime);
-                    date = date.toDateString();
-                    console.log(date);
-                    
-                    let div = document.createElement("div");
-                    l
-                    let html =
-                    `<p>${date}</p>
-                    <h5>${tsk.task}</h5>
-                    <hr>
-                    `
-                    div.innerHTML = html;
-                    container.appendChild(div);
-                }
-            }   
-            catch(err){
-                outtext.innerHTML = "Something went wrong";
-    
+        try{
+            let response = await fetch ("/user/task", config);
+            let data = await response.json();
+
+            console.log(data.rows);
+
+            for(let tsk of data.rows){
+                
+                let div = document.createElement("div");
+                
+                let html =
+                `
+                <br>
+                <h3 style="color: #BEF4F9; padding-left: 30px;">${tsk.task}</h3>
+                <hr style="color: #FFFFFF">
+                `
+                div.innerHTML = html;
+                container.appendChild(div);
+                
             }
         }   
-    }*/
-    
+        catch(err){
+         outtext.innerHTML = "Something went wrong";
 
+        }
+    }   
+}
 
-       /* async function getUserPresentations(isPublicOrNot){
-
-let token = sessionStorage.getItem("token");
-let username = sessionStorage.getItem("user");
-if(token !== undefined){
-
-  let body = {
-                authToken: token,
-                user: username,
-                isPublic: isPublicOrNot,
-            };
-            let config = {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-
-  const response = await fetch(`/${username}/presentations/${isPublicOrNot}`, config);
-  const data = await response.json();
-  console.log(response.status);
-  if(response.status === 200){
-  displayPresentations(data, isPublicOrNot);
-  }
-}*/
-
-    </script>
+</script>
 </body>
 </html>
