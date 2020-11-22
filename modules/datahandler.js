@@ -66,7 +66,7 @@ class StorageHandler {
 
     //Getting all task data from database
     
-    async getTask() {
+    async getTask(task) {
 
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -75,6 +75,9 @@ class StorageHandler {
             await client.connect();
             results = await client.query('SELECT * FROM "public"."todo-list"');
             client.end();
+            if(task == ""){
+                console.log("There is no data here");
+            }
             
         } catch (err) {
             client.end();

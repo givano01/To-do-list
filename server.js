@@ -47,14 +47,12 @@ server.post("/user/login", async function (req, res) {
   const requestUser = new user(username, password); // Hvem prøver å logge inn?
   const isValid = await requestUser.validate(); // Finnes vedkommende i DB og er det riktig passord?
 
-  console.log(isValid); // isValid = true/false
+  //console.log(isValid); // isValid = true/false
   
   if(isValid){
     // let sessionToken = createToken(username);
-     let sessionToken = 1234; //bare for nå siden vi ikke har laget ferdig token modulen
+     let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
-    console.log(requestUser);
-    console.log(sessionToken);
   } else {
     res.status(403).json("unauthorized").end(); 
   }
@@ -72,28 +70,15 @@ server.post("/user/task", async function (req, res) {
 
 })
 
-/*//GET TASK !! NOT DONE
-server.get("/user/task", async function (req, res) {
-  try{
-    let response = await db.getTask();
-    res.status(200).json(response),end();
-    console.table(response);
-
-  }catch(error){
-    console.error(error)
-  }
-})*/
-
-//GET TASK !! NOT DONE
-    server.get("/user/task", async function (req, res) {
-      try{
-        let response = await db.getTask();
-        res.status(200).json(response).end();
-        console.table(response.rows);
-        }catch(error){
-          console.error(error)
-        }
-    })
+  //GET TASK
+  server.get("/user/task", async function (req, res) {
+    try{
+      let response = await db.getTask();
+      res.status(200).json(response).end();
+      }catch(error){
+        console.error(error)
+      }
+  })
 
 
 
