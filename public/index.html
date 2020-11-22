@@ -9,35 +9,38 @@
 </head>
 
 <body>
-    <div id="left">
-        <div class = "header-text">
-            <h1> To do list </h1>
-         </div>
-    
-        <h2 style="color: #BEF4F9;"> Login</h2>
-    
-       <form id="theForm" class="form">
-    
-           <label for="loginUsername" style="color: #BEF4F9;">Username:</label>
-           <input name="username" id="loginUsername" type="text" />
-    
-           <label for="loginPassword" style="color: #BEF4F9;">Password:</label>
-           <input name="password" id="loginPassword" type="password" />
-    
-           <input id="submit" type="submit" value="Login" />
-    
-       </form>
-    
-        <div class = "create-acc">
-        <a href = "create_account.html">Registrer</a>
+    <div class="content">
+        <div id="left">
+            <img style="max-width: 70%; float: right; padding-right: 200px;" src="img/login_illustration.png">
         </div>
-    
-        <p id = "outtext"></p>
-    
+        <div id="right">
+            <div class = "header-text">
+                <h1> To do list </h1>
+            </div>
+        
+            <h2 style="color: #F04652;"> Logg inn</h2>
+        
+        <form id="theForm" class="form">
+        
+            <label for="loginUsername" style="color: #F04652;">Brukernavn:</label>
+            <input name="username" id="loginUsername" placeholder="Brukernavn" type="text" />
+            <br>
+            <label for="loginPassword" style="color: #F04652;">Passord:</label>
+            <input name="password" id="loginPassword" placeholder="*********" type="password" />
+        
+            <input id="submit" type="submit" value="Login" />
+        
+        </form>
+        
+            <div class = "create-acc">
+            <a href = "create_account.html">Registrer</a>
+            </div>
+        
+            <p id = "outtext"></p>
+        
+        </div>
     </div>
-    <div id="right">
 
-    </div>
 
 
     <script>
