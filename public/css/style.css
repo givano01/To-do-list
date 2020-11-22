@@ -1,16 +1,15 @@
 * {
     box-sizing: border-box;
     font-family: sans-serif;
-    margin: 5px;
 }
 
 body{
+    margin: 0; padding: 0;
     background-color: #201F23;
 }
 
 .header-text{
-    color: #BEF4F9;
-    text-align: center;
+    color: #F04652;
     padding: 30px 0;
     
 }
@@ -25,7 +24,7 @@ body{
 .form #submit {
     padding: 10px;
     width: 25%;
-    background: #6562fc;
+    background: #F04652;
     color: white;
     float: left;
     text-align: center;
@@ -36,11 +35,11 @@ body{
     margin-top: 15px;
     border-radius: 6px;
 }
-.form #loginPassword, .form #loginUsername {
+.form #loginPassword, .form #loginUsername, #username, #password {
+    max-width: 50%;
     margin: 0;
     border: none;
     border-radius: 0;
-    width: 100%;
     padding: 10px;
     float: left;
     color: white;
@@ -49,21 +48,21 @@ body{
     border-radius: 6px;
 }
 
-.create-acc{
-    text-align: center;
-    color: blue;
-    margin-top: 10px;
-}
-
 #left {
-    width: 50%; float: left; padding: 25px;
+    float:left;
+    width: 50%;
 }
 
 #right {
-    width: 50%; float: right; padding: 25px;
+    float: right;
+    width: 50%; 
 }
 
 .create-acc a {
     text-decoration: none;
-    color: white;
+    color: #F04652;
+}
+
+.content {
+    margin-top: 50px;
 }

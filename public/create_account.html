@@ -7,28 +7,44 @@
     <link rel="stylesheet" href = "css/style.css">
 </head>
 <body>
-    <div class = "header-text">
-        <h1> To do list </h1>
-        <p> some text</p>  
-     </div>
 
-    <h2> Create account</h2>
 
-   <form id="theForm" class="form">
-
-       <label for="username">Username:</label>
-       <input name="username" id="username" type="text" />
-
-       <label for="password">Password:</label>
-       <input name="password" id="password" type="password" />
-
-       <input id="submit" type="submit" value="Create account" />
-
-   </form>
-
-   <div class = "create-acc">
-    <a href = "index.html">You have an account? Log in here.</a>
+    <div class="content">
+        <div id="left">
+            <img style="max-width: 70%; float: right; padding-right: 200px;" src="img/login_illustration.png">
+        </div>
+        <div id="right">
+            <div class = "header-text">
+                <h1> To do list </h1>
+            </div>
+        
+            <h2 style="color: #F04652;"> Registrer</h2>
+        
+        <form id="theForm" class="form">
+        
+            <label for="username" style="color: #F04652;">Username:</label>
+            <input name="username" id="username" type="text" />
+            <br>
+            <label for="password" style="color: #F04652;">Password:</label>
+            <input name="password" id="password" type="password" />
+     
+            <input id="submit" type="submit" value="Create account" />
+        </form>
+        
+            <div class = "create-acc">
+                <a href = "index.html">Har du allerede en bruker? Logg inn her.</a>
+            </div>
+        
+            <p id = "outtext"></p>
+        
+        </div>
     </div>
+
+
+
+
+
+
 
     <p id = "outtext"></p>
 
