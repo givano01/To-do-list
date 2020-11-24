@@ -28,6 +28,24 @@ class StorageHandler {
 
         return results;
     }
+
+    // Getting the user data from database
+    async selectUser(username, password){
+        const client = new pg.Client(this.credentials);
+        let resp = null;
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('SELECT * FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
+            resp = (results.rows.length > 0) ? results.rows[0]:null;
+            client.end();
+        }catch(err){
+            console.log(err);
+        }
+
+        return resp;        
+    }
+    
     // Inserting a task data to  database
     async insertTask(task) {
         const client = new pg.Client(this.credentials);
@@ -46,23 +64,6 @@ class StorageHandler {
         return results;
     }
 
-    /*//Getting all task data from database
-    async getTask(task) {
-
-        const client = new pg.Client(this.credentials);
-        let results = null;
-
-        try {
-            await client.connect();
-            results = await client.query('SELECT * FROM "public"."todo-list" WHERE task=$1', [task]);
-            results = results.rows;
-            client.end();
-        } catch (err) {
-            client.end();
-            console.log(err);
-            results = err;
-        }
-    }*/
 
     //Getting all task data from database
     
@@ -86,26 +87,27 @@ class StorageHandler {
         }
 
         return results;
-
         
     }
-    
-    // Getting the user data from database
-    async selectUser(username, password){
+    /*async deleteTask(task){
         const client = new pg.Client(this.credentials);
-        let resp = null;
         let results = null;
-        try{
+        try {
             await client.connect();
-            results = await client.query('SELECT * FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
-            resp = (results.rows.length > 0) ? results.rows[0]:null;
+            results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
             client.end();
-        }catch(err){
+            
+        } catch (err) {
+            client.end();
             console.log(err);
+            results = err;
         }
 
-        return resp;        
-    }
+        return results;
+        
+    }*/
+    
+    
 }
 
 module.exports = new StorageHandler(dbCredentials);

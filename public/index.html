@@ -41,7 +41,6 @@
     </div>
 
 
-
     <script>
 
         let url = "/user/login";
@@ -68,32 +67,21 @@
                 headers: {
                     "content-type": "application/json",
                     "authorization": credentials
-                    //body: JSON.stringify(body)
+                    
                 }
             }
 
-            //try{ 
                 let response = await fetch(url, config);
                 let data = await response.json();
-                serverResp(response, data, 1);
-                //localStorage.setItem("logindata", JSON.stringify(data))
-                
-
- 
-                    //localStorage.setItem("logindata", JSON.stringify(data));
-                    //location.href = "create_account.html";
-                
+                ServerResponse(response, data, 1);
 
                 console.log(data);
 
-            //}
-            //atch(err){
-              //  console.log("Something went wrong");
-              //  }
+            
 
         })
 
-        function serverResp(res, data, num){
+        function ServerResponse(res, data, num){
             console.log(res.status);
             if(!data.authToken){
                 outtext.innerHTML = "The user does not exist";

@@ -24,14 +24,6 @@ class User {
         }
     }
     
-    async update(){
-    
-    }
-
-    async delete(){
-      
-    }
-
     async validate(){
       let success = false;
       try{

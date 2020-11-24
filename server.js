@@ -80,6 +80,14 @@ server.post("/user/task", async function (req, res) {
       }
   })
 
+  //DELETE TASK
+  /*server.delete('/user/task/delete', async function (req, res) {
+    const newDeleteTask = new task(req.body.task);
+
+    await newDeleteTask.deleteTask();
+    res.status(200).json(newDeleteTask).end();
+  })*/
+
 
 
 

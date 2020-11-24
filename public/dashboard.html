@@ -30,6 +30,13 @@
 
 </p>
 
+<!--<div>
+    <input type = "text" id = "inpDelTask" style = "background-color: white;
+    color: black;">
+    <br>
+    <input type = "button" id= "btnDelTask" value = "delete">
+</div>-->
+
 
 <script>    
 
@@ -113,9 +120,7 @@
             
             if (inputValue === '') {
                 alert("You must write something!");
-            } //else {
-                //document.getElementById("myUL").appendChild(li);
-           // }
+            } 
             document.getElementById("inpTask").value = "";
 
             var span = document.createElement("SPAN");
@@ -177,9 +182,33 @@
                 } 
                 catch(err){
                 outtext.innerHTML = "Something went wrong";
-            //}
-        }   
-}
+            }
+        }  
+
+        //DELETE
+        /*const btnDel = document.getElementById("btnDelTask");
+        const inpDel = document.getElementById("inpDelTask");
+
+        btnDel.addEventListener("click", async function(evt){
+            
+            let body = {
+                task: inpDel.value
+            }
+
+            let config ={
+                method: "DELETE",
+                headers:{
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+
+            let response = await fetch ("/user/task/delete", config);
+            let data = await response.json();
+            
+        })*/
+
+
 
 </script>
 </body>

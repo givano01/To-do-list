@@ -45,13 +45,8 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <p id = "outtext"></p>
+
 
     <script>
 
@@ -62,30 +57,27 @@
         let outtext = document.getElementById("outtext");
         let btn = document.getElementById("submit");
         
-
-       
        
         theForm.addEventListener('submit', async function(evt) {
             
             evt.preventDefault();
             
-            let body = {
-                username: username.value,
-                password: password.value
-            }
-
-            let config = {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-
-            
+            //if(password === confirmPassword) {
                 
+                let body = {
+                    username: username.value,
+                    password: password.value
+                }
+
+                let config = {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                }
             
-            //if(password === confirmPassword &&){
+            
                 let response = await fetch("/user", config);
                 console.log(response.status);
                 let data = await response.json();
@@ -93,13 +85,6 @@
 
                 if(response.status === 200){
                      outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
-                    
-                     /*let div = document.createElement("div");
-                        let html = 
-                            ` <p>Thank you for your registration. You will be now redirected to the login page.</p>
-                            `
-                        div.innerHTML = html;
-                        outtext.appendChild(div);*/
 
                         redirect();
                      
@@ -109,10 +94,9 @@
 
                 console.log(data);
             
-            //}
-            /*catch(err){
-               outtext.innerHTML = "Something went wrong";
-               
+            /*}
+            else{
+                console.log("The password does not match");
             }*/
 
         });
@@ -122,7 +106,7 @@
             setTimeout(function(){ location.href = "index.html";}, 5000);
         }
 
-       // setTimeOut(redirect, 2000);
+
 
 
     </script>
