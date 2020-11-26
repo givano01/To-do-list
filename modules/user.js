@@ -27,19 +27,30 @@ class User {
     async validate(){
       let success = false;
       try{
-            let resp = await database.selectUser(this.username, this.password);
+            let response = await database.selectUser(this.username, this.password);
 
-            if(resp != null){
+            if(response != null){
               this.isValid = true;
               success = true;
-              // Her kan vi populere andre felter i user objektet
-              // Eks this.email = resp.email (eller lignende)
             }
-        }catch(err){
-            console.log(err);
+        }catch(error){
+            console.log(error);
         }
       return success;
     }
+
+    async delete(){
+        try {
+        
+            let response = await database.deleteUser(this.username);
+             return response;
+ 
+         } catch (error) { 
+ 
+             console.error(error)
+         }
+    }
+    
 
 }
 

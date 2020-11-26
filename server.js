@@ -16,7 +16,6 @@ const port = (process.env.PORT || 8080);
 server.set('port', port);
 server.use(express.static('public'));
 server.use(bodyParser.json());
-// https://expressjs.com/en/guide/routing.html
 server.use("/secure", secureEndpoints);
 
 
@@ -37,26 +36,26 @@ server.post("/user", async function (req, res) {
 //LOGIN USER
 
 server.post("/user/login", async function (req, res) {
- // console.log(req.headers.authorization); // krypterte strengen brukeren sender inn
-
+ 
   const credentials = req.headers.authorization.split(' ')[1];
-  const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":"); // dekrypterer den krypterte strengen
-
-  //console.log(username + ":" + password); // brukernavn, passord i ren tekst
+  const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":"); 
   
-  const requestUser = new user(username, password); // Hvem prøver å logge inn?
-  const isValid = await requestUser.validate(); // Finnes vedkommende i DB og er det riktig passord?
+  const requestUser = new user(username, password); 
+  const valid= await requestUser.validate(); 
 
-  //console.log(isValid); // isValid = true/false
+  console.log(valid);
   
-  if(isValid){
-    // let sessionToken = createToken(username);
-     let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
+  if(valid){
+    let sessionToken = createToken(requestUser);
+     //let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
   } else {
     res.status(403).json("unauthorized").end(); 
   }
 })
+
+//DELETE USER
+
 
 
 //CREATE TASK
@@ -81,12 +80,12 @@ server.post("/user/task", async function (req, res) {
   })
 
   //DELETE TASK
-  /*server.delete('/user/task/delete', async function (req, res) {
+  server.post('/user/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.task);
 
     await newDeleteTask.deleteTask();
     res.status(200).json(newDeleteTask).end();
-  })*/
+  })
 
 
 

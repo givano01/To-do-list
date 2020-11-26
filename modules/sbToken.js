@@ -42,35 +42,30 @@ function validateToken(token, user){
         return isTokenValid;
     }else{
 
-    let iv = Buffer.from(tIV, 'hex');
-    let encryptedToken = Buffer.from(tEncryptedData, 'hex');
-    let decipher = crypto.createDecipheriv(algorithm, Buffer.from(secretKey), iv);
-    let decrypted = decipher.update(encryptedToken);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
+        let iv = Buffer.from(tIV, 'hex');
+        let encryptedToken = Buffer.from(tEncryptedData, 'hex');
+        let decipher = crypto.createDecipheriv(algorithm, Buffer.from(secretKey), iv);
+        let decrypted = decipher.update(encryptedToken);
+        decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-    let tokenText = decrypted.toString();
+        let tokenText = decrypted.toString();
 
-    let expirationDate = JSON.parse(tokenText).validTo;
-    let userInfo = JSON.parse(tokenText).user;
-    userInfo = JSON.parse(userInfo);
+        let expirationDate = JSON.parse(tokenText).validTo;
+        let userInfo = JSON.parse(tokenText).user;
+        userInfo = JSON.parse(userInfo);
 
-    if(dateNow > expirationDate){
-        return isTokenValid;
-    }else if(user.username !== userInfo.username){
-        return isTokenValid;
-    /*}else if(user.password !== userInfo.password){
-        return isTokenValid;
-    }*/
-    }else{
-        isTokenValid = true;
-    }
+        if(dateNow > expirationDate){
+            return isTokenValid;
+        }else if(user.username !== userInfo.username){
+            return isTokenValid;
+        
+        }else{
+            isTokenValid = true;
+        }
     }
         
     return isTokenValid;
 
-    // omvendt av det som ligger i createToken?
-    // er token info === user info
-    // Er tokenet utløpt??
 }
 
 

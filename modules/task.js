@@ -2,13 +2,9 @@ const database = require("./datahandler");
 
 class Task {
     constructor(task, id) {
-        //this.username = username;
         this.task = task;
         this.id = id;
-        /*his.password = crypto.createHmac('sha256', secret)
-            .update(password)
-            .digest('hex');
-        this.valid = false;*/
+
     }
 
     async createTask() {
@@ -31,7 +27,7 @@ class Task {
             console.error(error)
         }
     }
-    /*async deleteTask(){
+    async deleteTask(){
         try {
             let response = await database.deleteTask(this.task);
             return response;
@@ -39,7 +35,7 @@ class Task {
             console.error(error)
         }
 
-    }*/
+    }
 }
 
 module.exports = Task

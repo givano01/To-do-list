@@ -45,7 +45,31 @@ class StorageHandler {
 
         return resp;        
     }
-    
+
+    //deleting the userdata from database
+
+        async deleteUser(username){
+                const client = new pg.Client(this.credentials);
+            let results = null;
+            try {
+                await client.connect();
+                results = await client.query('DELETE FROM "public"."users" WHERE "username =' + username);
+                results = results.rows[0];
+                client.end();
+            } catch (err) {
+                client.end();
+                console.log(err);
+                results = err;
+            }
+
+            return results;
+        
+
+        }  
+        
+        
+
+
     // Inserting a task data to  database
     async insertTask(task) {
         const client = new pg.Client(this.credentials);
@@ -66,7 +90,6 @@ class StorageHandler {
 
 
     //Getting all task data from database
-    
     async getTask(task) {
 
         const client = new pg.Client(this.credentials);
@@ -89,12 +112,14 @@ class StorageHandler {
         return results;
         
     }
-    /*async deleteTask(task){
+    async deleteTask(task){
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
             await client.connect();
+            //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
             results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
+
             client.end();
             
         } catch (err) {
@@ -105,7 +130,7 @@ class StorageHandler {
 
         return results;
         
-    }*/
+    }
     
     
 }

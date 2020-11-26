@@ -30,7 +30,7 @@
 
 </p>
 
-<!--<div>
+<div>
     <input type = "text" id = "inpDelTask" style = "background-color: white;
     color: black;">
     <br>
@@ -186,7 +186,7 @@
         }  
 
         //DELETE
-        /*const btnDel = document.getElementById("btnDelTask");
+        const btnDel = document.getElementById("btnDelTask");
         const inpDel = document.getElementById("inpDelTask");
 
         btnDel.addEventListener("click", async function(evt){
@@ -196,7 +196,7 @@
             }
 
             let config ={
-                method: "DELETE",
+                method: "POST",
                 headers:{
                     "content-type": "application/json"
                 },
@@ -206,7 +206,7 @@
             let response = await fetch ("/user/task/delete", config);
             let data = await response.json();
             
-        })*/
+        })
 
 
 
