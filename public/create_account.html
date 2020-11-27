@@ -62,8 +62,9 @@
             
             evt.preventDefault();
             
-            //if(password === confirmPassword) {
-                
+            if(password.value != confirmPassword.value) {
+                outtext.innerHTML = "The passwords are not the same";   
+            } else {
                 let body = {
                     username: username.value,
                     password: password.value
@@ -77,36 +78,26 @@
                     body: JSON.stringify(body)
                 }
             
-            
                 let response = await fetch("/user", config);
                 console.log(response.status);
                 let data = await response.json();
-            
 
                 if(response.status === 200){
                      outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
 
                         redirect();
                      
-                }else{
+                } else {
                     outtext.innerHTML = "Prøv igjen";   
                 }
 
                 console.log(data);
-            
-            /*}
-            else{
-                console.log("The password does not match");
-            }*/
-
+            }
         });
 
         const redirect = () =>{
-            
             setTimeout(function(){ location.href = "index.html";}, 5000);
         }
-
-
 
 
     </script>

@@ -58,7 +58,7 @@ server.post("/user/login", async function (req, res) {
 
 
 
-//CREATE TASK
+// CREATE TASK
 server.post("/user/task", async function (req, res) {
 
   const newTask = new task(req.body.task);
@@ -69,7 +69,7 @@ server.post("/user/task", async function (req, res) {
 
 })
 
-  //GET TASK
+  // GET TASK
   server.get("/user/task", async function (req, res) {
     try{
       let response = await db.getTask();
@@ -79,7 +79,7 @@ server.post("/user/task", async function (req, res) {
       }
   })
 
-  //DELETE TASK
+  // DELETE TASK
   server.post('/user/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.task);
 
