@@ -118,7 +118,7 @@ class StorageHandler {
         try {
             await client.connect();
             //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
-            results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
+            results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" =' + task);
 
             client.end();
             
