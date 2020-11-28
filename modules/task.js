@@ -27,7 +27,7 @@ class Task {
             console.error(error)
         }
     }
-    async deleteTask(){
+   /* async deleteTask(){
         try {
             let response = await database.deleteTask(this.task);
             return response;
@@ -35,7 +35,7 @@ class Task {
             console.error(error)
         }
 
-    }
+    }*/
 }
 
 module.exports = Task

@@ -1,7 +1,7 @@
 
 
 const database = require('./datahandler');
-const validateToken = require("./sbToken").validate;
+const validateToken = require("./token").validate;
 
 const authenticator = async (req, res, next) => {
     if(!req.body.authToken || !req.body.user){

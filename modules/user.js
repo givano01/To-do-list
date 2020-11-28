@@ -39,7 +39,7 @@ class User {
       return success;
     }
 
-    async delete(){
+   /* async delete(){
         try {
         
             let response = await database.deleteUser(this.username);
@@ -49,7 +49,7 @@ class User {
  
              console.error(error)
          }
-    }
+    }*/
     
 
 }

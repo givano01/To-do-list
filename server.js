@@ -7,7 +7,7 @@ const task = require("./modules/task");
 const auth = require("./modules/auth");
 
 
-const createToken = require("./modules/sbToken").create;
+const createToken = require("./modules/token").create;
 
 const server = express();
 const port = (process.env.PORT || 8080);
@@ -46,15 +46,23 @@ server.post("/user/login", async function (req, res) {
   console.log(valid);
   
   if(valid){
-    let sessionToken = createToken(requestUser);
-     //let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
+    //let sessionToken = createToken(requestUser);
+     let sessionToken = 1111; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
   } else {
     res.status(403).json("unauthorized").end(); 
   }
 })
 
-//DELETE USER
+/*//DELETE USER
+server.delete("/user/delete", async function (req, res) {
+
+    const deleteUser = new user(req.body.username);
+
+    await deleteUser.delete();
+
+    res.status(200).json(deleteUser).end();
+}) */
 
 
 
@@ -80,12 +88,12 @@ server.post("/user/task", async function (req, res) {
   })
 
   // DELETE TASK
-  server.post('/user/task/delete', async function (req, res) {
+  /*server.post('/user/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.task);
 
     await newDeleteTask.deleteTask();
     res.status(200).json(newDeleteTask).end();
-  })
+  })*/
 
 
 

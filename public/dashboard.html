@@ -30,7 +30,11 @@
 
 </p>
 
-<div>
+<!--<div id = "delete">
+    <button type = "button" id = "btnDelete">Delete User</button>
+</div>-->
+
+<!--<div>
     <input type = "text" id = "inpDelTask" style = "background-color: white;
     color: black;">
     <br>
@@ -185,7 +189,7 @@
             }
         }  
 
-        //DELETE
+       /* //DELETE TASK
         const btnDel = document.getElementById("btnDelTask");
         const inpDel = document.getElementById("inpDelTask");
 
@@ -206,9 +210,32 @@
             let response = await fetch ("/user/task/delete", config);
             let data = await response.json();
             
-        })
+        })*/
 
 
+        /*//DELETE USER
+        let btnDelete = document.getElementById("btnDelete");
+        
+        
+        btnDelete.addEventListener('click', async function(evt) {
+            alert("aha")
+            evt.preventDefault();
+            
+            
+                
+
+                let config = {
+                    method: "DELETE",
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                }
+            
+                let response = await fetch("/user/delete", config);
+                
+                let data = await response.json();
+            
+        });*/ 
 
 </script>
 </body>

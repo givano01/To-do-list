@@ -48,7 +48,7 @@ class StorageHandler {
 
     //deleting the userdata from database
 
-        async deleteUser(username){
+       /* async deleteUser(username){
                 const client = new pg.Client(this.credentials);
             let results = null;
             try {
@@ -65,7 +65,7 @@ class StorageHandler {
             return results;
         
 
-        }  
+        }  */
         
         
 
@@ -112,7 +112,7 @@ class StorageHandler {
         return results;
         
     }
-    async deleteTask(task){
+    /*async deleteTask(task){
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
@@ -130,7 +130,7 @@ class StorageHandler {
 
         return results;
         
-    }
+    }*/
     
     
 }
