@@ -10,6 +10,6 @@ hemmelig.get("/", (req, res, next) => {
 
  }) 
 
-
+haha
 
 module.exports = hemmelig;
