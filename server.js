@@ -41,7 +41,7 @@ server.post("/user/login", async function (req, res) {
   const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":"); 
   
   const requestUser = new user(username, password); 
-  const valid= await requestUser.validate(); 
+  const valid = await requestUser.validate(); 
 
   console.log(valid);
   
