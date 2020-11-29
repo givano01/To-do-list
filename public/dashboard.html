@@ -11,7 +11,7 @@
 <body>
 
 <div id="myDIV" class="header">
-    <h2 style="margin:5px; color: #BEF4F9">To-do</h2>
+    <h2 style="margin:5px; color: #BEF4F9">To-do listen til <span id="login_name"></span></h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
         <input type="button" id="btnAdd" class="addBtn" value="Add">
@@ -34,15 +34,21 @@
     <button type = "button" id = "btnDelete">Delete User</button>
 </div>-->
 
-<!--<div>
+<div>
     <input type = "text" id = "inpDelTask" style = "background-color: white;
     color: black;">
     <br>
     <input type = "button" id= "btnDelTask" value = "delete">
-</div>-->
+</div>
 
 
 <script>    
+
+    let login_name = document.getElementById("login_name");
+    let data = sessionStorage.getItem('user');
+
+    login_name.innerHTML = data;
+
 
     // Create list
     var myNodelist = document.getElementsByTagName("LI");
@@ -142,9 +148,7 @@
             location.reload();
         });
 
-        
-    // GET 
-        
+        // GET 
         let container = document.getElementById("myUL");
         let outtext = document.getElementById("outtext");
         
@@ -166,7 +170,7 @@
                     method: "GET",
                 }
 
-                try{
+                try {
                     let response = await fetch ("/user/task", config);
                     let data = await response.json();
 
@@ -175,10 +179,19 @@
                     for(let tsk of data.rows){
                         
                         let div = document.createElement("li");
-                        
+                        div.id = `${tsk.id}`;
+
+                        div.onclick = function() {
+                            // Slette fra database med denne ID
+                            // Fetcher ID
+
+                            let id = `${tsk.id}`;
+                            alert("ID:" + id);
+                        }
+
+
                         let html =
-                            `${tsk.task}
-                            <span class="close">x</span>`
+                            `${tsk.task}`
                         div.innerHTML = html;
                         container.appendChild(div);
                         
@@ -188,6 +201,7 @@
                 outtext.innerHTML = "Something went wrong";
             }
         }  
+        
 
        /* //DELETE TASK
         const btnDel = document.getElementById("btnDelTask");
@@ -196,11 +210,11 @@
         btnDel.addEventListener("click", async function(evt){
             
             let body = {
-                task: inpDel.value
+                id: inpDel.value
             }
 
             let config ={
-                method: "POST",
+                method: "DELETE",
                 headers:{
                     "content-type": "application/json"
                 },

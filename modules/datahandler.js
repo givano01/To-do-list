@@ -112,13 +112,13 @@ class StorageHandler {
         return results;
         
     }
-    /*async deleteTask(task){
+    async deleteTask(id){
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
             await client.connect();
             //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
-            results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
+            results = await client.query('DELETE FROM "public"."todo-list" WHERE id" =' + id);
 
             client.end();
             
@@ -130,7 +130,7 @@ class StorageHandler {
 
         return results;
         
-    }*/
+    }
     
     
 }
