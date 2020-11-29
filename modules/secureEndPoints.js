@@ -8,7 +8,7 @@ hemmelig.use(authenticator);
 
 hemmelig.get("/", (req, res, next) => {
 
-})
+ }) 
 
 
 
