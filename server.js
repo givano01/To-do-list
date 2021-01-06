@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const secureEndpoints = require("./modules/secureEndpoints")
+const secureEndpoints = require("./modules/secureEndPoints")
 const db = require("./modules/datahandler");
 const user = require("./modules/user");
 const task = require("./modules/task");
