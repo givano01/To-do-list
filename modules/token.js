@@ -4,10 +4,12 @@ const secretKey = process.env.tokenSecret || require("../NEI").tokenSecret;
 
 const algorithm = 'aes-256-ctr';
 const iv = crypto.randomBytes(16);
+
+
 let d = new Date();
 const dateNow = Date.now();
-// Add two weeks
 const validToDate = d.setDate(d.getDate() + 1);
+
 
 function createToken(user){
   
