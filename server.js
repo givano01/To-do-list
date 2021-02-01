@@ -20,7 +20,7 @@ server.use("/secure", secureEndPoints);
 
 
 
-//CREATE USER
+/* -------------------CREATE USER------------------ */
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
@@ -33,7 +33,7 @@ server.post("/user", async function (req, res) {
 });
  
 
-//LOGIN USER
+/* -------------------LOGIN USER------------------ */
 
 server.post("/user/login", async function (req, res) {
  
@@ -43,8 +43,6 @@ server.post("/user/login", async function (req, res) {
   const requestUser = new user(username, password); 
   const valid = await requestUser.validate(); 
 
-
-  
   if(valid){
      //let sessionToken = createToken(requestUser);
     let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
@@ -54,8 +52,8 @@ server.post("/user/login", async function (req, res) {
   }
 })
 
-/*//DELETE USER
-server.delete("/user/delete", async function (req, res) {
+/* -------------------DELETE USER------------------ */
+/*server.delete("/user/delete", async function (req, res) {
 
     onst deleteUser = new user(req.body.username);
 
@@ -66,7 +64,7 @@ server.delete("/user/delete", async function (req, res) {
 
 
 
-// CREATE TASK
+/* -------------------CREATE TASK------------------ */
 server.post("/user/task", async function (req, res) {
 
   const newTask = new task(req.body.task);
@@ -77,7 +75,7 @@ server.post("/user/task", async function (req, res) {
 
 })
 
-  // GET TASK
+  /* -------------------GET TASK------------------ */
   server.get("/user/task", async function (req, res) {
     try{
       let response = await db.getTask();
@@ -87,7 +85,7 @@ server.post("/user/task", async function (req, res) {
       }
   })
 
-  // DELETE TASK
+  /* -------------------DELETE TASK------------------ */
   server.delete('/user/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.id);
 
