@@ -11,18 +11,25 @@ const dateNow = Date.now();
 const validToDate = d.setDate(d.getDate() + 1);
 
 
-function createToken(user){
-  
-    let body = {"created":dateNow, "user":JSON.stringify(user), "validTo":validToDate};
-    
+function createToken(user) {
+
+    let body = { "created": dateNow, "user": JSON.stringify(user), "validTo": validToDate };
+
     let cipher = crypto.createCipheriv(algorithm, Buffer.from(secretKey), iv);
     let encrypted = cipher.update(JSON.stringify(body));
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    let ivString = iv.toString("hex");
-    let encryptedDataString = encrypted.toString('hex');
 
-    let token = {"authToken":`${ivString}.${encryptedDataString}`};
-    console.log(token)
+    // ------------ Converts body in to one string for token ------------- //
+    
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+    // ----------- Creates token from buffer ---------- // 
+
+    let ivString = iv.toString("hex");
+    let encryptedDataString = encrypted.toString('hex');          
+
+    // ------------- Returns token to user ---------------- //
+
+    let token = { "authToken": `${ivString}.${encryptedDataString}` };
     return token;
     
 }

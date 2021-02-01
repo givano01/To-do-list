@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const secureEndpoints = require("./modules/secureEndPoints")
+const secureEndPoints = require("./modules/secureEndPoints")
 const db = require("./modules/datahandler");
 const user = require("./modules/user");
 const task = require("./modules/task");
@@ -16,7 +16,7 @@ const port = (process.env.PORT || 8080);
 server.set('port', port);
 server.use(express.static('public'));
 server.use(bodyParser.json());
-server.use("/secure", secureEndpoints);
+server.use("/secure", secureEndPoints);
 
 
 
@@ -43,11 +43,11 @@ server.post("/user/login", async function (req, res) {
   const requestUser = new user(username, password); 
   const valid = await requestUser.validate(); 
 
-  console.log(valid);
+
   
   if(valid){
-     let sessionToken = createToken(requestUser);
-    //let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
+     //let sessionToken = createToken(requestUser);
+    let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
   } else {
     res.status(403).json("unauthorized").end(); 
