@@ -280,13 +280,13 @@
                 authorization: credentials 
             };
 
-            const url = `/user/delete`;
+            const url = "/user/delete";gut
             
             const confirmPress = confirm("Are you sure you want to delete your account? All your presentations will also be deleted!");
             if (confirmPress === true) {
 
                 const results = await callServerAPI(body, url);
-
+                alert(response.status);
                 if (results.response.status === 200) {
                 sessionStorage.clear();
                 localStorage.clear();
@@ -321,6 +321,8 @@
         console.log(response.status);
         return { "response": response, "data": data };
     };
+
+    
 
 
 
