@@ -10,7 +10,6 @@ class Task {
     async createTask() {
             
         try {
-        
         let response = await database.insertTask(this.task);
             return response;
 
@@ -19,6 +18,8 @@ class Task {
             console.error(error)
         }
     }
+
+
     async getTask() {
         try {
             let response = await database.getTask(this.task);
@@ -27,6 +28,7 @@ class Task {
             console.error(error)
         }
     }
+
     async deleteTask(){
         try {
             let response = await database.deleteTask(this.id);
@@ -34,7 +36,6 @@ class Task {
         } catch (error) {
             console.error(error)
         }
-
     }
 }
 

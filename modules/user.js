@@ -39,17 +39,14 @@ class User {
       return success;
     }
 
-   /* async delete(){
+    async delete() {
         try {
-        
-            let response = await database.deleteUser(this.username);
-             return response;
- 
-         } catch (error) { 
- 
-             console.error(error)
-         }
-    }*/
+            let resp = await database.deleteUser(this.username, this.password);
+            return resp;
+        } catch (err) {
+            console.log(err);
+        }
+    }
     
 
 }

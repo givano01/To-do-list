@@ -66,6 +66,29 @@ class StorageHandler {
         
 
         }  */
+
+         //  -------------------------- Delete user  ------------------------------- //
+
+    async deleteUser(username, password) {
+        const client = new pg.Client(this.credentials);
+        let results = false;
+        try {
+            await client.connect();
+
+            results = await client.query('SELECT * FROM "users" WHERE username=$1 AND password=$2', [username, password]);
+            if (results.rows.length !== 0) {
+                if (results.rows[0].username === username && results.rows[0].password === password) {
+                    await client.query('DELETE FROM "users" WHERE username=$1 AND password=$2', [username, password]);
+                    results = true;
+                }
+
+                return results;
+            }
+            client.end();
+        } catch (err) {
+            console.log(err);
+        }
+    }
         
         
 

@@ -53,14 +53,22 @@ server.post("/user/login", async function (req, res) {
 })
 
 /* -------------------DELETE USER------------------ */
-/*server.delete("/user/delete", async function (req, res) {
+server.post("/user/delete", auth, async (req, res) => {
 
-    onst deleteUser = new user(req.body.username);
+  const credentials = req.body.authorization.split(' ')[1];
+  const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":");
+  const currentUsername = req.body.user;
 
-    await deleteUser.delete();
+  const requestDeleteUser = new user(currentUsername, password); 
+  const isDeleted = await requestDeleteUser.delete();
 
-    res.status(200).json(deleteUser).end();
-}) */
+  if (isDeleted) {
+    res.status(200).json("Deleted user info").end();
+  } else {
+    res.status(403).json(`Username or password is incorrect!`).end();
+  }
+
+});
 
 
 
