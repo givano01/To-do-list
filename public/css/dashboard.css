@@ -129,14 +129,14 @@ input {
     padding-top: 50px;
 }
 #btnDelete{
-    position: absolute;
+    /*position: absolute;*/
     left: 40%;
     transform: translate(-50deg, -50deg);
     padding: 10px;
     width: 25%;
     background: #6562fc;
     color: white;
-    float: left;
+    float: right;
     text-align: center;
     font-size: 16px;
     cursor: pointer;

@@ -16,6 +16,9 @@
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
         <input type="button" id="btnAdd" class="addBtn" value="Add">
+        
+            <button type = "button" id = "btnDelete">Delete User</button>
+        
     </div>
 </div>
 
@@ -31,9 +34,7 @@
 
 </p>
 
-<div id = "delete">
-    <button type = "button" id = "btnDelete">Delete User</button>
-</div>
+
 
 <div>
     <input type="text" placeholder="Insert ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
@@ -147,7 +148,7 @@
                     div.style.display = "none";
                 }
             }
-            location.reload();
+            //location.reload();
         });
 
         // GET 
@@ -207,8 +208,10 @@
             }
         }  
 
+        
+
         /* -------------------delete task------------------ */
-       /* const btnDel = document.getElementById("btnDelTask");
+        const btnDel = document.getElementById("btnDelTask");
         const inpDel = document.getElementById("inpDelTask");
 
         btnDel.addEventListener("click", async function(evt){
@@ -218,7 +221,7 @@
             }
 
             let config ={
-                method: "DELETE",
+                method: "POST",
                 headers:{
                     "content-type": "application/json"
                 },
@@ -228,29 +231,8 @@
             let response = await fetch ("/user/task/delete", config);
             let data = await response.json();
             
-        })*/
+        })
 
-
-        /*//DELETE USER
-        
-            alert("aha")
-            evt.preventDefault();
-            
-            
-                
-
-                let config = {
-                    method: "DELETE",
-                    headers: {
-                        "content-type": "application/json"
-                    }
-                }
-            
-                let response = await fetch("/user/delete", config);
-                
-                let data = await response.json();
-            
-        });*/ 
 
         
         /* -------------------delete user------------------ */
@@ -267,60 +249,65 @@
 
             if (confirmUsername || confirmPassword) {
 
-            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+                const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
 
-            if (confirmUsername !== username) {
-                alert("Wrong username, try again!");
-                return;
-            }
-
-            const body = { 
-                authToken: token, 
-                user: username, 
-                authorization: credentials 
-            };
-
-            const url = "/user/delete";gut
-            
-            const confirmPress = confirm("Are you sure you want to delete your account? All your presentations will also be deleted!");
-            if (confirmPress === true) {
-
-                const results = await callServerAPI(body, url);
-                alert(response.status);
-                if (results.response.status === 200) {
-                sessionStorage.clear();
-                localStorage.clear();
-                location.href = "/index.html";
-                } else {
-                alert("Deletion was unsuccessful, incorrect account information");
+                if (confirmUsername !== username) {
+                    alert("Wrong username, try again!");
+                    return;
                 }
 
+                const body = { 
+                    authToken: token, 
+                    user: username, 
+                    authorization: credentials 
+                };
+
+                const url = `/user/delete`;
+                
+                const confirmPress = confirm("Are you sure you want to delete your account? All your presentations will also be deleted!");
+                
+                if (confirmPress === true) {
+
+                    const results = await callServerAPI(body, url);
+                    
+                    if (results.response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "/index.html";
+                    }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                    }
+
+                }
             }
-        }
-});
+        });
 
-// ------------------------- fetch server api function ---------------------- //
 
-    async function callServerAPI(body, url) {
+        /* -------------------fetch server api function------------------ */
+        async function callServerAPI(body, url) {
 
-        if (body === "" || url === "" || !body.authToken) {
-        return;
-        }
+            if (body === "" || url === "" || !body.authToken) {
+            return;
+            }
 
-        const config = {
-        method: "POST",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify(body)
-        }
+            const config = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+            }
+            try{
+                let response = await fetch(url, config);
+                let data = await response.json();
 
-        const response = await fetch(url, config);
-        const data = await response.json();
-
-        console.log(response.status);
-        return { "response": response, "data": data };
-    };
+                console.log(response.status);
+                return { "response": response, "data": data };
+            }
+            catch(error){
+                console.log("something went wrong");
+            }
+        };
 
     
 
