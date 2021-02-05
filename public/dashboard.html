@@ -10,6 +10,11 @@
 </head>
 <body>
 
+<div class = "userOptions">
+    <button type = "button" id = "btnDelete">Delete User</button>
+        <button type = "button" id = "btnLogOut">Log out</button>
+</div>
+
 <div id="myDIV" class="header">
     <span>Logged in as <span id="login_name"></span></span>
     <h2 style="margin:5px; color: #BEF4F9">To-do list</h2>
@@ -17,7 +22,6 @@
     <div class="actions">
         <input type="button" id="btnAdd" class="addBtn" value="Add">
         
-            <button type = "button" id = "btnDelete">Delete User</button>
         
     </div>
 </div>
@@ -96,6 +100,8 @@
             let logindataJson = localStorage.getItem("logindata");
             let logindata = JSON.parse(logindataJson);
 
+            console.log(logindataJson); //får "null" i konsollen 
+
             let task = inpTask.value;
 
             let updata = {
@@ -150,7 +156,7 @@
                     div.style.display = "none";
                 }
             }
-            location.reload();
+            // location.reload();
         });
 
         // GET 
@@ -237,6 +243,21 @@
             
         })
 
+         /* ------------------- log out button ------------------ */
+        
+         let btnLogOut = document.getElementById("btnLogOut");
+         
+         
+         btnLogOut.addEventListener("click", function (evt){
+
+            const confirmLogOut = confirm("Are you sure you want to log out?");
+
+            if(confirmLogOut === true){
+                localStorage.clear();
+                sessionStorage.clear();
+                location.href = "index.html";
+            q}
+         })
 
         
         /* ------------------- delete user button ------------------ */
