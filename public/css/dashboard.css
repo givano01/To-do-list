@@ -15,7 +15,11 @@ body {
     margin-bottom: 50px;
 }
 
-
+.loggedUser{
+    color: white;
+    line-height: 3;
+    margin-left: 30px;
+}
 #btnDelete{
     /*position: absolute;*/
     left: 40%;
