@@ -278,34 +278,40 @@
             if (confirmUsername || confirmPassword) {
 
                 const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-
                 if (confirmUsername !== username) {
                     alert("Wrong username, try again!");
                     return;
                 }
-
-                const body = { 
+                
+                let body = { 
                     authToken: token, 
                     user: username, 
                     authorization: credentials 
                 };
 
-                const url = `/user/delete`;
+                let config = {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                    }
                 
-                const confirmPress = confirm("Are you sure you want to delete your account? All your presentations will also be deleted!");
+                const confirmed = confirm("Are you sure you want to delete your account?");
                 
-                if (confirmPress === true) {
+                let response = await fetch("/user/delete", config);
+                console.log(response.status);
+                let data = await response.json();
 
-                    const results = await callServerAPI(body, url);
-                    console.log(results);
-                    if (results.response.status === 200) {
+                if (confirmed === true) {
+
+                    if (response.status === 200) {
                     sessionStorage.clear();
                     localStorage.clear();
                     location.href = "/index.html";
                     }else {
                     alert("Deletion was unsuccessful, incorrect account information");
                     }
-
                 }
             }
         });
@@ -314,7 +320,7 @@
         /* -------------------fetch server api function------------------ */
 
         
-        async function callServerAPI(body, url) {
+        /*async function callServerAPI(body, url) {
 
             if (body === "" || url === "" || !body.authToken) {
             return;
@@ -337,7 +343,7 @@
             catch(error){
                 console.log("something went wrong");
             }
-        };
+        };*/
 
     
 
