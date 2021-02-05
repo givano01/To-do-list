@@ -9,6 +9,46 @@ body {
     box-sizing: border-box;
 }
 
+.userOptions{
+    background-color: #3d3c40;
+    height: 50px;
+    margin-bottom: 50px;
+}
+
+
+#btnDelete{
+    /*position: absolute;*/
+    left: 40%;
+    transform: translate(-50deg, -50deg);
+    padding: 10px;
+    width: 10%;
+    background: #6562fc;
+    color: white;
+    float: right;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+    border-radius: 6px;
+}
+
+#btnLogOut{
+    left: 40%;
+    transform: translate(-50deg, -50deg);
+    padding: 10px;
+    width: 10%;
+    background: #6562fc;
+    color: white;
+    float: right;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+    border-radius: 6px; 
+}
+
 ul {
     margin: 0;
     padding: 0;
@@ -127,20 +167,4 @@ input {
 #delete{
     position: relative;
     padding-top: 50px;
-}
-#btnDelete{
-    /*position: absolute;*/
-    left: 40%;
-    transform: translate(-50deg, -50deg);
-    padding: 10px;
-    width: 25%;
-    background: #6562fc;
-    color: white;
-    float: right;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 15px;
-    border-radius: 6px;
 }
