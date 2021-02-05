@@ -75,7 +75,7 @@
                 let data = await response.json();
                 ServerResponse(response, data, 1);
 
-                console.log(data);
+                localStorage.setItem("logindata", JSON.stringify(data));
 
             
 
