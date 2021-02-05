@@ -82,10 +82,12 @@
 
         
         
-        let inpTask = document.getElementById("inpTask");
-        let btn = document.getElementById("btnAdd");
+        
 
         /* -------------------create task------------------ */
+
+        let inpTask = document.getElementById("inpTask");
+        let btn = document.getElementById("btnAdd");
 
         btn.addEventListener("click", async function (evt){
 
@@ -148,14 +150,14 @@
                     div.style.display = "none";
                 }
             }
-            //location.reload();
+            location.reload();
         });
 
         // GET 
         let container = document.getElementById("myUL");
         let outtext = document.getElementById("outtext");
         
-         /* -------------------create task------------------ */
+        
         
          loadTasks();  
 
@@ -211,6 +213,8 @@
         
 
         /* -------------------delete task------------------ */
+
+
         const btnDel = document.getElementById("btnDelTask");
         const inpDel = document.getElementById("inpDelTask");
 
@@ -236,6 +240,8 @@
 
         
         /* -------------------delete user------------------ */
+
+
         let btnDelete = document.getElementById("btnDelete");
         
 
@@ -284,6 +290,8 @@
 
 
         /* -------------------fetch server api function------------------ */
+
+        
         async function callServerAPI(body, url) {
 
             if (body === "" || url === "" || !body.authToken) {

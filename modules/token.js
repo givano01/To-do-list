@@ -1,6 +1,6 @@
 const user = require("./user.js");
 const crypto = require('crypto');
-const secretKey = process.env.tokenSecret || require("../NEI").tokenSecret;
+const secretKey = process.env.tokenSecret || require("../localenv").tokenSecret;
 
 const algorithm = 'aes-256-ctr';
 const iv = crypto.randomBytes(16);

@@ -45,7 +45,7 @@ server.post("/user/login", async function (req, res) {
 
   if(valid){
      //let sessionToken = createToken(requestUser);
-    let sessionToken = 1111  ; //bare for nå siden vi ikke har laget ferdig token modulen
+    let sessionToken = 1111  ; //midlertidig fordi token fungerer ikke enda
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
   } else {
     res.status(403).json("unauthorized").end(); 

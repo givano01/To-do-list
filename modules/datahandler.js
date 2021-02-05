@@ -1,5 +1,5 @@
 const pg = require("pg");
-const dbCredentials = process.env.DATABASE_URL || require("../NEI").credentials;
+const dbCredentials = process.env.DATABASE_URL || require("../localenv").credentials;
 
 class StorageHandler {
 
@@ -11,7 +11,9 @@ class StorageHandler {
             }
         };
     }
-    // Inserting user data to the database
+
+    /*  -------------------------- Inserting user data ------------------------------- */
+
     async insertUser(username, password) {
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -29,7 +31,9 @@ class StorageHandler {
         return results;
     }
 
-    // Getting the user data from database
+    
+    /*  -------------------------- Getting the user data ------------------------------- */
+
     async selectUser(username, password){
         const client = new pg.Client(this.credentials);
         let resp = null;
@@ -46,28 +50,8 @@ class StorageHandler {
         return resp;        
     }
 
-    //deleting the userdata from database
 
-       /* async deleteUser(username){
-                const client = new pg.Client(this.credentials);
-            let results = null;
-            try {
-                await client.connect();
-                results = await client.query('DELETE FROM "public"."users" WHERE "username =' + username);
-                results = results.rows[0];
-                client.end();
-            } catch (err) {
-                client.end();
-                console.log(err);
-                results = err;
-            }
-
-            return results;
-        
-
-        }  */
-
-         //  -------------------------- Delete user  ------------------------------- //
+     /*  -------------------------- Delete user data ------------------------------- */
 
     async deleteUser(username, password) {
         const client = new pg.Client(this.credentials);
@@ -93,7 +77,8 @@ class StorageHandler {
         
 
 
-    // Inserting a task data to  database
+    /*  -------------------------- Inserting task data ------------------------------- */
+
     async insertTask(task) {
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -112,7 +97,8 @@ class StorageHandler {
     }
 
 
-    //Getting all task data from database
+     /*  -------------------------- Getting all task data ------------------------------- */
+
     async getTask(task) {
 
         const client = new pg.Client(this.credentials);
@@ -135,6 +121,9 @@ class StorageHandler {
         return results;
         
     }
+
+    /*  -------------------------- Deleting task data ------------------------------- */
+
     async deleteTask(id){
         const client = new pg.Client(this.credentials);
         let results = null;
