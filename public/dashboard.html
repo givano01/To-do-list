@@ -11,16 +11,16 @@
 <body>
 
 <div class = "userOptions">
+    <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
     <button type = "button" id = "btnDelete">Delete User</button>
         <button type = "button" id = "btnLogOut">Log out</button>
 </div>
 
 <div id="myDIV" class="header">
-    <span>Logged in as <span id="login_name"></span></span>
     <h2 style="margin:5px; color: #BEF4F9">To-do list</h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
-        <input type="button" id="btnAdd" class="addBtn" value="Add">
+        <input type="button" id="btnAdd" class="addBtn" value="Add Task">
         
         
     </div>
@@ -296,7 +296,7 @@
                 if (confirmPress === true) {
 
                     const results = await callServerAPI(body, url);
-                    
+                    console.log(results);
                     if (results.response.status === 200) {
                     sessionStorage.clear();
                     localStorage.clear();

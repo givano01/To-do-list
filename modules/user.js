@@ -41,8 +41,8 @@ class User {
 
     async delete() {
         try {
-            let resp = await database.deleteUser(this.username, this.password);
-            return resp;
+            let response = await database.deleteUser(this.username, this.password);
+            return response;
         } catch (err) {
             console.log(err);
         }
