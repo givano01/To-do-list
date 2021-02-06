@@ -51,7 +51,7 @@ class StorageHandler {
     }
 
 
-     /*  -------------------------- Delete user data ------------------------------- */
+     /*  -------------------------- Deleting user data ------------------------------- */
 
     async deleteUser(username, password) {
         const client = new pg.Client(this.credentials);
@@ -60,6 +60,7 @@ class StorageHandler {
             await client.connect();
 
             results = await client.query('SELECT * FROM "public".users" WHERE username=$1 AND password=$2', [username, password]);
+            console.log(results.rows);
             if (results.rows.length !== 0) {
                 if (results.rows[0].username === username && results.rows[0].password === password) {
                     await client.query('DELETE FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
