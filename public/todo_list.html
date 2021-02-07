@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account</title>
+    <link rel="stylesheet" href = "css/todo_lists.css">
+    <link rel="icon" href="./img/favicon.png" type="image/gif">
+</head>
+<body>
+    <div class = "userOptions">
+        <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
+        <button type = "button" id = "btnDelete">Delete User</button>
+            <button type = "button" id = "btnLogOut">Log out</button>
+    </div>
+
+    <div id="myDIV" class="header">
+        <h2 style="margin:5px; color: #BEF4F9">To-do list</h2>
+        <input type="text" id="inpList" placeholder="Title...">
+        <div class="actions">
+            <input type="button" id="btnAdd" class="addBtn" value="Add List">
+
+        </div>
+    </div>
+
+    <h2 style="color: #BEF4F9; text-align: center; padding-top: 50px; padding-bottom: 50px"> All lists</h2>
+
+    <div id="container"></div>
+
+    <ul id="myUL"></ul>
+
+    <p id = "outtext"> </p>
+
+    <div>
+        <input type="text" placeholder="Insert list ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
+        <input style="width: 49%; float: right;" type="button" id="btnDelTask" value ="Delete list">
+    </div>
+
+
+    <script>
+        /* ------------------- showing username ------------------ */
+
+    let login_name = document.getElementById("login_name");
+    let data = sessionStorage.getItem("user");
+
+    login_name.innerHTML = data;
+
+    // Create list
+    var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+        }
+
+    // Get unorganized list
+    var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
+
+    /* ------------------- create list button ------------------ */
+
+    let inpTask = document.getElementById("inpList");
+        let btnAdd = document.getElementById("btnAdd");
+
+        btnAdd.addEventListener("click", async function (evt){
+
+            evt.preventDefault();
+
+            let logindataJson = localStorage.getItem("logindata");
+            let logindata = JSON.parse(logindataJson);
+
+            console.log(logindataJson);
+
+            let list = inpList.value;
+
+            let updata = {
+
+                list: inpList.value
+            }
+
+            let config = {
+                method: "POST",
+                headers: {
+                    "content-type" : "application/json",
+                    "authorization" : logindata.authToken
+                },
+                body: JSON.stringify(updata)
+            }
+
+            try { 
+                let response = await fetch("/todo/list", config);
+                let data = await response.json(); 
+
+            }
+            catch(err){
+                outtext.innerHTML = "Something went wrong";
+            
+            }
+        })
+
+        var button = document.querySelector(".addBtn");
+        
+        button.addEventListener("click", function onclick(event) {
+            
+            var li = document.createElement("li");
+            var inputValue = document.getElementById("inpList").value;
+            var t = document.createTextNode(inputValue);
+            
+            li.appendChild(t);
+            
+            if (inputValue === '') {
+                alert("You must write something!");
+            } 
+            document.getElementById("inpList").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("Slett");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            /*for (i = 0; i < close.length; i++) {
+                close[i].onclick = function() {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }*/
+         location.reload();
+        });
+
+        /* ------------------- load all tasks ------------------ */
+        
+        let container = document.getElementById("myUL");
+        let outtext = document.getElementById("outtext");
+
+        loadLists();  
+
+async function loadLists() {
+    
+    /*let token = sessionStorage.getItem("token");
+    let username = sessionStorage.getItem("user");*/
+        
+        /*let body = {
+            authToken: token,
+            user: username,  
+        }*/
+
+        let config = {
+            method: "GET",
+        }
+
+        try {
+            let response = await fetch ("/todo/list", config);
+            let data = await response.json();
+
+            
+
+
+            console.log(data.rows);
+
+            for(let lst of data.rows){
+                
+                let div = document.createElement("li");
+                div.id = `${lst.id}`;
+                div.className = "list";
+
+                
+                
+                div.onclick = function() {
+                   /* let id = `${tsk.id}`;
+                    alert("ID:" + id);*/
+                    sessionStorage.setItem("listdata",`${lst.list}`)
+                    location.href = "todo_task.html";
+                }
+
+                let html =
+                    `ID: ${lst.id} - ${lst.list}`
+                div.innerHTML = html;
+                container.appendChild(div);
+                
+            }
+        } 
+        catch(err){
+        outtext.innerHTML = "Something went wrong";
+    }
+}  
+
+    
+
+
+
+
+        /* ------------------- log out button ------------------ */
+        
+        let btnLogOut = document.getElementById("btnLogOut");
+         
+         
+         btnLogOut.addEventListener("click", function (evt){
+
+            const confirmLogOut = confirm("Are you sure you want to log out?");
+
+            if(confirmLogOut === true){
+                localStorage.clear();
+                sessionStorage.clear();
+                location.href = "index.html";
+            q}
+         })
+
+        
+        /* ------------------- delete user button ------------------ */
+
+
+        let btnDelete = document.getElementById("btnDelete");
+        
+
+        btnDelete.addEventListener('click', async function (evt) {
+
+            const username = sessionStorage.getItem("user");
+            const token = sessionStorage.getItem("token");
+
+            const confirmUsername = prompt("Please enter your username!", "");
+            const confirmPassword = prompt("Please enter your password!", "");
+
+            if (confirmUsername || confirmPassword) {
+
+                const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+                if (confirmUsername !== username) {
+                    alert("Wrong username, try again!");
+                    return;
+                }
+                
+                let body = { 
+                    authToken: token, 
+                    user: username, 
+                    authorization: credentials 
+                };
+
+                let config = {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                    }
+                
+                const confirmed = confirm("Are you sure you want to delete your account?");
+                
+                let response = await fetch("/user/delete", config);
+                console.log(response.status);
+                let data = await response.json();
+
+                if (confirmed === true) {
+
+                    if (response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "index.html";
+                    }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                    }
+                }
+            }
+        });
+
+
+    /*let container = document.getElementById("container");
+    let url = "todo/lists";*/
+
+
+      
+    </script>
+
+</body>
+</html>

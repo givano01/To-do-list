@@ -35,7 +35,7 @@ class Task {
             return response;
         } catch (error) {
             console.error(error)
-        }
+        } 
     }
 }
 

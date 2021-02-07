@@ -17,7 +17,7 @@
 </div>
 
 <div id="myDIV" class="header">
-    <h2 style="margin:5px; color: #BEF4F9">To-do list</h2>
+    <h2 style="margin:5px; color: #BEF4F9">List name: <span id="list_name"></span></h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
         <input type="button" id="btnAdd" class="addBtn" value="Add Task">
@@ -54,6 +54,15 @@
     let data = sessionStorage.getItem("user");
 
     login_name.innerHTML = data;
+
+    /* ------------------- showing list name ------------------ */
+
+    let list_name = document.getElementById("list_name");
+    let list_data = sessionStorage.getItem("listdata");
+
+    list_name.innerHTML = list_data;
+
+
 
     
 
@@ -102,7 +111,7 @@
             let logindataJson = localStorage.getItem("logindata");
             let logindata = JSON.parse(logindataJson);
 
-            console.log(logindataJson); //får "null" i konsollen 
+            console.log(logindataJson);
 
             let task = inpTask.value;
 
@@ -121,7 +130,7 @@
             }
 
             try { 
-                let response = await fetch("/user/task", config);
+                let response = await fetch("/todo/task", config);
                 let data = await response.json(); 
 
             }
@@ -161,11 +170,14 @@
          location.reload();
         });
 
+
+
         // GET 
         let container = document.getElementById("myUL");
         let outtext = document.getElementById("outtext");
+
         
-        
+         /* ------------------- load all tasks ------------------ */
         
          loadTasks();  
 
@@ -186,7 +198,7 @@
                 }
 
                 try {
-                    let response = await fetch ("/user/task", config);
+                    let response = await fetch ("/todo/task", config);
                     let data = await response.json();
 
                     console.log(data.rows);
@@ -196,14 +208,14 @@
                         let div = document.createElement("li");
                         div.id = `${tsk.id}`;
                         div.className = "delete";
-
-                        div.onclick = function() {
-                            // Slette fra database med denne ID
-                            // Fetcher ID
+                        
+                        /*div.onclick = function() {
 
                             let id = `${tsk.id}`;
                             alert("ID:" + id);
-                        }
+                        }*/
+
+
 
 
                         let html =
@@ -240,7 +252,7 @@
                 body: JSON.stringify(body)
             }
 
-            let response = await fetch ("/user/task/delete", config);
+            let response = await fetch ("/todo/task/delete", config);
             let data = await response.json();
             
         })

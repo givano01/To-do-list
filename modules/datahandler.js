@@ -119,7 +119,7 @@ class StorageHandler {
             results = err;
         }
 
-        return results;
+        return results; 
         
     }
 
@@ -131,7 +131,9 @@ class StorageHandler {
         try {
             await client.connect();
             //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
-            results = await client.query('DELETE FROM "public"."todo-list" WHERE id" =' + id);
+            //results = await client.query('DELETE FROM "public"."todo-list" WHERE id" =' + id);
+            results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" = 135', [id]);
+
 
             client.end();
             
@@ -144,6 +146,51 @@ class StorageHandler {
         return results;
         
     }
+
+    /*  -------------------------- Inserting list data ------------------------------- */
+
+    async insertList(list) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('INSERT INTO "public"."todo_lists"("list") VALUES($1) RETURNING * ', [list]);
+            results = results.rows[0];
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+
+        return results;
+    }
+
+    /*  -------------------------- Getting all list data ------------------------------- */
+
+    async getList(list) {
+
+        const client = new pg.Client(this.credentials);
+        let results = null;
+
+        try {
+            await client.connect();
+            results = await client.query('SELECT * FROM "public"."todo_lists"');
+            client.end();
+            if(list == ""){
+                console.log("There is no data here");
+            }
+            
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+
+        return results; 
+        
+    }
+
     
     
 }
