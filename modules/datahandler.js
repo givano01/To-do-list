@@ -50,6 +50,23 @@ class StorageHandler {
         return resp;        
     }
 
+/*  -------------------------- update user data ------------------------------- */
+
+   async updateUser(username, updpassword, password){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('UPDATE "users" SET "password" = $3 WHERE "username" = $1 and "password" = $2',[username, password, updpassword]);
+            client.end()
+        }catch(err){
+            client.end()
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
+
 
      /*  -------------------------- Deleting user data ------------------------------- */
 
@@ -85,7 +102,7 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            results = await client.query('INSERT INTO "public"."todo-list"("task") VALUES($1) RETURNING *;', [task]);
+            results = await client.query('INSERT INTO "public"."todo_task"("task") VALUES($1) RETURNING *;', [task]);
             results = results.rows[0];
             client.end();
         } catch (err) {
@@ -107,7 +124,7 @@ class StorageHandler {
 
         try {
             await client.connect();
-            results = await client.query('SELECT * FROM "public"."todo-list"');
+            results = await client.query('SELECT * FROM "public"."todo_task"');
             client.end();
             if(task == ""){
                 console.log("There is no data here");
@@ -131,8 +148,8 @@ class StorageHandler {
         try {
             await client.connect();
             //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
-            //results = await client.query('DELETE FROM "public"."todo-list" WHERE id" =' + id);
-            results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" = 135', [id]);
+            results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = 135');
+           // results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" = 135', [id]);
 
 
             client.end();
@@ -154,7 +171,7 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            results = await client.query('INSERT INTO "public"."todo_lists"("list") VALUES($1) RETURNING * ', [list]);
+            results = await client.query('INSERT INTO "public"."todo_list"("list") VALUES($1) RETURNING * ', [list]);
             results = results.rows[0];
             client.end();
         } catch (err) {
@@ -175,7 +192,7 @@ class StorageHandler {
 
         try {
             await client.connect();
-            results = await client.query('SELECT * FROM "public"."todo_lists"');
+            results = await client.query('SELECT * FROM "public"."todo_list"');
             client.end();
             if(list == ""){
                 console.log("There is no data here");

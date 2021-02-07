@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const secureEndPoints = require("./modules/secureEndPoints")
 const db = require("./modules/datahandler");
 const user = require("./modules/user");
+const userUpdate = require("./modules/user_update");
 const task = require("./modules/task");
 const list = require("./modules/list");
 const auth = require("./modules/auth");
@@ -53,6 +54,16 @@ server.post("/user/login", async function (req, res) {
   }
 })
 
+/* ------------------- UPDATE USER ------------------ */
+
+server.put("/user/update", async function(req,res){
+  const newUpdateUser = new userUpdate(req.body.username, req.body.password, req.body.updpassword);
+  await newUpdateUser.update();
+  res.status(200).json(newUpdateUser).end();
+  console.log(req.body);
+});
+
+
 /* ------------------- DELETE USER ------------------ */
 server.post("/user/delete", auth, async (req, res) => {
 
@@ -97,7 +108,7 @@ server.post("/todo/task", async function (req, res) {
   /* ------------------- DELETE TASK ------------------ */
   server.post('/todo/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.id);
-
+    console.log(req.body.id)
     await newDeleteTask.deleteTask();
     res.status(200).json(newDeleteTask).end();
   })

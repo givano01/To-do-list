@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create account</title>
-    <link rel="stylesheet" href = "css/todo_lists.css">
+    <link rel="stylesheet" href = "css/todo_list.css">
     <link rel="icon" href="./img/favicon.png" type="image/gif">
 </head>
 <body>
@@ -12,6 +12,7 @@
         <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
         <button type = "button" id = "btnDelete">Delete User</button>
             <button type = "button" id = "btnLogOut">Log out</button>
+            <button type = "button" id = "btnUpdate">Update</button>
     </div>
 
     <div id="myDIV" class="header">
@@ -213,6 +214,16 @@ async function loadLists() {
             q}
          })
 
+
+         /* ------------------- update user button ------------------ */
+
+         btnUpdate = document.getElementById("btnUpdate");
+
+         btnUpdate.addEventListener("click", function (evt){
+
+            location.href = "user_update.html";
+
+         })
         
         /* ------------------- delete user button ------------------ */
 
