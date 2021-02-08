@@ -23,6 +23,7 @@ server.use("/secure", secureEndPoints);
 
 
 /* ------------------- CREATE USER ------------------ */
+
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
@@ -65,6 +66,7 @@ server.put("/user/update", async function(req,res){
 
 
 /* ------------------- DELETE USER ------------------ */
+
 server.post("/user/delete", auth, async (req, res) => {
 
   const credentials = req.body.authorization.split(' ')[1];
@@ -85,6 +87,7 @@ server.post("/user/delete", auth, async (req, res) => {
 
 
 /* ------------------- CREATE TASK ------------------ */
+
 server.post("/todo/task", async function (req, res) {
 
   const newTask = new task(req.body.task);
@@ -96,6 +99,7 @@ server.post("/todo/task", async function (req, res) {
 })
 
     /* ------------------- GET TASK ------------------ */
+
     server.get("/todo/task", async function (req, res) {
       try{
         let response = await db.getTask();
@@ -106,6 +110,7 @@ server.post("/todo/task", async function (req, res) {
     })
 
   /* ------------------- DELETE TASK ------------------ */
+
   server.post('/todo/task/delete', async function (req, res) {
     const newDeleteTask = new task(req.body.id);
     console.log(req.body.id)
@@ -114,6 +119,7 @@ server.post("/todo/task", async function (req, res) {
   })
 
   /* ------------------- CREATE LIST ------------------ */
+
 server.post("/todo/list", async function (req, res) {
 
   const newList = new list(req.body.list);
@@ -125,6 +131,7 @@ server.post("/todo/list", async function (req, res) {
 })
 
    /* ------------------- GET LIST ------------------ */
+   
    server.get("/todo/list", async function (req, res) {
     try{
       let response = await db.getList();
