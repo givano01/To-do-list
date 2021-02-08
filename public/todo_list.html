@@ -177,7 +177,8 @@ async function loadLists() {
                 div.onclick = function() {
                    /* let id = `${tsk.id}`;
                     alert("ID:" + id);*/
-                    sessionStorage.setItem("listdata",`${lst.list}`)
+                    sessionStorage.setItem("listdata_name",`${lst.list}`);
+                    sessionStorage.setItem("listdata_id",`${lst.id}`);
                     location.href = "todo_task.html";
                 }
 

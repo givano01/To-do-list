@@ -18,7 +18,7 @@
 </div>
 
 <div id="myDIV" class="header">
-    <h2 style="margin:5px; color: #BEF4F9">List name: <span id="list_name"></span></h2>
+    <h2 style="margin:5px; color: #BEF4F9"></span>ID: <span id = "list_id">  </span> - <span id="list_name" ></h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
         <input type="button" id="btnAdd" class="addBtn" value="Add Task">
@@ -49,7 +49,7 @@
 
 <script>    
 
-    /* ------------------- showing username ------------------ */
+    /* ------------------- showing inlogged username ------------------ */
 
     let login_name = document.getElementById("login_name");
     let data = sessionStorage.getItem("user");
@@ -59,13 +59,18 @@
     /* ------------------- showing list name ------------------ */
 
     let list_name = document.getElementById("list_name");
-    let list_data = sessionStorage.getItem("listdata");
+    let listdata_name = sessionStorage.getItem("listdata_name");
 
-    list_name.innerHTML = list_data;
+    list_name.innerHTML = listdata_name;
+
+    /* ------------------- showing list id ------------------ */
+
+    let list_id = document.getElementById("list_id");
+    let listdata_id = sessionStorage.getItem("listdata_id");
+
+    list_id.innerHTML = listdata_id;
 
 
-
-    
 
     // Create list
     var myNodelist = document.getElementsByTagName("LI");
@@ -202,7 +207,11 @@
                     let response = await fetch ("/todo/task", config);
                     let data = await response.json();
 
+                    let response_list = await fetch ("/todo/list", config);
+                    let data_list = await response_list.json();
+
                     console.log(data.rows);
+                    console.log(data_list.rows);
 
                     for(let tsk of data.rows){
                         
@@ -314,7 +323,7 @@
                 const confirmed = confirm("Are you sure you want to delete your account?");
                 
                 let response = await fetch("/user/delete", config);
-                console.log(response.status);
+                
                 let data = await response.json();
 
                 if (confirmed === true) {

@@ -79,11 +79,10 @@ server.post("/user/delete", auth, async (req, res) => {
   if (isDeleted) {
     res.status(200).json("Deleted user info").end();
   } else {
-    res.status(403).json(`Username or password is incorrect!`).end();
+    res.status(500).json(`Username or password is incorrect!`).end();
   }
 
 });
-
 
 
 /* ------------------- CREATE TASK ------------------ */
@@ -131,7 +130,7 @@ server.post("/todo/list", async function (req, res) {
 })
 
    /* ------------------- GET LIST ------------------ */
-   
+
    server.get("/todo/list", async function (req, res) {
     try{
       let response = await db.getList();
