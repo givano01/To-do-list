@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create account</title>
+    <link rel="stylesheet" href = "css/style.css">
+    <link rel="icon" href="./img/favicon.png" type="image/gif">
+</head>
+<body>
+
+    <div class = "header-text">
+        <h1> To do list </h1>
+    </div>
+    <div class="content">
+        <div id="left">
+            <img  src="img/login_illustration.png">
+        </div>
+        <div id="right">
+           
+        
+            <h2 style="color: #F04652;"> Register</h2>
+        
+        <form id="theForm" class="form">
+        
+            <label for="username" style="color: #F04652;" >Username:</label>
+            <input name="username" id="username" type="text"required />
+            <br>
+            <label for="password" style="color: #F04652;" >Password:</label>
+            <input name="password" id="password" type="password" required/>
+            <br>
+            <label for="confirm-password" style="color: #F04652;">Confirm Password:</label>
+            <input name="confirm-password" id="confirm-password" type="password" required/>
+            <br>
+     
+            <input id="submit" type="submit" value="Create account" />
+        </form>
+            <br>
+            <div class = "create-acc">
+                <a href = "index.html"> You got an account? Log in here.</a>
+            </div>
+        
+            <p id = "outtext"></p>
+        
+        </div>
+    </div>
+
+    <p id = "outtext"></p>
+
+
+    <script>
+
+        let theForm = document.getElementById("theForm");
+        let username = document.getElementById("username")
+        let password = document.getElementById("password");
+        let confirmPassword = document.getElementById("confirm-password");
+        let outtext = document.getElementById("outtext");
+        let btn = document.getElementById("submit");
+        
+       
+        theForm.addEventListener('submit', async function(evt) {
+            
+            evt.preventDefault();
+            
+            if(password.value != confirmPassword.value) {
+                outtext.innerHTML = "The passwords are not the same";   
+            } else {
+                let body = {
+                    username: username.value,
+                    password: password.value
+                }
+
+                let config = {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                }
+            
+                let response = await fetch("/user", config);
+                console.log(response.status);
+                let data = await response.json();
+
+                if(response.status === 200){
+                     outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
+
+                        redirect();
+                     
+                } else {
+                    outtext.innerHTML = "Prøv igjen";   
+                }
+
+                console.log(data);
+            }
+        });
+
+        const redirect = () =>{
+            setTimeout(function(){ location.href = "index.html";}, 2000);
+        }
+
+
+    </script>
+
+</body>
+</html>

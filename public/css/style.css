@@ -1,0 +1,121 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    margin: 0; 
+    padding: 0;
+    background-color: #201F23;
+}
+
+.header-text{
+    color: #F04652;
+    padding: 50px 0;
+    text-align:center;
+    font-size: 25px;
+    
+}
+.header-text p {
+    font-style: italic;
+}
+
+.form {
+   display: grid;
+}
+
+.form #submit {
+    padding: 10px;
+    width: 25%;
+    background: #F04652;
+    color: white;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+.form #loginPassword, .form #loginUsername, #username, #password, #confirm-password {
+    max-width: 50%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    float: left;
+    color: black;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.content {
+    margin-top: 50px;
+    display:flex;
+}
+
+.content #left {
+    float:left;
+    flex: 50%;
+}
+#left img{
+    max-width: 70%; 
+    float: right; 
+    padding-right: 200px;
+}
+
+.content #right {
+    float: right;
+    flex: 50%; 
+    width: 80%;
+    padding-top: 20px;
+}
+
+.create-acc a {
+    text-decoration: none;
+    color: #F04652;
+}
+#outtext{
+    color: white
+}
+
+@media screen and (max-width: 600px){
+
+    .header-text{
+        text-align: center;
+        padding-bottom: 0;
+        font-size: 20
+    }
+
+    .content{
+        flex-direction: column;
+        align-items: center;
+        justify-content:center;
+    }
+    .content #left{
+        display: flex;
+        flex-direction: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .content #left img{
+        
+        padding-right: 0px;
+    }
+    .content #right{
+        
+        flex-direction: flex;
+        justify-content: center;
+        width: 80%;
+        padding-top: 30px;
+    }
+
+    .form #loginPassword, .form #loginUsername, #username, #password, #confirm-password{
+        max-width: 100%;
+    }
+    .form #submit{
+        width: 100%;
+    }
+}
