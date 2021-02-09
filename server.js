@@ -20,7 +20,6 @@ server.use(express.static('public'));
 server.use(bodyParser.json());
 server.use("/secure", secureEndPoints);
 
-
 /* ------------------- CREATE USER ------------------ */
 
 server.post("/user", async function (req, res) {

@@ -4,11 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-<<<<<<< HEAD
-    <title>List</title>
-=======
     <title>List items</title>
->>>>>>> d071a032f07e22f19d38a2f8038eaef01d03be07
     <link rel="stylesheet" href="css/todo_task.css">
     <link rel="icon" href="./img/favicon.png" type="image/gif">
 </head>
@@ -53,10 +49,10 @@
 
 <script>   
 
+    // hente id fra URL
     var url_string = window.location.href;
     var url = new URL(url_string);
-    var list_id = url.searchParams.get("id");
-    console.log(list_id);
+    var list_id_from_url = url.searchParams.get("id");
 
     /* ------------------- showing inlogged username ------------------ */
 
@@ -223,19 +219,10 @@
                     console.log(data_list.rows);
 
                     for(let tsk of data.rows){
-                        
+
                         let div = document.createElement("li");
                         div.id = `${tsk.id}`;
                         div.className = "delete";
-                        
-                        /*div.onclick = function() {
-
-                            let id = `${tsk.id}`;
-                            alert("ID:" + id);
-                        }*/
-
-
-
 
                         let html =
                             `ID: ${tsk.id} - ${tsk.task}`
