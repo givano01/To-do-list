@@ -20,7 +20,7 @@ server.use(express.static('public'));
 server.use(bodyParser.json());
 server.use("/secure", secureEndPoints);
 
-// test123123123
+// test
 
 /* ------------------- CREATE USER ------------------ */
 
