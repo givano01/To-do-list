@@ -87,7 +87,7 @@ server.post("/user/delete", auth, async (req, res) => {
 
 server.post("/todo/task", async function (req, res) {
 
-  const newTask = new task(req.body.task);
+  const newTask = new task(req.body.task, req.body.list_id_url);
   
   await newTask.createTask();
   
