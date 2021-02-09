@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>List</title>
+    <title>List items</title>
     <link rel="stylesheet" href="css/todo_task.css">
     <link rel="icon" href="./img/favicon.png" type="image/gif">
 </head>
@@ -47,7 +47,12 @@
 </div>
 
 
-<script>    
+<script>   
+
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var list_id = url.searchParams.get("id");
+    console.log(list_id);
 
     /* ------------------- showing inlogged username ------------------ */
 
