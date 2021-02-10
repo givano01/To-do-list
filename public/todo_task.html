@@ -129,8 +129,10 @@
 
             let updata = {
                 task: inpTask.value,
-                list_id_url: url_id.value
+                list_id: url_id
             }
+
+            console.log(updata)
 
             let config = {
                 method: "POST",
@@ -138,7 +140,7 @@
                     "content-type" : "application/json",
                     "authorization" : logindata.authToken
                 },
-                body: JSON.stringify(updata)
+               body: JSON.stringify(updata)
             }
 
             try { 
@@ -189,51 +191,42 @@
         let outtext = document.getElementById("outtext");
 
         
-         /* ------------------- load all tasks ------------------ */
+        /* ------------------- load all tasks ------------------ */
         
-         loadTasks();  
+        loadTasks();  
 
         async function loadTasks() {
             
-            let token = sessionStorage.getItem("token");
-            let username = sessionStorage.getItem("user");
-    
-           // if(token !== undefined){
-                
-                let body = {
-                    authToken: token,
-                    user: username,
+            let load_data = {
+                list_id_test: 4
+            }
+
+            console.log(JSON.stringify(load_data));
+
+            let config = {
+                method: "GET",
+                load_body: JSON.stringify(load_data)
+            }
+
+            try {
+                let response = await fetch ("/todo/task", config);
+                let data = await response.json();
+
+                for(let tsk of data.rows){
+
+                    let div = document.createElement("li");
+                    div.id = `${tsk.id}`;
+                    div.className = "delete";
+
+                    let html =
+                        `${tsk.task}`
+                    div.innerHTML = html;
+                    container.appendChild(div);
+                    
                 }
-
-                let config = {
-                    method: "GET",
-                }
-
-                try {
-                    let response = await fetch ("/todo/task", config);
-                    let data = await response.json();
-
-                    let response_list = await fetch ("/todo/list", config);
-                    let data_list = await response_list.json();
-
-                    console.log(data.rows);
-                    console.log(data_list.rows);
-
-                    for(let tsk of data.rows){
-
-                        let div = document.createElement("li");
-                        div.id = `${tsk.id}`;
-                        div.className = "delete";
-
-                        let html =
-                            `ID: ${tsk.id} - ${tsk.task}`
-                        div.innerHTML = html;
-                        container.appendChild(div);
-                        
-                    }
-                } 
-                catch(err){
-                outtext.innerHTML = "Something went wrong";
+            } 
+            catch(err){
+            outtext.innerHTML = "Something went wrong";
             }
         }  
 

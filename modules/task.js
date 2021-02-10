@@ -1,16 +1,16 @@
 const database = require("./datahandler");
 
 class Task {
-    constructor(task, id, list_id_url) {
+    constructor(task, id, list_id) {
         this.task = task;
         this.id = id;
-        this.list_id_url = list_id_url;
+        this.list_id = list_id;
     }
 
     async createTask() {
             
         try {
-        let response = await database.insertTask(this.task, this.list_id_url);
+        let response = await database.insertTask(this.task, this.list_id);
             return response;
 
         } catch (error) { 
