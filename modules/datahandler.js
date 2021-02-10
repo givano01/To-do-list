@@ -117,7 +117,7 @@ class StorageHandler {
 
      /*  -------------------------- Getting all task data ------------------------------- */
 
-    async getTask(task, list_id) {
+    async getTask(list_id) {
 
         const client = new pg.Client(this.credentials);
         let results = null;

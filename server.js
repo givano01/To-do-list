@@ -99,7 +99,7 @@ server.post("/todo/task", async function (req, res) {
 
     server.get("/todo/task", async function (req, res) {
       try{
-        let response = await db.getTask();
+        let response = await db.getTask(5);
         res.status(200).json(response).end();
         }catch(error){
           console.error(error)
