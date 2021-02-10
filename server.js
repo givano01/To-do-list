@@ -101,7 +101,7 @@ server.post("/todo/task", async function (req, res) {
 
     server.get("/todo/task", async function (req, res) {
       try{
-        let response = await db.getTask(req.body.list_id);
+        let response = await db.getTask();
         res.status(200).json(response).end();
         }catch(error){
           console.error(error)
