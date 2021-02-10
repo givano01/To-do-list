@@ -8,13 +8,10 @@ class Task {
     }
 
     async createTask() {
-            
         try {
         let response = await database.insertTask(this.task, this.list_id);
             return response;
-
         } catch (error) { 
-
             console.error(error)
         }
     }

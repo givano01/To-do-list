@@ -71,31 +71,29 @@
                 }
             }
 
-                let response = await fetch(url, config);
-                let data = await response.json();
-                ServerResponse(response, data, 1);
+            let response = await fetch(url, config);
+            let data = await response.json();
+            ServerResponse(response, data, 1);
 
-                localStorage.setItem("logindata", JSON.stringify(data));
-
-            
+            localStorage.setItem("logindata", JSON.stringify(data));
 
         })
 
         function ServerResponse(res, data, num){
             console.log(res.status);
-            if(!data.authToken){
+            if(!data.authToken) {
                 outtext.innerHTML = "The user does not exist";
                 return;
-            }else{
+            } else {
                 let token = data.authToken.authToken;
                 let user = data.user;
-                if(token !== undefined){
+                if(token !== undefined) {
                     sessionStorage.setItem("token", token);
                 }
-                if(user !== undefined){
+                if(user !== undefined) {
                     sessionStorage.setItem("user", user.username);
                 }
-                if(res.status === 200){
+                if(res.status === 200) {
                     location.href = "todo_list.html";
                 }
             }

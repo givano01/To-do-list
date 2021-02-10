@@ -12,28 +12,24 @@ class User {
     }
 
     async create() {
-        
         try {
-        
-           let response = await database.insertUser(this.username, this.password);
+            let response = await database.insertUser(this.username, this.password);
             return response;
-
         } catch (error) { 
-
             console.error(error)
         }
     }
     
-    async validate(){
+    async validate() {
       let success = false;
-      try{
+      try {
             let response = await database.selectUser(this.username, this.password);
 
             if(response != null){
               this.isValid = true;
               success = true;
             }
-        }catch(error){
+        } catch(error) {
             console.log(error);
         }
       return success;

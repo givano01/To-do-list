@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const secret = process.env.hashSecret || require("../localenv").hashSecret;
 
 
-class UpdateUser{
+class UpdateUser {
 
     constructor(username, password, updpassword) {
         this.username = username;
@@ -16,11 +16,11 @@ class UpdateUser{
             .digest("hex");
     }
 
-    async update(){
-        try{
+    async update() {
+        try {
             let response = await database.updateUser(this.username, this.password, this.updpassword);
             console.log(response);
-        }catch(error){
+        } catch(error) {
             console.error(error);
         }
     }

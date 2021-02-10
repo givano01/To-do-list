@@ -102,7 +102,7 @@
                 let data = await response.json(); 
 
             }
-            catch(err){
+            catch(err) {
                 outtext.innerHTML = "Something went wrong";
             
             }
@@ -128,14 +128,7 @@
             span.className = "close";
             span.appendChild(txt);
             li.appendChild(span);
-
-            /*for (i = 0; i < close.length; i++) {
-                close[i].onclick = function() {
-                    var div = this.parentElement;
-                    div.style.display = "none";
-                }
-            }*/
-         location.reload();
+            location.reload();
         });
 
         /* ------------------- load all tasks ------------------ */
@@ -146,157 +139,125 @@
         loadLists();  
 
 async function loadLists() {
-    
-    /*let token = sessionStorage.getItem("token");
-    let username = sessionStorage.getItem("user");*/
-        
-        /*let body = {
-            authToken: token,
-            user: username,  
-        }*/
+    let config = {
+        method: "GET",
+    }
 
-        let config = {
-            method: "GET",
-        }
+    try {
+        let response = await fetch ("/todo/list", config);
+        let data = await response.json();
 
-        try {
-            let response = await fetch ("/todo/list", config);
-            let data = await response.json();
-
+        for(let lst of data.rows){
+            let div = document.createElement("li");
+            div.id = `${lst.id}`;
+            div.className = "list";
             
+            div.onclick = function() {
 
+                sessionStorage.setItem("listdata_name",`${lst.list}`);
+                sessionStorage.setItem("listdata_id",`${lst.id}`);
 
-            console.log(data.rows);
+                //adding ID to url
+                var url = new URL('http://localhost:8080/todo_task.html');
+                var search_params = url.searchParams;
+                search_params.set('id',`${lst.id}` );
+                url.search = search_params.toString();
+                var new_url = url.toString();
 
-            for(let lst of data.rows){
-                
-                let div = document.createElement("li");
-                div.id = `${lst.id}`;
-                div.className = "list";
-
-                
-                
-                div.onclick = function() {
-
-                    sessionStorage.setItem("listdata_name",`${lst.list}`);
-                    sessionStorage.setItem("listdata_id",`${lst.id}`);
-
-                    //adding ID to url
-                    var url = new URL('http://localhost:8080/todo_task.html');
-                    var search_params = url.searchParams;
-                    search_params.set('id',`${lst.id}` );
-                    url.search = search_params.toString();
-                    var new_url = url.toString();
-
-                    location.href = new_url;
-                    
-                }
-
-                let html =
-                    `ID: ${lst.id} - ${lst.list}`
-                div.innerHTML = html;
-                container.appendChild(div);
+                location.href = new_url;
                 
             }
-        } 
-        catch(err){
-        outtext.innerHTML = "Something went wrong";
+
+            let html =
+                `ID: ${lst.id} - ${lst.list}`
+            div.innerHTML = html;
+            container.appendChild(div);
+            
+        }
+    } 
+    catch(err){
+    outtext.innerHTML = "Something went wrong";
     }
 }  
 
+/* ------------------- log out button ------------------ */
+
+let btnLogOut = document.getElementById("btnLogOut");
     
+btnLogOut.addEventListener("click", function (evt){
+
+    const confirmLogOut = confirm("Are you sure you want to log out?");
+
+    if(confirmLogOut === true){
+        localStorage.clear();
+        sessionStorage.clear();
+        location.href = "index.html";
+    }
+})
 
 
+/* ------------------- update user button ------------------ */
 
+btnUpdate = document.getElementById("btnUpdate");
 
-        /* ------------------- log out button ------------------ */
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
+})
         
-        let btnLogOut = document.getElementById("btnLogOut");
-         
-         
-         btnLogOut.addEventListener("click", function (evt){
+/* ------------------- delete user button ------------------ */
 
-            const confirmLogOut = confirm("Are you sure you want to log out?");
+let btnDelete = document.getElementById("btnDelete");
 
-            if(confirmLogOut === true){
-                localStorage.clear();
-                sessionStorage.clear();
-                location.href = "index.html";
-            q}
-         })
+btnDelete.addEventListener('click', async function (evt) {
 
+    const username = sessionStorage.getItem("user");
+    const token = sessionStorage.getItem("token");
 
-         /* ------------------- update user button ------------------ */
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
 
-         btnUpdate = document.getElementById("btnUpdate");
+    if (confirmUsername || confirmPassword) {
 
-         btnUpdate.addEventListener("click", function (evt){
-
-            location.href = "user_update.html";
-
-         })
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
         
-        /* ------------------- delete user button ------------------ */
+        let body = { 
+            authToken: token, 
+            user: username, 
+            authorization: credentials 
+        };
 
-
-        let btnDelete = document.getElementById("btnDelete");
-        
-
-        btnDelete.addEventListener('click', async function (evt) {
-
-            const username = sessionStorage.getItem("user");
-            const token = sessionStorage.getItem("token");
-
-            const confirmUsername = prompt("Please enter your username!", "");
-            const confirmPassword = prompt("Please enter your password!", "");
-
-            if (confirmUsername || confirmPassword) {
-
-                const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-                if (confirmUsername !== username) {
-                    alert("Wrong username, try again!");
-                    return;
-                }
-                
-                let body = { 
-                    authToken: token, 
-                    user: username, 
-                    authorization: credentials 
-                };
-
-                let config = {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                    }
-                
-                const confirmed = confirm("Are you sure you want to delete your account?");
-                
-                let response = await fetch("/user/delete", config);
-                console.log(response.status);
-                let data = await response.json();
-
-                if (confirmed === true) {
-
-                    if (response.status === 200) {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    location.href = "index.html";
-                    }else {
-                    alert("Deletion was unsuccessful, incorrect account information");
-                    }
-                }
+        let config = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
             }
-        });
+        
+        const confirmed = confirm("Are you sure you want to delete your account?");
+        
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
 
+        if (confirmed === true) {
 
-    
+            if (response.status === 200) {
+            sessionStorage.clear();
+            localStorage.clear();
+            location.href = "index.html";
+            }else {
+            alert("Deletion was unsuccessful, incorrect account information");
+            }
+        }
+    }
+});
 
-
-      
-    </script>
+</script>
 
 </body>
 </html>

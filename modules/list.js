@@ -8,13 +8,10 @@ class List {
     }
 
     async createList() {
-            
         try {
         let response = await database.insertList(this.list);
             return response;
-
         } catch (error) { 
-
             console.error(error)
         }
     }
@@ -27,7 +24,6 @@ class List {
             console.error(error)
         }
     }
-
 }
 
 module.exports = List

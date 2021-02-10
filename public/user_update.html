@@ -32,12 +32,8 @@
         const updpasswordInput = document.getElementById("updpassword");
         const btnUpdatePsw = document.getElementById("btnUpdatePsw")
         const outtext = document.getElementById("outtext");
-
-        console.log(btnUpdatePsw);
-
-       btnUpdatePsw.addEventListener("click", async function(evt){
-
-       
+        
+        btnUpdatePsw.addEventListener("click", async function(evt) {
 
             let body = {
                 updpassword : updpasswordInput.value,
@@ -57,8 +53,6 @@
            let data = await response.json();
 
            console.log(data);
-
-
         })
     </script>
 </body>

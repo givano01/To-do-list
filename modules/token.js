@@ -5,11 +5,9 @@ const secretKey = process.env.tokenSecret || require("../localenv").tokenSecret;
 const algorithm = 'aes-256-ctr';
 const iv = crypto.randomBytes(16);
 
-
 let d = new Date();
 const dateNow = Date.now();
 const validToDate = d.setDate(d.getDate() + 1);
-
 
 function createToken(user) {
 
@@ -34,7 +32,7 @@ function createToken(user) {
     
 }
 
-function validateToken(token, user){
+function validateToken(token, user) {
 
     let isTokenValid = false;
 
@@ -43,13 +41,13 @@ function validateToken(token, user){
     let tIV = splitToken[0];
     let tEncryptedData = splitToken[1];
 
-    if(splitToken.length > 2){
+    if(splitToken.length > 2) {
         return isTokenValid;
-    }else if(tIV.length !== 32){
+    } else if(tIV.length !== 32) {
         return isTokenValid;
-    }else if(tEncryptedData.length < 356 || tEncryptedData > 394){
+    } else if(tEncryptedData.length < 356 || tEncryptedData > 394) {
         return isTokenValid;
-    }else{
+    } else {
 
         let iv = Buffer.from(tIV, 'hex');
         let encryptedToken = Buffer.from(tEncryptedData, 'hex');
@@ -63,12 +61,12 @@ function validateToken(token, user){
         let userInfo = JSON.parse(tokenText).user;
         userInfo = JSON.parse(userInfo);
 
-        if(dateNow > expirationDate){
+        if(dateNow > expirationDate) {
             return isTokenValid;
-        }else if(user.username !== userInfo.username){
+        } else if(user.username !== userInfo.username) {
             return isTokenValid;
         
-        }else{
+        } else {
             isTokenValid = true;
         }
     }

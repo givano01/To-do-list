@@ -77,7 +77,6 @@ class StorageHandler {
             await client.connect();
 
             results = await client.query('SELECT * FROM "public".users" WHERE username=$1 AND password=$2', [username, password]);
-            console.log(results.rows);
             if (results.rows.length !== 0) {
                 if (results.rows[0].username === username && results.rows[0].password === password) {
                     await client.query('DELETE FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
@@ -133,7 +132,6 @@ class StorageHandler {
         }
 
         return results; 
-        
     }
 
     /*  -------------------------- Deleting task data ------------------------------- */
@@ -143,21 +141,14 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
             results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = $0');
-           // results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" = 135', [id]);
-
-
             client.end();
-            
         } catch (err) {
             client.end();
             console.log(err);
             results = err;
         }
-
         return results;
-        
     }
 
     /*  -------------------------- Inserting list data ------------------------------- */
@@ -175,7 +166,6 @@ class StorageHandler {
             console.log(err);
             results = err;
         }
-
         return results;
     }
 
