@@ -87,11 +87,13 @@ server.post("/user/delete", auth, async (req, res) => {
 
 server.post("/todo/task", async function (req, res) {
 
-  const newTask = new task(req.body.task, req.body.list_id_url);
+  const newTask = new task(req.body.task, req.body.list_id);
   
   await newTask.createTask();
   
   res.status(200).json(newTask).end();
+
+  console.log(req.body.list_id);
 
 })
 
@@ -99,7 +101,7 @@ server.post("/todo/task", async function (req, res) {
 
     server.get("/todo/task", async function (req, res) {
       try{
-        let response = await db.getTask();
+        let response = await db.getTask(req.body.list_id);
         res.status(200).json(response).end();
         }catch(error){
           console.error(error)

@@ -97,12 +97,12 @@ class StorageHandler {
 
     /*  -------------------------- Inserting task data ------------------------------- */
 
-    async insertTask(task, list_id_url) {
+    async insertTask(task, list_id) {
         const client = new pg.Client(this.credentials);
         let results = null;
         try {
             await client.connect();
-            results = await client.query('INSERT INTO "public"."todo_task"("task", "list_id") VALUES($1, $2) returning *;', [task, list_id_url]);
+            results = await client.query('INSERT INTO "public"."todo_task"("task", "list_id") VALUES($1, $2) RETURNING *', [task, list_id]);
             results = results.rows[0];
             client.end();
         } catch (err) {
@@ -117,7 +117,7 @@ class StorageHandler {
 
      /*  -------------------------- Getting all task data ------------------------------- */
 
-    async getTask(task, list_id) {
+    async getTask(list_id) {
 
         const client = new pg.Client(this.credentials);
         let results = null;
@@ -126,9 +126,9 @@ class StorageHandler {
             await client.connect();
             results = await client.query('SELECT * FROM "public"."todo_task" WHERE list_id = $1', [list_id]);
             client.end();
-            if(task == ""){
+            /*if(task == ""){
                 console.log("There is no data here");
-            }
+            }*/
             
         } catch (err) {
             client.end();
