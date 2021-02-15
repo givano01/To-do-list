@@ -56,7 +56,7 @@ var list_id_from_url = url.searchParams.get("id");
 
 /* ------------------- showing inlogged username ------------------ */
 let login_name = document.getElementById("login_name");
-let data = sessionStorage.getItem("user");
+let data = localStorage.getItem("user");
 
 login_name.innerHTML = data;
 
