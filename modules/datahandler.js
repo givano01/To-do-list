@@ -70,25 +70,21 @@ class StorageHandler {
 
      /*  -------------------------- Deleting user data ------------------------------- */
 
-    async deleteUser(username, password) {
+   
+    async deleteUser(username, password){
         const client = new pg.Client(this.credentials);
-        let results = false;
-        try {
+        let results = null;
+        try{
             await client.connect();
-
-            results = await client.query('SELECT * FROM "public".users" WHERE username=$1 AND password=$2', [username, password]);
-            if (results.rows.length !== 0) {
-                if (results.rows[0].username === username && results.rows[0].password === password) {
-                    await client.query('DELETE FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
-                    results = true;
-                }
-
-                return results;
-            }
+            results = await client.query('DELETE FROM "public"."users" WHERE username = $1 and password = $2 RETURNING *;', [username, password]);
             client.end();
-        } catch (err) {
+        }catch(err){
+            client.end();
             console.log(err);
+            results = err;
         }
+
+        return results;
     }
         
         
@@ -141,7 +137,7 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = $0');
+            results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = $1',[id]);
             client.end();
         } catch (err) {
             client.end();
@@ -194,6 +190,22 @@ class StorageHandler {
         
     }
 
+    /*  -------------------------- Deleting list data ------------------------------- */
+
+    async deleteList(id){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('DELETE FROM "public"."todo_list" WHERE "id" = $1',[id]);
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
     
     
 }

@@ -65,31 +65,26 @@ server.put("/user/update", async function(req,res){
 
 /* ------------------- DELETE USER ------------------ */
 
-server.post("/user/delete", auth, async (req, res) => {
-
+server.delete("/user/delete", async function(req, res){
+  console.log(req.body.password);
   const credentials = req.body.authorization.split(' ')[1];
   const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":");
-  const currentUsername = req.body.user;
+  const newDeleteUser = new user(username, password);
 
-  const requestDeleteUser = new user(currentUsername, password); 
-  const isDeleted = await requestDeleteUser.delete();
-
-  if (isDeleted) {
-    res.status(200).json("Deleted user info").end();
-  } else {
-    res.status(500).json(`Username or password is incorrect!`).end();
-  }
-
+  await newDeleteUser.delete();
+  res.status(200).json(newDeleteUser).end();
+  console.log(req.body);
+  console.log(req.body.username);
 });
 
 
 /* ------------------- CREATE TASK ------------------ */
 
 server.post("/todo/task", async function (req, res) {
-
   const newTask = new task(req.body.task, req.body.list_id);
   
-  await newTask.createTask();
+ let response = await newTask.createTask();
+ newTask.id = response.id;
   
   res.status(200).json(newTask).end();
 
@@ -99,10 +94,12 @@ server.post("/todo/task", async function (req, res) {
 
     /* ------------------- GET TASK ------------------ */
 
-    server.get("/todo/task", async function (req, res) {
+    server.get("/todo/task/:id", async function (req, res) {
       try {
-        let response = await db.getTask(req.load_body.list_id_test);
+        let {id} = req.params;
+        let response = await db.getTask(id);
         res.status(200).json(response).end();
+        console.log(id);
         } catch(error) {
           console.error(error)
         }
@@ -111,8 +108,7 @@ server.post("/todo/task", async function (req, res) {
   /* ------------------- DELETE TASK ------------------ */
 
   server.post('/todo/task/delete', async function (req, res) {
-    const newDeleteTask = new task(req.body.id);
-    console.log(req.body.id)
+    const newDeleteTask = new task("", req.body.list_id, req.body.id);
     await newDeleteTask.deleteTask();
     res.status(200).json(newDeleteTask).end();
   })
@@ -138,6 +134,15 @@ server.post("/todo/list", async function (req, res) {
       }catch(error){
         console.error(error)
       }
+  })
+
+
+  /* ------------------- DELETE TASK ------------------ */
+
+  server.post('/todo/list/delete', async function (req, res) {
+    const newDeleteList = new list("", req.body.id);
+    await newDeleteList.deleteList();
+    res.status(200).json(newDeleteList).end();
   })
 
 

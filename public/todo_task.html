@@ -139,6 +139,7 @@ btn.addEventListener("click", async function (evt){
     try { 
         let response = await fetch("/todo/task", config);
         let data = await response.json(); 
+        console.log(data);
 
     }
     catch(err){
@@ -174,7 +175,7 @@ button.addEventListener("click", function onclick(event) {
             div.style.display = "none";
         }
     }
-    location.reload();
+   location.reload();
 });
 
 // GET 
@@ -186,20 +187,15 @@ loadTasks();
 
 async function loadTasks() {
 
-    let load_data = {
-        list_id_test: 4
-    }
-
-    console.log(JSON.stringify(load_data));
-
     let config = {
         method: "GET",
-        load_body: JSON.stringify(load_data)
     }
 
     try {
-        let response = await fetch ("/todo/task", config);
+        let response = await fetch (`/todo/task/${list_id_from_url}`, config);
         let data = await response.json();
+
+        console.log(data.rows);
 
         for(let tsk of data.rows) {
 
@@ -208,7 +204,7 @@ async function loadTasks() {
             div.className = "delete";
 
             let html =
-                `${tsk.task}`
+                `ID: ${tsk.id} - ${tsk.task}`
             div.innerHTML = html;
             container.appendChild(div);
             
@@ -226,7 +222,8 @@ const inpDel = document.getElementById("inpDelTask");
 btnDel.addEventListener("click", async function(evt){
     
     let body = {
-        id: inpDel.value
+        id: inpDel.value,
+        list_id: list_id_from_url
     }
 
     let config ={
@@ -239,6 +236,8 @@ btnDel.addEventListener("click", async function(evt){
 
     let response = await fetch ("/todo/task/delete", config);
     let data = await response.json();
+
+    location.reload();
     
 })
 
@@ -259,55 +258,54 @@ btnLogOut.addEventListener("click", function (evt){
 
 /* ------------------- delete user button ------------------ */
 let btnDelete = document.getElementById("btnDelete");
+    btnDelete.addEventListener("click", async function(evt){
 
-btnDelete.addEventListener('click', async function (evt) {
+        const username = sessionStorage.getItem("user");
 
-    const username = sessionStorage.getItem("user");
-    const token = sessionStorage.getItem("token");
+        const confirmUsername = prompt("Please enter your username!", "");
+        const confirmPassword = prompt("Please enter your password!", "");
 
-    const confirmUsername = prompt("Please enter your username!", "");
-    const confirmPassword = prompt("Please enter your password!", "");
+        console.log()
+        if (confirmUsername || confirmPassword) {
 
-    if (confirmUsername || confirmPassword) {
+            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+            if (confirmUsername !== username) {
+                alert("Wrong username, try again!");
+                return;
+            }
 
-        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-        if (confirmUsername !== username) {
-            alert("Wrong username, try again!");
-            return;
-        }
-        
-        let body = { 
-            authToken: token, 
-            user: username, 
-            authorization: credentials 
-        };
+            let body = { 
+                user: username, 
+                authorization: credentials 
+            };
 
-        let config = {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
+
+            let config ={
+                method:"DELETE",
+                headers:{
+                    "content-type": "application/json"
             },
-            body: JSON.stringify(body)
+            body:JSON.stringify(body)
             }
-        
-        const confirmed = confirm("Are you sure you want to delete your account?");
-        
-        let response = await fetch("/user/delete", config);
-        
-        let data = await response.json();
 
-        if (confirmed === true) {
+            const confirmed = confirm("Are you sure you want to delete your account?");
 
-            if (response.status === 200) {
-            sessionStorage.clear();
-            localStorage.clear();
-            location.href = "index.html";
-            }else {
-            alert("Deletion was unsuccessful, incorrect account information");
+            let response = await fetch("/user/delete", config);
+            console.log(response.status);
+            let data = await response.json();
+
+            if (confirmed === true) {
+
+                if (response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "index.html";
+                }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                }
             }
         }
-    }
-});
+    })
 
 </script>
 </body>
