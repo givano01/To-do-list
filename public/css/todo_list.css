@@ -162,6 +162,20 @@ input {
     border-radius: 6px;
 }
 
+#btnDelList{
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
+
+}
+
 .addBtn {
     padding: 10px;
     width: 25%;

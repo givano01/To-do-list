@@ -37,8 +37,8 @@
     <h2 class="title" style="color: #BEF4F9; text-align: center;"> Delete list</h2>
 
     <div class="deleteList-div">
-        <input type="text" placeholder="Insert list ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
-        <button style="width: 49%; float: right;" type="button" id="btnDelTask">Delete list</button>
+        <input type="text" placeholder="Insert list ID" id="inpDelList" style="float: left; width: 50%; background-color: #313033;">
+        <button style="width: 49%; float: right;" type="button" id="btnDelList">Delete list</button>
     </div>
 
     <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update List</h2>
@@ -183,9 +183,9 @@
         outtext.innerHTML = "Something went wrong";
         }
 }  
-/* ------------------- delete task button ------------------ */
-const btnDel = document.getElementById("btnDelTask");
-const inpDel = document.getElementById("inpDelTask");
+/* ------------------- delete list button ------------------ */
+const btnDel = document.getElementById("btnDelList");
+const inpDel = document.getElementById("inpDelList");
 
 btnDel.addEventListener("click", async function(evt){
     
