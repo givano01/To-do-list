@@ -256,7 +256,7 @@ btnLogOut.addEventListener("click", function (evt){
 let btnDelete = document.getElementById("btnDelete");
     btnDelete.addEventListener("click", async function(evt){
 
-        const username = sessionStorage.getItem("user");
+        const username = localStorage.getItem("user");
 
         const confirmUsername = prompt("Please enter your username!", "");
         const confirmPassword = prompt("Please enter your password!", "");
