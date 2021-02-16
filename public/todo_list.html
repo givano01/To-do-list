@@ -12,9 +12,9 @@
 <body>
     <div class = "userOptions">
         <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
-        <button type = "button" id = "btnDelete">Delete </button>
-        <button type = "button" id = "btnUpdate">Update </button>
-        <button type = "button" id = "btnLogOut">Log out</button>
+        <button type = "button" id="btnDelete">Delete </button>
+        <button type = "button" id="btnUpdate">Update </button>
+        <button type = "button" id="btnLogOut">Log out</button>
     </div>
 
     <div id="myDIV" class="header">
@@ -236,7 +236,7 @@ btnUpdate.addEventListener("click", function (evt){
     let btnDelete = document.getElementById("btnDelete");
     btnDelete.addEventListener("click", async function(evt){
 
-        const username = sessionStorage.getItem("user");
+        const username = localStorage.getItem("user");
 
         const confirmUsername = prompt("Please enter your username!", "");
         const confirmPassword = prompt("Please enter your password!", "");
