@@ -71,6 +71,33 @@ body {
     background-color: #bbb;
 }
 
+@media screen and (max-width: 600px){
+    
+    .loggedUser{
+        color: white;
+        line-height: 4;
+        margin-left: 4px;
+        font-size: 13px;
+    }
+    #btnLogOut{
+        padding: 10x;
+        width: 20%;
+        font-size: 13px;
+        margin-top: 7px;
+        
+    }
+    #btnUpdate{
+        width: 20%;
+        font-size: 13px;
+        margin-top: 7px;
+    }
+    #btnDelete{
+        width: 20%;
+        font-size: 13px;
+        margin-top: 7px;
+    }
+}
+
 ul {
     margin: 0;
     padding: 0;
@@ -101,32 +128,6 @@ ul li:nth-child(odd) {
 ul li:hover {
     background: #505050;
 }
-
-/*ul li.checked {
-    background: #888;
-    color: #fff;
-    text-decoration: line-through;
-}*/
-
-/*ul li.checked::before {
-    content: '';
-    position: absolute;
-    border-color: #fff;
-    border-style: solid;
-    border-width: 0 2px 2px 0;
-    top: 10px;
-    left: 16px;
-    transform: rotate(45deg);
-    height: 15px;
-    width: 7px;
-}*/
-
-/*.close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 12px 16px 12px 16px;
-}*/
 
 .close:hover {
     background-color: #f44336;
@@ -176,6 +177,13 @@ input {
     border-radius: 6px;
 }
 
+@media screen and (max-width: 600px){
+    .addBtn {
+        width: 100%;
+    }
+}
+
+
 .addBtn:hover {
     background-color: #bbb;
 }
@@ -190,3 +198,18 @@ input {
     position: relative;
     padding-top: 50px;
 }  
+
+.deleteList-div{
+    margin-bottom: 100px;
+}
+
+.title{
+    padding: 50px 0px;
+}
+
+@media screen and (max-width: 600px){
+    .title{
+        padding: 25px 0px;
+        font-size: 18px;
+    }
+}

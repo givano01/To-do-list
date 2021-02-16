@@ -12,8 +12,8 @@
 <body>
     <div class = "userOptions">
         <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
-        <button type = "button" id = "btnDelete">Delete User</button>
-        <button type = "button" id = "btnUpdate">Update User</button>
+        <button type = "button" id = "btnDelete">Delete </button>
+        <button type = "button" id = "btnUpdate">Update </button>
         <button type = "button" id = "btnLogOut">Log out</button>
     </div>
 
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <h2 style="color: #BEF4F9; text-align: center; padding-top: 50px; padding-bottom: 50px"> All lists</h2>
+    <h2 class="title" style="color: #BEF4F9; text-align: center;"> All lists</h2>
 
     <div id="container"></div>
 
@@ -34,11 +34,14 @@
 
     <p id = "outtext"> </p>
 
-    <div>
+    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Delete list</h2>
+
+    <div class="deleteList-div">
         <input type="text" placeholder="Insert list ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
         <input style="width: 49%; float: right;" type="button" id="btnDelTask" value ="Delete list">
     </div>
 
+    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update List</h2>
 
     <script>
         /* ------------------- showing username ------------------ */
@@ -159,7 +162,7 @@
                     sessionStorage.setItem("listdata_id",`${lst.id}`);
 
                     //adding ID to url
-                    var url = new URL('https://applikasjonsutvikling-prosjekt.herokuapp.com/todo_task.html');
+                    var url = new URL('http://localhost:8080/todo_task.html');
                     var search_params = url.searchParams;
                     search_params.set('id',`${lst.id}` );
                     url.search = search_params.toString();
