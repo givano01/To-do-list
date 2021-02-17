@@ -152,6 +152,22 @@ input {
     border-radius: 6px;
 
 }
+#btnUpdTask{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    padding-bottom: 50px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
+}
 
 .addBtn {
     padding: 10px;
@@ -190,6 +206,10 @@ input {
     padding-top: 50px;
 }
 .deleteTask-div{
+    margin-bottom: 100px;
+}
+
+.updateTask-div{
     margin-bottom: 100px;
 }
 

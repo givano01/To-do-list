@@ -48,7 +48,7 @@
         <input type="text" placeholder="New list name" id="inpNewList" style="float: right; width: 49%; background-color: #313033;">
     </div>
     <br> 
-    <button style="width: 49%; float: right;" type="button" id="btnUpdList">Update List</button>
+    <button style="width: 30%;" type="button" id="btnUpdList">Update List</button>
 
     <script>
         /* ------------------- showing username ------------------ */
@@ -168,14 +168,7 @@
                     sessionStorage.setItem("listdata_name",`${lst.list}`);
                     sessionStorage.setItem("listdata_id",`${lst.id}`);
 
-                    //adding ID to url
-                    var url = new URL('https://applikasjonsutvikling-prosjekt.herokuapp.com/todo_task.html');
-                    var search_params = url.searchParams;
-                    search_params.set('id',`${lst.id}` );
-                    url.search = search_params.toString();
-                    var new_url = url.toString();
-
-                    location.href = new_url;
+                    location.href = `/todo_task.html?id=${lst.id}`;
                     
                 }
 
@@ -236,7 +229,7 @@ let config ={
 
 fetch("/todo/list/update",config);
 
-    //location.reload();
+    location.reload();
 })
 
 /* ------------------- log out button ------------------ */

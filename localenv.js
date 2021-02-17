@@ -2,4 +2,4 @@ module.exports.credentials = "postgres://ayflpjqnnrjulj:e34e21766fe9a16a5879c81c
 
 module.exports.hashSecret = "hashSecretText";
 
-module.exports.tokenSecret = "tokenSecretText";
+module.exports.tokenSecret = "e87b4668b91eee9e1601675f7b22021f";

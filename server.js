@@ -5,6 +5,7 @@ const db = require("./modules/datahandler");
 const user = require("./modules/user");
 const userUpdate = require("./modules/user_update");
 const task = require("./modules/task");
+const taskUpdate = require("./modules/task_update");
 const list = require("./modules/list");
 const listUpdate = require("./modules/list_update");
 const auth = require("./modules/auth");
@@ -46,8 +47,8 @@ server.post("/user/login", async function (req, res) {
   const valid = await requestUser.validate(); 
 
   if(valid){
-     //let sessionToken = createToken(requestUser);
-    let sessionToken = 1111  ; //midlertidig fordi token fungerer ikke enda
+     let sessionToken = createToken(requestUser);
+    //let sessionToken = 1111  ; //midlertidig fordi token fungerer ikke enda
     res.status(200).json({"authToken":sessionToken, "user": requestUser}).end();
   } else {
     res.status(403).json("unauthorized").end(); 
@@ -57,7 +58,7 @@ server.post("/user/login", async function (req, res) {
 /* ------------------- UPDATE USER ------------------ */
 
 server.put("/user/update", async function(req,res){
-  const newUpdateUser = new userUpdate(req.body.username, req.body.password, req.body.updpassword);
+  const newUpdateUser = new userUpdate(req.body.username, req.body.updpassword);
   await newUpdateUser.update();
   res.status(200).json(newUpdateUser).end();
   console.log(req.body);
@@ -100,7 +101,6 @@ server.post("/todo/task", async function (req, res) {
         let {id} = req.params;
         let response = await db.getTask(id);
         res.status(200).json(response).end();
-        console.log(id);
         } catch(error) {
           console.error(error)
         }
@@ -113,6 +113,15 @@ server.post("/todo/task", async function (req, res) {
     await newDeleteTask.deleteTask();
     res.status(200).json(newDeleteTask).end();
   })
+
+/* ------------------- UPDATE TASK ------------------ */
+
+  server.put("/todo/task/update", async function(req,res){
+    const newUpdateTask = new taskUpdate(req.body.task, req.body.new_task);
+    await newUpdateTask.updateTask();
+    res.status(200).json(newUpdateTask).end();
+    console.log(req.body);
+});
 
   /* ------------------- CREATE LIST ------------------ */
 

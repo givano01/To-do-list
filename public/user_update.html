@@ -34,17 +34,21 @@
         const outtext = document.getElementById("outtext");
         
         btnUpdatePsw.addEventListener("click", async function(evt) {
+            
+            let username = localStorage.getItem("user");
 
             let body = {
                 updpassword : updpasswordInput.value,
-                username: username.value,
-                password: passwordInput.value
+                username: username
+            
             }
 
             let config ={
                 method: "PUT",
                 headers: {
-                    "content-type": "application/json"
+                    "content-type": "application/json",
+                    
+
                 },
                 body:JSON.stringify(body)
             }

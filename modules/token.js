@@ -10,10 +10,8 @@ const dateNow = Date.now();
 const validToDate = d.setDate(d.getDate() + 1);
 
 function createToken(user) {
-
     let body = { "created": dateNow, "user": JSON.stringify(user), "validTo": validToDate };
-
-    let cipher = crypto.createCipheriv(algorithm, Buffer.from(secretKey), iv);
+    let cipher = crypto.createCipheriv(algorithm, (secretKey), iv);
     let encrypted = cipher.update(JSON.stringify(body));
 
     // ------------ Converts body in to one string for token ------------- //
