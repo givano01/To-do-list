@@ -206,6 +206,22 @@ class StorageHandler {
         }
         return results;
     }
+/*  -------------------------- Update list data ------------------------------- */
+
+    async updateList(list, new_list){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('UPDATE "public"."todo_list" SET "list" = $1 WHERE "list" = $2',[list, new_list]);
+            client.end()
+        }catch(err){
+            client.end()
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
     
     
 }

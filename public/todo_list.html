@@ -37,11 +37,18 @@
     <h2 class="title" style="color: #BEF4F9; text-align: center;"> Delete list</h2>
 
     <div class="deleteList-div">
-        <input type="text" placeholder="Insert list ID" id="inpDelList" style="float: left; width: 50%; background-color: #313033;">
+        <input type="text" placeholder="Insert list ID" id="inpDelList" style="float: left; width: 49%; background-color: #313033;">
         <button style="width: 49%; float: right;" type="button" id="btnDelList">Delete list</button>
     </div>
 
     <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update List</h2>
+
+    <div class="updateList-div">
+        <input type="text" placeholder="Old list" id="inpOldList" style="float: left; width: 49%; background-color: #313033;">
+        <input type="text" placeholder="New list" id="inpNewList" style="float: right; width: 49%; background-color: #313033;">
+    </div>
+    <br> 
+    <button style="width: 49%; float: right;" type="button" id="btnUpdList">Update List</button>
 
     <script>
         /* ------------------- showing username ------------------ */
@@ -207,6 +214,31 @@ btnDel.addEventListener("click", async function(evt){
     location.reload();
     
 })
+/* ------------------- update list button ------------------ */
+const inpOldList = document.getElementById("inpOldList");
+const inpNewList = document.getElementById("inpNewList");
+const btnUpdList = document.getElementById("btnUpdList");
+
+btnUpdList.addEventListener("click", function(evt){
+
+let body = {
+    list : inpOldList.value,
+    new_list: inpNewList.value
+}
+
+let config ={
+    method: "PUT",
+    headers: {
+        "content-type": "application/json",
+    },
+    body:JSON.stringify(body)
+}
+
+fetch("/todo/list/update",config);
+
+    //location.reload();
+})
+
 /* ------------------- log out button ------------------ */
 
 let btnLogOut = document.getElementById("btnLogOut");

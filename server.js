@@ -6,6 +6,7 @@ const user = require("./modules/user");
 const userUpdate = require("./modules/user_update");
 const task = require("./modules/task");
 const list = require("./modules/list");
+const listUpdate = require("./modules/list_update");
 const auth = require("./modules/auth");
 
 
@@ -137,13 +138,22 @@ server.post("/todo/list", async function (req, res) {
   })
 
 
-  /* ------------------- DELETE TASK ------------------ */
+  /* ------------------- DELETE LIST ------------------ */
 
   server.post('/todo/list/delete', async function (req, res) {
     const newDeleteList = new list("", req.body.id);
     await newDeleteList.deleteList();
     res.status(200).json(newDeleteList).end();
   })
+
+/* ------------------- UPDATE LIST ------------------ */
+
+  server.put("/todo/list/update", async function(req,res){
+    const newUpdateList = new listUpdate(req.body.list, req.body.new_list);
+    await newUpdateList.updateList();
+    res.status(200).json(newUpdateList).end();
+    console.log(req.body);
+});
 
 
 

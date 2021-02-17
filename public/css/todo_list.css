@@ -7,6 +7,10 @@ body {
 * {
     box-sizing: border-box;
 }
+
+html{
+    position: relative;
+}
 .userOptions{
     background-color: #3d3c40;
     height: 50px;
@@ -19,7 +23,6 @@ body {
     margin-left: 30px;
 }
 #btnDelete{
-    /*position: absolute;*/
     left: 40%;
     transform: translate(-50deg, -50deg);
     padding: 10px;
@@ -162,7 +165,7 @@ input {
     border-radius: 6px;
 }
 
-#btnDelList{
+#btnDelList{ 
     margin: 0;
     border: none;
     border-radius: 0;
@@ -174,6 +177,23 @@ input {
     background-color: #313033;
     border-radius: 6px;
 
+}
+
+#btnUpdList{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    padding-bottom: 50px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
 }
 
 .addBtn {
@@ -215,6 +235,10 @@ input {
 
 .deleteList-div{
     margin-bottom: 100px;
+}
+
+.updateList-div{
+    margin-bottom: 50px;
 }
 
 .title{
