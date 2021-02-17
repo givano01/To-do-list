@@ -213,7 +213,7 @@ class StorageHandler {
         let results = null;
         try{
             await client.connect();
-            results = await client.query('UPDATE "public"."todo_list" SET "list" = $1 WHERE "list" = $2',[list, new_list]);
+            results = await client.query('UPDATE "todo_list" SET "list" = $1 WHERE "list" = $2',[list, new_list]);
             client.end()
         }catch(err){
             client.end()
