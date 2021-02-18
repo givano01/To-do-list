@@ -9,6 +9,7 @@ body {
     box-sizing: border-box;
 }
 
+/*------------------------------------------------*/
 .userOptions{
     background-color: #3d3c40;
     height: 50px;
@@ -53,6 +54,22 @@ body {
     border-radius: 6px; 
 }
 
+#btnUpdate{
+    left: 40%;
+    transform: translate(-50deg, -50deg);
+    padding: 10px;
+    width: 10%;
+    background:#6562fc;
+    color: white;
+    float: right;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+    border-radius: 6px; 
+}
+
 #btnDelete:hover, #btnLogOut:hover {
     background-color: #bbb;
 }
@@ -82,35 +99,7 @@ body {
         margin-top: 7px;
     }
 }
-
-ul {
-    margin: 0;
-    padding: 0;
-}
-
-ul li {
-    /*cursor: pointer;*/
-    position: relative;
-    padding: 12px 8px 12px 40px;
-    list-style-type: none;
-    background: #3C3B41;
-    font-size: 14px;
-    color: #999999;
-    margin: 1px 40px;
-    transition: 0.2s;
-    border-radius: 6px;
-
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-ul li:nth-child(odd) {
-    background: #3C3B41;
-}
-
-
+/*------------------------------------------------*/
 
 .header {
     margin: 10px;
@@ -126,37 +115,7 @@ ul li:nth-child(odd) {
     clear: both;
 }
 
-input {
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    padding: 10px;
-    float: left;
-    color: white;
-    font-size: 16px;
-    background-color: #313033;
-    border-radius: 6px;
-}
-
-#btnDelTask{
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    padding: 10px;
-    float: left;
-    color: white;
-    font-size: 16px;
-    background-color: #313033;
-    border-radius: 6px;
-
-}
-#btnUpdTask{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    padding-bottom: 50px;
+#inpTask{
     margin: 0;
     border: none;
     border-radius: 0;
@@ -188,33 +147,171 @@ input {
     background-color: #bbb;
 }
 
-@media screen and (max-width: 600px){
-    .addBtn {
-        width: 100%;
-    }
-}
-
-
 .actions {
     background-color: red;
     width: 100%;
     height: auto;
 }
 
+@media screen and (max-width: 600px){
+    .addBtn {
+        width: 100%;
+    }
+}
+
+/*------------------------------------------------*/
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    list-style-type: none;
+    background: #3C3B41;
+    font-size: 14px;
+    color: #999999;
+    margin: 1px 40px;
+    transition: 0.2s;
+    border-radius: 6px;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+ul li:nth-child(odd) {
+    background: #3C3B41;
+}
+
+/*------------------------------------------------*/
+.taskOptions{
+    position: relative;
+    height: 450px;
+}
+.deleteTask{
+    float: left;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 30%;
+}
+.updateTask{
+    float: right;
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 30%;
+}
+
+#inpDelTask{
+    width: 100%;
+    background-color: #313033;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    color:white;
+    border-radius: 0;
+}
+
+#btnDelTask{ 
+    /*position:absolute;
+    left: 50%;
+    margin-top: 50px;
+    transform: translate(-50%);*/
+    border: none;
+    border-radius: 0;
+    width: 50%;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
+    background: #6562fc;
+
+}
+#btnDelTask:hover{
+    background-color: #bbb;
+}
+.inpUpdTask {
+    width: 100%;
+    background-color: #313033;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+
+#btnUpdTask{
+    border: none;
+    border-radius: 0;
+    width: 50%;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
+    background: #6562fc;
+}
+
+#btnUpdTask:hover{
+    background-color: #bbb;
+}
+@media screen and (max-width: 600px){
+    
+    .taskOptions{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        height: 500px;
+        margin-bottom: 50px;
+    }
+    .deleteTask{
+        margin-top: 50px;
+        position: static;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        float: left;
+        top: 20%;
+        left: 10%;
+        width: 85%;
+    }
+    .updateTask{
+        margin-top:30px;
+        position: static;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        float: right;
+        top: 20%;
+        right: 10%;
+        width: 85%;
+    }
+    #btnDelTask{ 
+        width: 100%;
+    }
+    #btnUpdTask{
+        width: 100%;
+    }
+}
+
+
 #delete{
     position: relative;
     padding-top: 50px;
 }
-.deleteTask-div{
-    margin-bottom: 100px;
-}
-
-.updateTask-div{
-    margin-bottom: 100px;
-}
 
 .title{
     padding: 50px 0px;
+    color: #BEF4F9; 
+    text-align: center;
+
 }
 
 @media screen and (max-width: 600px){

@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <h2 class="title" style="color: #BEF4F9; text-align: center;"> All lists</h2>
+    <h2 class="title" >All lists</h2>
 
     <div id="container"></div>
 
@@ -34,21 +34,22 @@
 
     <p id = "outtext"> </p>
 
-    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Delete list</h2>
+    <div class = "listOptions">
+        <div class="deleteList">
+            <h2 class="title" > Delete list</h2>
+            <input type="text" placeholder="Insert list ID" id="inpDelList">
+            <button type="button" id="btnDelList">Delete list</button>
+        </div>
 
-    <div class="deleteList-div">
-        <input type="text" placeholder="Insert list ID" id="inpDelList" style="float: left; width: 49%; background-color: #313033;">
-        <button style="width: 49%; float: right;" type="button" id="btnDelList">Delete list</button>
+        <div class="updateList">
+            <h2 class="title"> Update List</h2>
+            <input type="text" placeholder="Old list name" id="inpOldList" class ="inpUpdList">
+            <input type="text" placeholder="New list name" id="inpNewList" class ="inpUpdList">
+            <button type="button" id="btnUpdList">Update List</button>
+        </div>
     </div>
-
-    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update List</h2>
-
-    <div class="updateList-div">
-        <input type="text" placeholder="Old list name" id="inpOldList" style="float: left; width: 49%; background-color: #313033;">
-        <input type="text" placeholder="New list name" id="inpNewList" style="float: right; width: 49%; background-color: #313033;">
-    </div>
-    <br> 
-    <button style="width: 30%;" type="button" id="btnUpdList">Update List</button>
+    
+    
 
     <script>
         /* ------------------- showing username ------------------ */

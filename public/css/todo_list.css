@@ -11,6 +11,7 @@ body {
 html{
     position: relative;
 }
+/*------------------------------------------------*/
 .userOptions{
     background-color: #3d3c40;
     height: 50px;
@@ -101,6 +102,70 @@ html{
     }
 }
 
+/*------------------------------------------------*/
+
+
+.header {
+    margin: 10px;
+    border-radius: 6px;
+    background-color: #3d3c40;
+    padding: 30px 40px;
+    color: white;
+}
+
+.header:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#inpList {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    padding: 10px;
+    float: left;
+    color: white;
+    font-size: 16px;
+    background-color: #313033;
+    border-radius: 6px;
+}
+
+.addBtn {
+    padding: 10px;
+    width: 25%;
+    background: #6562fc;
+    color: white;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+
+.addBtn:hover {
+    background-color: #bbb;
+}
+
+.actions {
+    background-color: red;
+    width: 100%;
+    height: auto;
+}
+
+
+@media screen and (max-width: 600px){
+    .addBtn {
+        width: 100%;
+    }
+}
+
+/*------------------------------------------------*/
+
 ul {
     margin: 0;
     padding: 0;
@@ -138,111 +203,132 @@ ul li:hover {
     color: white;
 }
 
-.header {
-    margin: 10px;
-    border-radius: 6px;
-    background-color: #3d3c40;
-    padding: 30px 40px;
-    color: white;
+/*------------------------------------------------*/
+.listOptions{
+    position: relative;
+    height: 450px;
 }
-
-.header:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-input {
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    padding: 10px;
+.deleteList{
     float: left;
-    color: white;
-    font-size: 16px;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 30%;
+}
+.updateList{
+    float: right;
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 30%;
+}
+
+#inpDelList{
+    width: 100%;
     background-color: #313033;
-    border-radius: 6px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    color:white;
+    border-radius: 0;
 }
 
 #btnDelList{ 
-    margin: 0;
+    /*position:absolute;
+    left: 50%;
+    margin-top: 50px;
+    transform: translate(-50%);*/
     border: none;
     border-radius: 0;
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    float: left;
     color: white;
     font-size: 16px;
     background-color: #313033;
     border-radius: 6px;
+    background: #6562fc;
 
 }
+#btnDelList:hover{
+    background-color: #bbb;
+}
+.inpUpdList {
+    width: 100%;
+    background-color: #313033;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    color: white;
+}
+
 
 #btnUpdList{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    padding-bottom: 50px;
-    margin: 0;
     border: none;
     border-radius: 0;
-    width: 100%;
+    width: 50%;
     padding: 10px;
-    float: left;
     color: white;
     font-size: 16px;
     background-color: #313033;
     border-radius: 6px;
+    background: #6562fc;
 }
 
-.addBtn {
-    padding: 10px;
-    width: 25%;
-    background: #6562fc;
-    color: white;
-    float: left;
-    text-align: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-    border-radius: 0;
-    margin-top: 15px;
-    border-radius: 6px;
+#btnUpdList:hover{
+    background-color: #bbb;
 }
 
 @media screen and (max-width: 600px){
-    .addBtn {
+    
+    .listOptions{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        height: 500px;
+        margin-bottom: 50px;
+    }
+    .deleteList{
+        margin-top: 50px;
+        position: static;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        float: left;
+        top: 20%;
+        left: 10%;
+        width: 85%;
+    }
+    .updateList{
+        margin-top:30px;
+        position: static;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        float: right;
+        top: 20%;
+        right: 10%;
+        width: 85%;
+    }
+    #btnDelList{ 
+        width: 100%;
+    }
+    #btnUpdList{
         width: 100%;
     }
 }
 
 
-.addBtn:hover {
-    background-color: #bbb;
-}
-
-.actions {
-    background-color: red;
-    width: 100%;
-    height: auto;
-}
 
 #delete{
     position: relative;
     padding-top: 50px;
 }  
 
-.deleteList-div{
-    margin-bottom: 100px;
-}
-
-.updateList-div{
-    margin-bottom: 50px;
-}
-
 .title{
     padding: 50px 0px;
+    color: #BEF4F9; 
+    text-align: center;
 }
 
 @media screen and (max-width: 600px){

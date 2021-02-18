@@ -13,6 +13,7 @@
 <div class = "userOptions">
     <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
     <button type = "button" id = "btnDelete">Delete</button>
+    <button type = "button" id="btnUpdate">Update </button>
     <button type = "button" id = "btnLogOut">Log out</button>
 
 </div>
@@ -22,8 +23,6 @@
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
         <button type="button" id="btnAdd" class="addBtn">Add Task</button>
-        
-        
     </div>
 </div>
 
@@ -35,21 +34,22 @@
 <p id = "outtext">
 </p>
 
-<h2 class="title"style="color: #BEF4F9; text-align: center;"> Delete task</h2>
 
-<div class ="deleteTask-div">
-    <input type="text" placeholder="Insert ID" id="inpDelTask" style="float: left; width: 49%; background-color: #313033;">
-    <button style="width: 49%; float: right;" type="button" id="btnDelTask">Delete task</button>
+<div class = "taskOptions">
+    <div class ="deleteTask">
+        <h2 class="title"> Delete task</h2>
+        <input type="text" placeholder="Insert ID" id="inpDelTask">
+        <button  type="button" id="btnDelTask">Delete task</button>
+    </div>
+
+    <div class="updateTask">
+        <h2 class="title"> Update Task</h2>
+        <input type="text" placeholder="Old task name" id="inpOldTask" class = "inpUpdTask">
+        <input type="text" placeholder="New task name" id="inpNewTask" class = "inpUpdTask">
+        <button type="button" id="btnUpdTask">Update Task</button>
+    </div>
 </div>
 
-<h2 class="title" style="color: #BEF4F9; text-align: center;"> Update Task</h2>
-
-<div class="updateTask-div">
-    <input type="text" placeholder="Old task name" id="inpOldTask" style="float: left; width: 49%; background-color: #313033;">
-    <input type="text" placeholder="New task name" id="inpNewTask" style="float: right; width: 49%; background-color: #313033;">
-</div>
-
-<button style="width: 30%;" type="button" id="btnUpdTask">Update Task</button>
 
 <script>   
 
@@ -284,6 +284,14 @@ btnLogOut.addEventListener("click", function (evt){
         sessionStorage.clear();
         location.href = "index.html";
     }
+})
+
+/* ------------------- update user button ------------------ */
+
+btnUpdate = document.getElementById("btnUpdate");
+
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
 })
 
 
