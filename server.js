@@ -27,8 +27,7 @@ server.use("/secure", secureEndPoints);
 server.post("/user", async function (req, res) {
   
   const newUser = new user(req.body.username, req.body.password);
-  
-  console.log(newUser);
+
   await newUser.create();
   
   res.status(200).json(newUser).end();
@@ -61,14 +60,13 @@ server.put("/user/update", async function(req,res){
   const newUpdateUser = new userUpdate(req.body.username, req.body.updpassword);
   await newUpdateUser.update();
   res.status(200).json(newUpdateUser).end();
-  console.log(req.body);
+  
 });
 
 
 /* ------------------- DELETE USER ------------------ */
 
 server.delete("/user/delete", async function(req, res){
-  console.log(req.body.password);
   const credentials = req.body.authorization.split(' ')[1];
   const [username, password] = Buffer.from(credentials, 'base64').toString('UTF-8').split(":");
   const newDeleteUser = new user(username, password);
@@ -161,7 +159,6 @@ server.post("/todo/list", async function (req, res) {
     const newUpdateList = new listUpdate(req.body.list, req.body.new_list);
     await newUpdateList.updateList();
     res.status(200).json(newUpdateList).end();
-    console.log(req.body);
 });
 
 

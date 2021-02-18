@@ -3,34 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/user_update.css">
     <title>Update User</title>
 </head>
 <body>
-    <!--updateUser -->
-    <h1>Update User</h1>
-    <form>
-        <h1>Old Userinfo</h1>
-        <hr>
-        <input type="text" placeholder="Username" id="username">
-        <input type="password" placeholder="Password" id="password">
-        <p id="txt"></p>
-    </form> 
+
+    <div class = "userOptions">
+        <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
+        <button type = "button" id = "btnDelete">Delete</button>
+        <button type = "button" id="btnUpdate">Update </button>
+        <button type = "button" id = "btnLogOut">Log out</button>
+    </div>
+
+
+    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update User </h2>
     
-    <form>
-        <h1>New Password</h1>
-        <hr>
-        <input type="text" placeholder="Password" id="updpassword">
-        <button type="button" id="btnUpdatePsw"> Update User</button>
-        <p id="outtext"></p>
-    </form>
+    <div class = "UpdateUser">
+        <input type="text" placeholder="Write your new password" id="updPassword">
+        <button type="button" id="btnUpdPassword"> Update Password</button>
+    </div>
+    <p id="outtext"></p>
 
     <script>
-        const usernameInput = document.getElementById("username");
-        const passwordInput = document.getElementById("password");
-        const updpasswordInput = document.getElementById("updpassword");
-        const btnUpdatePsw = document.getElementById("btnUpdatePsw")
+
+        /* ------------------- showing inlogged username ------------------ */
+        let login_name = document.getElementById("login_name");
+        let data = localStorage.getItem("user");
+
+        login_name.innerHTML = data;
+
+
+        /* ------------------- update User button ------------------ */
+
+        const updpasswordInput = document.getElementById("updPassword");
+        const btnUpdatePsw = document.getElementById("btnUpdPassword");
         const outtext = document.getElementById("outtext");
         
         btnUpdatePsw.addEventListener("click", async function(evt) {
@@ -57,7 +63,84 @@
            let data = await response.json();
 
            console.log(data);
+
+           location.reload();
         })
+
+        /* ------------------- log out button ------------------ */
+let btnLogOut = document.getElementById("btnLogOut");
+
+btnLogOut.addEventListener("click", function (evt){
+
+    const confirmLogOut = confirm("Are you sure you want to log out?");
+
+    if(confirmLogOut === true){
+        localStorage.clear();
+        sessionStorage.clear();
+        location.href = "index.html";
+    }
+})
+
+/* ------------------- update user button ------------------ */
+
+btnUpdate = document.getElementById("btnUpdate");
+
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
+})
+
+
+/* ------------------- delete user button ------------------ */
+let btnDelete = document.getElementById("btnDelete");
+    btnDelete.addEventListener("click", async function(evt){
+
+        const username = localStorage.getItem("user");
+
+        const confirmUsername = prompt("Please enter your username!", "");
+        const confirmPassword = prompt("Please enter your password!", "");
+
+        console.log()
+        if (confirmUsername || confirmPassword) {
+
+            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+            if (confirmUsername !== username) {
+                alert("Wrong username, try again!");
+                return;
+            }
+
+            let body = { 
+                user: username, 
+                authorization: credentials 
+            };
+
+
+            let config ={
+                method:"DELETE",
+                headers:{
+                    "content-type": "application/json"
+            },
+            body:JSON.stringify(body)
+            }
+
+            const confirmed = confirm("Are you sure you want to delete your account?");
+
+            let response = await fetch("/user/delete", config);
+            console.log(response.status);
+            let data = await response.json();
+
+            if (confirmed === true) {
+
+                if (response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "index.html";
+                }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                }
+            }
+        }
+    })
+
     </script>
 </body>
 </html>

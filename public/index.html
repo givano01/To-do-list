@@ -80,7 +80,6 @@
         })
 
         function ServerResponse(res, data, num){
-            console.log(res.status);
             if(!data.authToken) {
                 outtext.innerHTML = "The user does not exist";
                 return;

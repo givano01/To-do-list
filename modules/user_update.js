@@ -15,7 +15,6 @@ class UpdateUser {
     async update() {
         try {
             let response = await database.updateUser(this.username, this.updpassword);
-            console.log(response);
         } catch(error) {
             console.error(error);
         }
