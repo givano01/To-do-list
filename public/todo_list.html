@@ -12,21 +12,21 @@
 <body>
     <div class = "userOptions">
         <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
-        <button type = "button" id = "btnDelete">Delete User</button>
-        <button type = "button" id = "btnUpdate">Update User</button>
-        <button type = "button" id = "btnLogOut">Log out</button>
+        <button type = "button" id="btnDelete">Delete </button>
+        <button type = "button" id="btnUpdate">Update </button>
+        <button type = "button" id="btnLogOut">Log out</button>
     </div>
 
     <div id="myDIV" class="header">
         <h2 style="margin:5px; color: #BEF4F9">To-do list</h2>
         <input type="text" id="inpList" placeholder="Title...">
         <div class="actions">
-            <input type="button" id="btnAdd" class="addBtn" value="Add List">
+            <button type="button" id="btnAdd" class="addBtn">Add List</button>
 
         </div>
     </div>
 
-    <h2 style="color: #BEF4F9; text-align: center; padding-top: 50px; padding-bottom: 50px"> All lists</h2>
+    <h2 class="title" >All lists</h2>
 
     <div id="container"></div>
 
@@ -34,17 +34,28 @@
 
     <p id = "outtext"> </p>
 
-    <div>
-        <input type="text" placeholder="Insert list ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
-        <input style="width: 49%; float: right;" type="button" id="btnDelTask" value ="Delete list">
-    </div>
+    <div class = "listOptions">
+        <div class="deleteList">
+            <h2 class="title" > Delete list</h2>
+            <input type="text" placeholder="Insert list ID" id="inpDelList">
+            <button type="button" id="btnDelList">Delete list</button>
+        </div>
 
+        <div class="updateList">
+            <h2 class="title"> Update List</h2>
+            <input type="text" placeholder="Old list name" id="inpOldList" class ="inpUpdList">
+            <input type="text" placeholder="New list name" id="inpNewList" class ="inpUpdList">
+            <button type="button" id="btnUpdList">Update List</button>
+        </div>
+    </div>
+    
+    
 
     <script>
         /* ------------------- showing username ------------------ */
 
     let login_name = document.getElementById("login_name");
-    let data = sessionStorage.getItem("user");
+    let data = localStorage.getItem("user");
 
     login_name.innerHTML = data;
 
@@ -138,47 +149,89 @@
 
         loadLists();  
 
-async function loadLists() {
-    let config = {
-        method: "GET",
-    }
+    async function loadLists() {
+        
+        let config = {
+            method: "GET",
+        }
 
-    try {
-        let response = await fetch ("/todo/list", config);
-        let data = await response.json();
+        try {
+            let response = await fetch ("/todo/list", config);
+            let data = await response.json();
 
-        for(let lst of data.rows){
-            let div = document.createElement("li");
-            div.id = `${lst.id}`;
-            div.className = "list";
-            
-            div.onclick = function() {
+            for(let lst of data.rows){
+                let div = document.createElement("li");
+                div.id = `${lst.id}`;
+                div.className = "list";
+                
+                div.onclick = function() {
 
-                sessionStorage.setItem("listdata_name",`${lst.list}`);
-                sessionStorage.setItem("listdata_id",`${lst.id}`);
+                    sessionStorage.setItem("listdata_name",`${lst.list}`);
+                    sessionStorage.setItem("listdata_id",`${lst.id}`);
 
-                //adding ID to url
-                var url = new URL('http://localhost:8080/todo_task.html');
-                var search_params = url.searchParams;
-                search_params.set('id',`${lst.id}` );
-                url.search = search_params.toString();
-                var new_url = url.toString();
+                    location.href = `/todo_task.html?id=${lst.id}`;
+                    
+                }
 
-                location.href = new_url;
+                let html =
+                    `ID: ${lst.id} - ${lst.list}`
+                div.innerHTML = html;
+                container.appendChild(div);
                 
             }
-
-            let html =
-                `ID: ${lst.id} - ${lst.list}`
-            div.innerHTML = html;
-            container.appendChild(div);
-            
+        } 
+        catch(err){
+        outtext.innerHTML = "Something went wrong";
         }
-    } 
-    catch(err){
-    outtext.innerHTML = "Something went wrong";
-    }
 }  
+/* ------------------- delete list button ------------------ */
+const btnDel = document.getElementById("btnDelList");
+const inpDel = document.getElementById("inpDelList");
+
+btnDel.addEventListener("click", async function(evt){
+    
+    let body = {
+        id: inpDel.value,
+    }
+
+    let config ={
+        method: "POST",
+        headers:{
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(body)
+    }
+
+    let response = await fetch ("/todo/list/delete", config);
+    let data = await response.json();
+
+    location.reload();
+    
+})
+/* ------------------- update list button ------------------ */
+const inpOldList = document.getElementById("inpOldList");
+const inpNewList = document.getElementById("inpNewList");
+const btnUpdList = document.getElementById("btnUpdList");
+
+btnUpdList.addEventListener("click", function(evt){
+
+let body = {
+    list: inpOldList.value,
+    new_list: inpNewList.value
+}
+
+let config ={
+    method: "PUT",
+    headers: {
+        "content-type": "application/json",
+    },
+    body:JSON.stringify(body)
+}
+
+fetch("/todo/list/update",config);
+
+    location.reload();
+})
 
 /* ------------------- log out button ------------------ */
 
@@ -206,56 +259,58 @@ btnUpdate.addEventListener("click", function (evt){
         
 /* ------------------- delete user button ------------------ */
 
-let btnDelete = document.getElementById("btnDelete");
+    let btnDelete = document.getElementById("btnDelete");
+    btnDelete.addEventListener("click", async function(evt){
 
-btnDelete.addEventListener('click', async function (evt) {
+        const username = localStorage.getItem("user");
 
-    const username = sessionStorage.getItem("user");
-    const token = sessionStorage.getItem("token");
+        const confirmUsername = prompt("Please enter your username!", "");
+        const confirmPassword = prompt("Please enter your password!", "");
 
-    const confirmUsername = prompt("Please enter your username!", "");
-    const confirmPassword = prompt("Please enter your password!", "");
+        console.log()
+        if (confirmUsername || confirmPassword) {
 
-    if (confirmUsername || confirmPassword) {
+            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+            if (confirmUsername !== username) {
+                alert("Wrong username, try again!");
+                return;
+            }
 
-        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-        if (confirmUsername !== username) {
-            alert("Wrong username, try again!");
-            return;
-        }
-        
-        let body = { 
-            authToken: token, 
-            user: username, 
-            authorization: credentials 
-        };
+            let body = { 
+                user: username, 
+                authorization: credentials 
+            };
 
-        let config = {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
+
+            let config ={
+                method:"DELETE",
+                headers:{
+                    "content-type": "application/json"
             },
-            body: JSON.stringify(body)
+            body:JSON.stringify(body)
             }
-        
-        const confirmed = confirm("Are you sure you want to delete your account?");
-        
-        let response = await fetch("/user/delete", config);
-        console.log(response.status);
-        let data = await response.json();
 
-        if (confirmed === true) {
+            const confirmed = confirm("Are you sure you want to delete your account?");
 
-            if (response.status === 200) {
-            sessionStorage.clear();
-            localStorage.clear();
-            location.href = "index.html";
-            }else {
-            alert("Deletion was unsuccessful, incorrect account information");
+            let response = await fetch("/user/delete", config);
+            console.log(response.status);
+            let data = await response.json();
+
+            if (confirmed === true) {
+
+                if (response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "index.html";
+                }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                }
             }
+
+            
         }
-    }
-});
+    })
+
 
 </script>
 

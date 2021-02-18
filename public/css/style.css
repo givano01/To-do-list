@@ -24,7 +24,7 @@ body{
    display: grid;
 }
 
-.form #submit {
+ #submit {
     padding: 10px;
     width: 25%;
     background: #F04652;

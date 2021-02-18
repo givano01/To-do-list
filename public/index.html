@@ -26,10 +26,10 @@
                 <input name="username" id="loginUsername" placeholder="Brukernavn" type="text" />
                 <br>
                 <label for="loginPassword" style="color: #F04652;">Password:</label>
-                <input name="password" id="loginPassword" placeholder="*********" type="password" />
-            
-                <input id="submit" type="submit" value="Login" />
+                <input name="password" id="loginPassword" placeholder="*********" type="password" /> 
+                <button id="submit" type="submit">Login</button>
             </form>
+            
             <br>
             <div class = "create-acc">
                 <a href = "create_account.html">Register here --></a>
@@ -80,7 +80,6 @@
         })
 
         function ServerResponse(res, data, num){
-            console.log(res.status);
             if(!data.authToken) {
                 outtext.innerHTML = "The user does not exist";
                 return;
@@ -91,7 +90,7 @@
                     sessionStorage.setItem("token", token);
                 }
                 if(user !== undefined) {
-                    sessionStorage.setItem("user", user.username);
+                    localStorage.setItem("user", user.username);
                 }
                 if(res.status === 200) {
                     location.href = "todo_list.html";

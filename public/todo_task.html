@@ -12,7 +12,8 @@
 
 <div class = "userOptions">
     <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
-    <button type = "button" id = "btnDelete">Delete User</button>
+    <button type = "button" id = "btnDelete">Delete</button>
+    <button type = "button" id="btnUpdate">Update </button>
     <button type = "button" id = "btnLogOut">Log out</button>
 
 </div>
@@ -21,29 +22,32 @@
     <h2 style="margin:5px; color: #BEF4F9"></span>ID: <span id = "list_id">  </span> - <span id="list_name" ></h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
-        <input type="button" id="btnAdd" class="addBtn" value="Add Task">
-        
-        
+        <button type="button" id="btnAdd" class="addBtn">Add Task</button>
     </div>
 </div>
 
-<h2 style="color: #BEF4F9; text-align: center; padding-top: 50px; padding-bottom: 50px"> All tasks</h2>
-
+<h2 class="title" style="color: #BEF4F9; text-align: center;"> All tasks</h2>
 
 <ul id="myUL">
-
 </ul>
 
-
 <p id = "outtext">
-
 </p>
 
 
+<div class = "taskOptions">
+    <div class ="deleteTask">
+        <h2 class="title"> Delete task</h2>
+        <input type="text" placeholder="Insert ID" id="inpDelTask">
+        <button  type="button" id="btnDelTask">Delete task</button>
+    </div>
 
-<div>
-    <input type="text" placeholder="Insert ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
-    <input style="width: 49%; float: right;" type="button" id="btnDelTask" value ="Delete task">
+    <div class="updateTask">
+        <h2 class="title"> Update Task</h2>
+        <input type="text" placeholder="Old task name" id="inpOldTask" class = "inpUpdTask">
+        <input type="text" placeholder="New task name" id="inpNewTask" class = "inpUpdTask">
+        <button type="button" id="btnUpdTask">Update Task</button>
+    </div>
 </div>
 
 
@@ -56,7 +60,7 @@ var list_id_from_url = url.searchParams.get("id");
 
 /* ------------------- showing inlogged username ------------------ */
 let login_name = document.getElementById("login_name");
-let data = sessionStorage.getItem("user");
+let data = localStorage.getItem("user");
 
 login_name.innerHTML = data;
 
@@ -139,6 +143,7 @@ btn.addEventListener("click", async function (evt){
     try { 
         let response = await fetch("/todo/task", config);
         let data = await response.json(); 
+        console.log(data);
 
     }
     catch(err){
@@ -174,7 +179,7 @@ button.addEventListener("click", function onclick(event) {
             div.style.display = "none";
         }
     }
-    location.reload();
+   location.reload();
 });
 
 // GET 
@@ -186,20 +191,15 @@ loadTasks();
 
 async function loadTasks() {
 
-    let load_data = {
-        list_id_test: 4
-    }
-
-    console.log(JSON.stringify(load_data));
-
     let config = {
         method: "GET",
-        load_body: JSON.stringify(load_data)
     }
 
     try {
-        let response = await fetch ("/todo/task", config);
+        let response = await fetch (`/todo/task/${list_id_from_url}`, config);
         let data = await response.json();
+
+        console.log(data.rows);
 
         for(let tsk of data.rows) {
 
@@ -208,7 +208,7 @@ async function loadTasks() {
             div.className = "delete";
 
             let html =
-                `${tsk.task}`
+                `ID: ${tsk.id} - ${tsk.task}`
             div.innerHTML = html;
             container.appendChild(div);
             
@@ -226,7 +226,8 @@ const inpDel = document.getElementById("inpDelTask");
 btnDel.addEventListener("click", async function(evt){
     
     let body = {
-        id: inpDel.value
+        id: inpDel.value,
+        list_id: list_id_from_url
     }
 
     let config ={
@@ -239,7 +240,36 @@ btnDel.addEventListener("click", async function(evt){
 
     let response = await fetch ("/todo/task/delete", config);
     let data = await response.json();
+
+    location.reload();
     
+})
+
+/* ------------------- update task button ------------------ */
+const inpOldTask = document.getElementById("inpOldTask");
+const inpNewTask = document.getElementById("inpNewTask");
+const btnUpdTask = document.getElementById("btnUpdTask");
+
+btnUpdTask.addEventListener("click", function(evt){
+
+    let body = {
+                task : inpOldTask.value,
+                new_task: inpNewTask.value,
+            }
+
+    let config ={
+        method: "PUT",
+        headers: {
+            "content-type": "application/json",
+           // "authorization": 
+        },
+        body:JSON.stringify(body)
+    }
+
+    fetch("/todo/task/update",config);
+
+    location.reload();
+        
 })
 
 /* ------------------- log out button ------------------ */
@@ -256,58 +286,65 @@ btnLogOut.addEventListener("click", function (evt){
     }
 })
 
+/* ------------------- update user button ------------------ */
+
+btnUpdate = document.getElementById("btnUpdate");
+
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
+})
+
 
 /* ------------------- delete user button ------------------ */
 let btnDelete = document.getElementById("btnDelete");
+    btnDelete.addEventListener("click", async function(evt){
 
-btnDelete.addEventListener('click', async function (evt) {
+        const username = localStorage.getItem("user");
 
-    const username = sessionStorage.getItem("user");
-    const token = sessionStorage.getItem("token");
+        const confirmUsername = prompt("Please enter your username!", "");
+        const confirmPassword = prompt("Please enter your password!", "");
 
-    const confirmUsername = prompt("Please enter your username!", "");
-    const confirmPassword = prompt("Please enter your password!", "");
+        console.log()
+        if (confirmUsername || confirmPassword) {
 
-    if (confirmUsername || confirmPassword) {
+            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+            if (confirmUsername !== username) {
+                alert("Wrong username, try again!");
+                return;
+            }
 
-        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-        if (confirmUsername !== username) {
-            alert("Wrong username, try again!");
-            return;
-        }
-        
-        let body = { 
-            authToken: token, 
-            user: username, 
-            authorization: credentials 
-        };
+            let body = { 
+                user: username, 
+                authorization: credentials 
+            };
 
-        let config = {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
+
+            let config ={
+                method:"DELETE",
+                headers:{
+                    "content-type": "application/json"
             },
-            body: JSON.stringify(body)
+            body:JSON.stringify(body)
             }
-        
-        const confirmed = confirm("Are you sure you want to delete your account?");
-        
-        let response = await fetch("/user/delete", config);
-        
-        let data = await response.json();
 
-        if (confirmed === true) {
+            const confirmed = confirm("Are you sure you want to delete your account?");
 
-            if (response.status === 200) {
-            sessionStorage.clear();
-            localStorage.clear();
-            location.href = "index.html";
-            }else {
-            alert("Deletion was unsuccessful, incorrect account information");
+            let response = await fetch("/user/delete", config);
+            console.log(response.status);
+            let data = await response.json();
+
+            if (confirmed === true) {
+
+                if (response.status === 200) {
+                    sessionStorage.clear();
+                    localStorage.clear();
+                    location.href = "index.html";
+                }else {
+                    alert("Deletion was unsuccessful, incorrect account information");
+                }
             }
         }
-    }
-});
+    })
 
 </script>
 </body>

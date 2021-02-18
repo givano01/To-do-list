@@ -24,6 +24,15 @@ class List {
             console.error(error)
         }
     }
+
+    async deleteList(){
+        try {
+            let response = await database.deleteList(this.id);
+            return response;
+        } catch (error) {
+            console.error(error)
+        } 
+    }
 }
 
 module.exports = List

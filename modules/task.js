@@ -1,7 +1,7 @@
 const database = require("./datahandler");
 
 class Task {
-    constructor(task, id, list_id) {
+    constructor(task, list_id, id) {
         this.task = task;
         this.id = id;
         this.list_id = list_id;
