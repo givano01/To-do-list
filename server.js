@@ -73,8 +73,6 @@ server.delete("/user/delete", async function(req, res){
 
   await newDeleteUser.delete();
   res.status(200).json(newDeleteUser).end();
-  console.log(req.body);
-  console.log(req.body.username);
 });
 
 
