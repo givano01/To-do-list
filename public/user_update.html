@@ -26,48 +26,48 @@
 
     <script>
 
-        /* ------------------- showing inlogged username ------------------ */
-        let login_name = document.getElementById("login_name");
-        let data = localStorage.getItem("user");
+/* ------------------- showing inlogged username ------------------ */
+let login_name = document.getElementById("login_name");
+let data = localStorage.getItem("user");
 
-        login_name.innerHTML = data;
+login_name.innerHTML = data;
 
 
-        /* ------------------- update User button ------------------ */
+/* ------------------- update User button ------------------ */
 
-        const updpasswordInput = document.getElementById("updPassword");
-        const btnUpdatePsw = document.getElementById("btnUpdPassword");
-        const outtext = document.getElementById("outtext");
-        
-        btnUpdatePsw.addEventListener("click", async function(evt) {
+const updpasswordInput = document.getElementById("updPassword");
+const btnUpdatePsw = document.getElementById("btnUpdPassword");
+const outtext = document.getElementById("outtext");
+
+btnUpdatePsw.addEventListener("click", async function(evt) {
+    
+    let username = localStorage.getItem("user");
+
+    let body = {
+        updpassword : updpasswordInput.value,
+        username: username
+    
+    }
+
+    let config ={
+        method: "PUT",
+        headers: {
+            "content-type": "application/json",
             
-            let username = localStorage.getItem("user");
 
-            let body = {
-                updpassword : updpasswordInput.value,
-                username: username
-            
-            }
+        },
+        body:JSON.stringify(body)
+    }
 
-            let config ={
-                method: "PUT",
-                headers: {
-                    "content-type": "application/json",
-                    
+    let response = await fetch("/user/update",config);
+    let data = await response.json();
 
-                },
-                body:JSON.stringify(body)
-            }
+    console.log(data);
 
-           let response = await fetch("/user/update",config);
-           let data = await response.json();
+    location.reload();
+})
 
-           console.log(data);
-
-           location.reload();
-        })
-
-        /* ------------------- log out button ------------------ */
+/* ------------------- log out button ------------------ */
 let btnLogOut = document.getElementById("btnLogOut");
 
 btnLogOut.addEventListener("click", function (evt){
@@ -92,54 +92,50 @@ btnUpdate.addEventListener("click", function (evt){
 
 /* ------------------- delete user button ------------------ */
 let btnDelete = document.getElementById("btnDelete");
-    btnDelete.addEventListener("click", async function(evt){
+btnDelete.addEventListener("click", async function(evt){
+    const username = localStorage.getItem("user");
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
 
-        const username = localStorage.getItem("user");
+    console.log()
+    if (confirmUsername || confirmPassword) {
 
-        const confirmUsername = prompt("Please enter your username!", "");
-        const confirmPassword = prompt("Please enter your password!", "");
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
 
-        console.log()
-        if (confirmUsername || confirmPassword) {
+        let body = { 
+            user: username, 
+            authorization: credentials 
+        };
 
-            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-            if (confirmUsername !== username) {
-                alert("Wrong username, try again!");
-                return;
-            }
+        let config = {
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+        },
+        body:JSON.stringify(body)
+        }
 
-            let body = { 
-                user: username, 
-                authorization: credentials 
-            };
+        const confirmed = confirm("Are you sure you want to delete your account?");
 
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
 
-            let config ={
-                method:"DELETE",
-                headers:{
-                    "content-type": "application/json"
-            },
-            body:JSON.stringify(body)
-            }
-
-            const confirmed = confirm("Are you sure you want to delete your account?");
-
-            let response = await fetch("/user/delete", config);
-            console.log(response.status);
-            let data = await response.json();
-
-            if (confirmed === true) {
-
-                if (response.status === 200) {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    location.href = "index.html";
-                }else {
-                    alert("Deletion was unsuccessful, incorrect account information");
-                }
+        if (confirmed === true) {
+            if (response.status === 200) {
+                sessionStorage.clear();
+                localStorage.clear();
+                location.href = "index.html";
+            } else {
+                alert("Deletion was unsuccessful, incorrect account information");
             }
         }
-    })
+    }
+})
 
     </script>
 </body>
