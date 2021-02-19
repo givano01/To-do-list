@@ -86,8 +86,6 @@ server.post("/todo/task", async function (req, res) {
   
   res.status(200).json(newTask).end();
 
-  console.log(req.body.list_id);
-
 })
 
     /* ------------------- GET TASK ------------------ */

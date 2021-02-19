@@ -31,8 +31,6 @@
 <ul id="myUL">
 </ul>
 
-<p id = "outtext">
-</p>
 
 
 <div class = "taskOptions">
@@ -40,6 +38,7 @@
         <h2 class="title"> Delete task</h2>
         <input type="text" placeholder="Insert ID" id="inpDelTask">
         <button  type="button" id="btnDelTask">Delete task</button>
+        <p id = "outtext_delete" style = "color:white;"></p>
     </div>
 
     <div class="updateTask">
@@ -47,6 +46,7 @@
         <input type="text" placeholder="Old task name" id="inpOldTask" class = "inpUpdTask">
         <input type="text" placeholder="New task name" id="inpNewTask" class = "inpUpdTask">
         <button type="button" id="btnUpdTask">Update Task</button>
+        <p id = "outtext_update" style = "color:white;"></p>
     </div>
 </div>
 
@@ -220,56 +220,72 @@ async function loadTasks() {
 }  
 
 /* ------------------- delete task button ------------------ */
+
 const btnDel = document.getElementById("btnDelTask");
 const inpDel = document.getElementById("inpDelTask");
+const outtext_delete= document.getElementById("outtext_delete");
 
 btnDel.addEventListener("click", async function(evt){
     
-    let body = {
-        id: inpDel.value,
-        list_id: list_id_from_url
-    }
-
-    let config ={
-        method: "POST",
-        headers:{
-            "content-type": "application/json"
-        },
-        body: JSON.stringify(body)
-    }
-
-    let response = await fetch ("/todo/task/delete", config);
-    let data = await response.json();
-
-    location.reload();
+    if(inpDel.value === ""){
+        
+        outtext_delete.innerHTML = "You must write a task ID";
     
+    }else{
+    
+        let body = {
+            id: inpDel.value,
+            list_id: list_id_from_url
+        }
+
+        let config ={
+            method: "POST",
+            headers:{
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+
+        let response = await fetch ("/todo/task/delete", config);
+        let data = await response.json();
+        location.reload();
+
+    }  
+
+        
 })
 
 /* ------------------- update task button ------------------ */
 const inpOldTask = document.getElementById("inpOldTask");
 const inpNewTask = document.getElementById("inpNewTask");
 const btnUpdTask = document.getElementById("btnUpdTask");
+const outtext_update= document.getElementById("outtext_update");
+
 
 btnUpdTask.addEventListener("click", function(evt){
 
-    let body = {
-                task : inpOldTask.value,
-                new_task: inpNewTask.value,
-            }
+    if(inpOldTask.value === "" || inpNewTask.value === ""){
 
-    let config ={
-        method: "PUT",
-        headers: {
-            "content-type": "application/json",
-           // "authorization": 
-        },
-        body:JSON.stringify(body)
-    }
+        outtext_update.innerHTML = " You must fill both felts";
 
-    fetch("/todo/task/update",config);
+    }else{
+        let body = {
+                    task : inpOldTask.value,
+                    new_task: inpNewTask.value,
+                }
 
-    location.reload();
-        
+        let config ={
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body:JSON.stringify(body)
+        }
+
+        fetch("/todo/task/update",config);
+
+        location.reload();
+    }     
 })
 
 /* ------------------- log out button ------------------ */

@@ -19,10 +19,11 @@
     <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update User </h2>
     
     <div class = "UpdateUser">
-        <input type="text" placeholder="Write your new password" id="updPassword">
+        <input type="password" placeholder="Write your new password" id="updPassword">
         <button type="button" id="btnUpdPassword"> Update Password</button>
+        <p id="outtext" style = "color: white"></p>
     </div>
-    <p id="outtext"></p>
+   
 
     <script>
 
@@ -33,40 +34,7 @@
         login_name.innerHTML = data;
 
 
-        /* ------------------- update User button ------------------ */
-
-        const updpasswordInput = document.getElementById("updPassword");
-        const btnUpdatePsw = document.getElementById("btnUpdPassword");
-        const outtext = document.getElementById("outtext");
         
-        btnUpdatePsw.addEventListener("click", async function(evt) {
-            
-            let username = localStorage.getItem("user");
-
-            let body = {
-                updpassword : updpasswordInput.value,
-                username: username
-            
-            }
-
-            let config ={
-                method: "PUT",
-                headers: {
-                    "content-type": "application/json",
-                    
-
-                },
-                body:JSON.stringify(body)
-            }
-
-           let response = await fetch("/user/update",config);
-           let data = await response.json();
-
-           console.log(data);
-
-           location.reload();
-        })
-
         /* ------------------- log out button ------------------ */
 let btnLogOut = document.getElementById("btnLogOut");
 
@@ -92,54 +60,101 @@ btnUpdate.addEventListener("click", function (evt){
 
 /* ------------------- delete user button ------------------ */
 let btnDelete = document.getElementById("btnDelete");
-    btnDelete.addEventListener("click", async function(evt){
+btnDelete.addEventListener("click", async function(evt){
 
-        const username = localStorage.getItem("user");
+    const username = localStorage.getItem("user");
 
-        const confirmUsername = prompt("Please enter your username!", "");
-        const confirmPassword = prompt("Please enter your password!", "");
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
 
-        console.log()
-        if (confirmUsername || confirmPassword) {
+    if (confirmUsername || confirmPassword) {
 
-            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-            if (confirmUsername !== username) {
-                alert("Wrong username, try again!");
-                return;
-            }
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
 
-            let body = { 
-                user: username, 
-                authorization: credentials 
-            };
+        let body = { 
+            user: username, 
+            authorization: credentials 
+        };
 
 
-            let config ={
-                method:"DELETE",
-                headers:{
-                    "content-type": "application/json"
-            },
-            body:JSON.stringify(body)
-            }
+        let config ={
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+        },
+        body:JSON.stringify(body)
+        }
 
-            const confirmed = confirm("Are you sure you want to delete your account?");
+        const confirmed = confirm("Are you sure you want to delete your account?");
 
-            let response = await fetch("/user/delete", config);
-            console.log(response.status);
-            let data = await response.json();
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
 
-            if (confirmed === true) {
+        if (confirmed === true) {
 
-                if (response.status === 200) {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    location.href = "index.html";
-                }else {
-                    alert("Deletion was unsuccessful, incorrect account information");
-                }
+            if (response.status === 200) {
+                sessionStorage.clear();
+                localStorage.clear();
+                location.href = "index.html";
+            }else {
+                alert("Deletion was unsuccessful, incorrect account information");
             }
         }
-    })
+    }
+})
+
+/* ------------------- update User button ------------------ */
+
+const updpasswordInput = document.getElementById("updPassword");
+const btnUpdatePsw = document.getElementById("btnUpdPassword");
+const outtext = document.getElementById("outtext");
+        
+btnUpdatePsw.addEventListener("click", async function(evt) {
+    
+
+    if(updpasswordInput.value === ""){
+        outtext.innerHTML = "You must insert your new password";
+    }
+    else{
+
+    
+        let username = localStorage.getItem("user");
+
+        let body = {
+            updpassword : updpasswordInput.value,
+            username: username
+        
+        }
+
+        let config ={
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+                
+
+            },
+            body:JSON.stringify(body)
+        }
+
+        let response = await fetch("/user/update",config);
+        let data = await response.json();
+
+        outtext.innerHTML = "You have changed you password successfully! You will now be redirected to the login page.";
+
+        redirect();
+
+    }
+})
+
+const redirect = () =>{
+            setTimeout(function(){ location.href = "index.html";}, 3000);
+        }
+
 
     </script>
 </body>

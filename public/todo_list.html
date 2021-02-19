@@ -32,13 +32,14 @@
 
     <ul id="myUL"></ul>
 
-    <p id = "outtext"> </p>
+   
 
     <div class = "listOptions">
         <div class="deleteList">
             <h2 class="title" > Delete list</h2>
             <input type="text" placeholder="Insert list ID" id="inpDelList">
             <button type="button" id="btnDelList">Delete list</button>
+            <p id = "outtext_delete" style = "color: white;"> </p>
         </div>
 
         <div class="updateList">
@@ -46,6 +47,7 @@
             <input type="text" placeholder="Old list name" id="inpOldList" class ="inpUpdList">
             <input type="text" placeholder="New list name" id="inpNewList" class ="inpUpdList">
             <button type="button" id="btnUpdList">Update List</button>
+            <p id = "outtext_update" style = "color: white;"> </p>
         </div>
     </div>
     
@@ -149,88 +151,105 @@
 
         loadLists();  
 
-    async function loadLists() {
-        
-        let config = {
-            method: "GET",
-        }
+async function loadLists() {
 
-        try {
-            let response = await fetch ("/todo/list", config);
-            let data = await response.json();
+    let config = {
+        method: "GET",
+    }
 
-            for(let lst of data.rows){
-                let div = document.createElement("li");
-                div.id = `${lst.id}`;
-                div.className = "list";
-                
-                div.onclick = function() {
+    try {
+        let response = await fetch ("/todo/list", config);
+        let data = await response.json();
 
-                    sessionStorage.setItem("listdata_name",`${lst.list}`);
-                    sessionStorage.setItem("listdata_id",`${lst.id}`);
+        for(let lst of data.rows){
+            let div = document.createElement("li");
+            div.id = `${lst.id}`;
+            div.className = "list";
+            
+            div.onclick = function() {
 
-                    location.href = `/todo_task.html?id=${lst.id}`;
-                    
-                }
+                sessionStorage.setItem("listdata_name",`${lst.list}`);
+                sessionStorage.setItem("listdata_id",`${lst.id}`);
 
-                let html =
-                    `ID: ${lst.id} - ${lst.list}`
-                div.innerHTML = html;
-                container.appendChild(div);
+                location.href = `/todo_task.html?id=${lst.id}`;
                 
             }
-        } 
-        catch(err){
+
+            let html =
+                `ID: ${lst.id} - ${lst.list}`
+            div.innerHTML = html;
+            container.appendChild(div);
+            
+        }
+        
+    }catch(err){
         outtext.innerHTML = "Something went wrong";
         }
 }  
 /* ------------------- delete list button ------------------ */
 const btnDel = document.getElementById("btnDelList");
 const inpDel = document.getElementById("inpDelList");
+const outtext_delete = document.getElementById("outtext_delete");
 
 btnDel.addEventListener("click", async function(evt){
     
-    let body = {
-        id: inpDel.value,
-    }
+    if(inpDel.value === ""){
 
-    let config ={
-        method: "POST",
-        headers:{
-            "content-type": "application/json"
-        },
-        body: JSON.stringify(body)
-    }
+        outtext_delete.innerHTML = "You must write a list ID";
 
-    let response = await fetch ("/todo/list/delete", config);
-    let data = await response.json();
+    }else{
 
-    location.reload();
     
+        let body = {
+            id: inpDel.value,
+        }
+
+        let config ={
+            method: "POST",
+            headers:{
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+
+        let response = await fetch ("/todo/list/delete", config);
+        let data = await response.json();
+
+        location.reload();
+    }
 })
 /* ------------------- update list button ------------------ */
 const inpOldList = document.getElementById("inpOldList");
 const inpNewList = document.getElementById("inpNewList");
 const btnUpdList = document.getElementById("btnUpdList");
+const outtext_update = document.getElementById("outtext_update");
+
 
 btnUpdList.addEventListener("click", function(evt){
 
-let body = {
-    list: inpOldList.value,
-    new_list: inpNewList.value
-}
+    if(inpOldList.value === "" || inpNewList.value === ""){
 
-let config ={
-    method: "PUT",
-    headers: {
-        "content-type": "application/json",
-    },
-    body:JSON.stringify(body)
-}
+        outtext_update.innerHTML = " You must fill both felts";
 
-fetch("/todo/list/update",config);
+    }else{
 
-    location.reload();
+        let body = {
+            list: inpOldList.value,
+            new_list: inpNewList.value
+        }
+
+        let config ={
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+            },
+            body:JSON.stringify(body)
+        }
+
+        fetch("/todo/list/update",config);
+
+            location.reload();
+    }
 })
 
 /* ------------------- log out button ------------------ */
