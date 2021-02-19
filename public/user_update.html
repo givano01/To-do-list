@@ -27,15 +27,13 @@
 
     <script>
 
-        /* ------------------- showing inlogged username ------------------ */
-        let login_name = document.getElementById("login_name");
-        let data = localStorage.getItem("user");
+/* ------------------- showing inlogged username ------------------ */
+let login_name = document.getElementById("login_name");
+let data = localStorage.getItem("user");
 
-        login_name.innerHTML = data;
+login_name.innerHTML = data;
 
-
-        
-        /* ------------------- log out button ------------------ */
+/* ------------------- log out button ------------------ */
 let btnLogOut = document.getElementById("btnLogOut");
 
 btnLogOut.addEventListener("click", function (evt){
@@ -63,7 +61,6 @@ let btnDelete = document.getElementById("btnDelete");
 btnDelete.addEventListener("click", async function(evt){
 
     const username = localStorage.getItem("user");
-
     const confirmUsername = prompt("Please enter your username!", "");
     const confirmPassword = prompt("Please enter your password!", "");
 

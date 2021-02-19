@@ -83,10 +83,8 @@
                 let data = await response.json();
 
                 if(response.status === 200){
-                     outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
-
-                        redirect();
-                     
+                    outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
+                    redirect();
                 } else {
                     outtext.innerHTML = "Prøv igjen";   
                 }

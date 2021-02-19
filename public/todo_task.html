@@ -129,8 +129,6 @@ btn.addEventListener("click", async function (evt){
         list_id: url_id
     }
 
-    console.log(updata)
-
     let config = {
         method: "POST",
         headers: {
@@ -182,7 +180,6 @@ button.addEventListener("click", function onclick(event) {
    location.reload();
 });
 
-// GET 
 let container = document.getElementById("myUL");
 let outtext = document.getElementById("outtext");
 
@@ -250,9 +247,7 @@ btnDel.addEventListener("click", async function(evt){
         let data = await response.json();
         location.reload();
 
-    }  
-
-        
+    }
 })
 
 /* ------------------- update task button ------------------ */
@@ -313,54 +308,53 @@ btnUpdate.addEventListener("click", function (evt){
 
 /* ------------------- delete user button ------------------ */
 let btnDelete = document.getElementById("btnDelete");
-    btnDelete.addEventListener("click", async function(evt){
+btnDelete.addEventListener("click", async function(evt){
 
-        const username = localStorage.getItem("user");
+    const username = localStorage.getItem("user");
 
-        const confirmUsername = prompt("Please enter your username!", "");
-        const confirmPassword = prompt("Please enter your password!", "");
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
 
-        console.log()
-        if (confirmUsername || confirmPassword) {
+    if (confirmUsername || confirmPassword) {
 
-            const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-            if (confirmUsername !== username) {
-                alert("Wrong username, try again!");
-                return;
-            }
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
 
-            let body = { 
-                user: username, 
-                authorization: credentials 
-            };
+        let body = { 
+            user: username, 
+            authorization: credentials 
+        };
 
 
-            let config ={
-                method:"DELETE",
-                headers:{
-                    "content-type": "application/json"
-            },
-            body:JSON.stringify(body)
-            }
+        let config ={
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+        },
+        body:JSON.stringify(body)
+        }
 
-            const confirmed = confirm("Are you sure you want to delete your account?");
+        const confirmed = confirm("Are you sure you want to delete your account?");
 
-            let response = await fetch("/user/delete", config);
-            console.log(response.status);
-            let data = await response.json();
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
 
-            if (confirmed === true) {
+        if (confirmed === true) {
 
-                if (response.status === 200) {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    location.href = "index.html";
-                }else {
-                    alert("Deletion was unsuccessful, incorrect account information");
-                }
+            if (response.status === 200) {
+                sessionStorage.clear();
+                localStorage.clear();
+                location.href = "index.html";
+            } else {
+                alert("Deletion was unsuccessful, incorrect account information");
             }
         }
-    })
+    }
+})
 
 </script>
 </body>
