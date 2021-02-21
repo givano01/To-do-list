@@ -115,38 +115,44 @@ let btn = document.getElementById("btnAdd");
 btn.addEventListener("click", async function (evt){
 
     evt.preventDefault();
-
-    let logindataJson = localStorage.getItem("logindata");
-    let logindata = JSON.parse(logindataJson);
-
-    console.log(logindataJson);
-
-    let task = inpTask.value;
-    let url_id = list_id_from_url;
-
-    let updata = {
-        task: inpTask.value,
-        list_id: url_id
-    }
-
-    let config = {
-        method: "POST",
-        headers: {
-            "content-type" : "application/json",
-            "authorization" : logindata.authToken
-        },
-        body: JSON.stringify(updata)
-    }
-
-    try { 
-        let response = await fetch("/todo/task", config);
-        let data = await response.json(); 
-        console.log(data);
-
-    }
-    catch(err){
-        outtext.innerHTML = "Something went wrong";
     
+    if(inpTask.value === ""){
+        alert("You must write something!");
+    
+    }else{
+
+        let logindataJson = localStorage.getItem("logindata");
+        let logindata = JSON.parse(logindataJson);
+
+        console.log(logindataJson);
+
+        let task = inpTask.value;
+        let url_id = list_id_from_url;
+
+        let updata = {
+            task: inpTask.value,
+            list_id: url_id
+        }
+
+        let config = {
+            method: "POST",
+            headers: {
+                "content-type" : "application/json",
+                "authorization" : logindata.authToken
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try { 
+            let response = await fetch("/todo/task", config);
+            let data = await response.json(); 
+            console.log(data);
+
+        }
+        catch(err){
+            outtext.innerHTML = "Something went wrong";
+        
+        }
     }
 })
 
@@ -160,9 +166,6 @@ button.addEventListener("click", function onclick(event) {
     
     li.appendChild(t);
     
-    if (inputValue === '') {
-        alert("You must write something!");
-    } 
     document.getElementById("inpTask").value = "";
 
     var span = document.createElement("SPAN");
