@@ -26,17 +26,16 @@
                 <input name="username" id="loginUsername" placeholder="Brukernavn" type="text" />
                 <br>
                 <label for="loginPassword" style="color: #F04652;">Password:</label>
-                <input name="password" id="loginPassword" placeholder="*********" type="password" />
-            
-                <input id="submit" type="submit" value="Login" />
+                <input name="password" id="loginPassword" placeholder="*********" type="password" /> 
+                <button id="submit" type="submit">Login</button>
             </form>
+            
             <br>
             <div class = "create-acc">
                 <a href = "create_account.html">Register here --></a>
             </div>
         
             <p id = "outtext"></p>
-        
         </div>
     </div>
 
@@ -45,12 +44,10 @@
 
         let url = "/user/login";
 
-        
         const theForm = document.getElementById("theForm")
         const loginUsername = document.getElementById("loginUsername");
         const loginPassword = document.getElementById("loginPassword");
         const outtext = document.getElementById("outtext");
-        
 
         theForm.addEventListener('submit', async function(evt){ 
             
@@ -71,31 +68,28 @@
                 }
             }
 
-                let response = await fetch(url, config);
-                let data = await response.json();
-                ServerResponse(response, data, 1);
+            let response = await fetch(url, config);
+            let data = await response.json();
+            ServerResponse(response, data, 1);
 
-                localStorage.setItem("logindata", JSON.stringify(data));
-
-            
+            localStorage.setItem("logindata", JSON.stringify(data));
 
         })
 
         function ServerResponse(res, data, num){
-            console.log(res.status);
-            if(!data.authToken){
+            if(!data.authToken) {
                 outtext.innerHTML = "The user does not exist";
                 return;
-            }else{
+            } else {
                 let token = data.authToken.authToken;
                 let user = data.user;
-                if(token !== undefined){
+                if(token !== undefined) {
                     sessionStorage.setItem("token", token);
                 }
-                if(user !== undefined){
-                    sessionStorage.setItem("user", user.username);
+                if(user !== undefined) {
+                    localStorage.setItem("user", user.username);
                 }
-                if(res.status === 200){
+                if(res.status === 200) {
                     location.href = "todo_list.html";
                 }
             }

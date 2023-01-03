@@ -3,63 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/user_update.css">
+    <link rel="icon" href="./img/favicon.png" type="image/gif">
     <title>Update User</title>
 </head>
 <body>
-    <!--updateUser -->
-    <h1>Update User</h1>
-    <form>
-        <h1>Old Userinfo</h1>
-        <hr>
-        <input type="text" placeholder="Username" id="username">
-        <input type="password" placeholder="Password" id="password">
-        <p id="txt"></p>
-    </form> 
+
+    <div class = "userOptions">
+        <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
+        <button type = "button" id = "btnDelete">Delete</button>
+        <button type = "button" id="btnUpdate">Update </button>
+        <button type = "button" id = "btnLogOut">Log out</button>
+    </div>
+
+
+    <h2 class="title" style="color: #BEF4F9; text-align: center;"> Update User </h2>
     
-    <form>
-        <h1>New Password</h1>
-        <hr>
-        <input type="text" placeholder="Password" id="updpassword">
-        <button type="button" id="btnUpdatePsw"> Update User</button>
-        <p id="outtext"></p>
-    </form>
+    <div class = "UpdateUser">
+        <input type="password" placeholder="Write your new password" id="updPassword">
+        <button type="button" id="btnUpdPassword"> Update Password</button>
+        <p id="outtext" style = "color: white"></p>
+    </div>
+   
 
     <script>
-        const usernameInput = document.getElementById("username");
-        const passwordInput = document.getElementById("password");
-        const updpasswordInput = document.getElementById("updpassword");
-        const btnUpdatePsw = document.getElementById("btnUpdatePsw")
-        const outtext = document.getElementById("outtext");
 
-        console.log(btnUpdatePsw);
+/* ------------------- showing inlogged username ------------------ */
+let login_name = document.getElementById("login_name");
+let data = localStorage.getItem("user");
 
-       btnUpdatePsw.addEventListener("click", async function(evt){
+login_name.innerHTML = data;
 
-       
+/* ------------------- log out button ------------------ */
+let btnLogOut = document.getElementById("btnLogOut");
 
-            let body = {
-                updpassword : updpasswordInput.value,
-                username: username.value,
-                password: passwordInput.value
+btnLogOut.addEventListener("click", function (evt){
+
+    const confirmLogOut = confirm("Are you sure you want to log out?");
+
+    if(confirmLogOut === true){
+        localStorage.clear();
+        sessionStorage.clear();
+        location.href = "index.html";
+    }
+})
+
+/* ------------------- update user button ------------------ */
+
+btnUpdate = document.getElementById("btnUpdate");
+
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
+})
+
+
+/* ------------------- delete user button ------------------ */
+let btnDelete = document.getElementById("btnDelete");
+btnDelete.addEventListener("click", async function(evt){
+
+    const username = localStorage.getItem("user");
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
+
+    if (confirmUsername || confirmPassword) {
+
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
+
+        let body = { 
+            user: username, 
+            authorization: credentials 
+        };
+
+
+        let config ={
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+        },
+        body:JSON.stringify(body)
+        }
+
+        const confirmed = confirm("Are you sure you want to delete your account?");
+
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
+
+        if (confirmed === true) {
+
+            if (response.status === 200) {
+                sessionStorage.clear();
+                localStorage.clear();
+                location.href = "index.html";
+            }else {
+                alert("Deletion was unsuccessful, incorrect account information");
             }
+        }
+    }
+})
 
-            let config ={
-                method: "PUT",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body:JSON.stringify(body)
-            }
+/* ------------------- update User button ------------------ */
 
-           let response = await fetch("/user/update",config);
-           let data = await response.json();
+const updpasswordInput = document.getElementById("updPassword");
+const btnUpdatePsw = document.getElementById("btnUpdPassword");
+const outtext = document.getElementById("outtext");
+        
+btnUpdatePsw.addEventListener("click", async function(evt) {
+    
 
-           console.log(data);
+    if(updpasswordInput.value === ""){
+        outtext.innerHTML = "You must insert your new password";
+    }
+    else{
+
+    
+        let username = localStorage.getItem("user");
+
+        let body = {
+            updpassword : updpasswordInput.value,
+            username: username
+        
+        }
+
+        let config ={
+            method: "PUT",
+            headers: {
+                "content-type": "application/json",
+                
+
+            },
+            body:JSON.stringify(body)
+        }
+
+        let response = await fetch("/user/update",config);
+        let data = await response.json();
+
+        outtext.innerHTML = "You have changed you password successfully! You will now be redirected to the login page.";
+
+        redirect();
+
+    }
+})
+
+const redirect = () =>{
+            setTimeout(function(){ location.href = "index.html";}, 3000);
+        }
 
 
-        })
     </script>
 </body>
 </html>

@@ -33,7 +33,7 @@
             <input name="confirm-password" id="confirm-password" type="password" required/>
             <br>
      
-            <input id="submit" type="submit" value="Create account" />
+            <button id="submit" type="submit">Create account</button>
         </form>
             <br>
             <div class = "create-acc">
@@ -83,10 +83,8 @@
                 let data = await response.json();
 
                 if(response.status === 200){
-                     outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
-
-                        redirect();
-                     
+                    outtext.innerHTML = "You have registered successfully! You will be now redirected to the login page.";
+                    redirect();
                 } else {
                     outtext.innerHTML = "Prøv igjen";   
                 }
@@ -96,7 +94,7 @@
         });
 
         const redirect = () =>{
-            setTimeout(function(){ location.href = "index.html";}, 2000);
+            setTimeout(function(){ location.href = "index.html";}, 3000);
         }
 
 

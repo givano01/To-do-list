@@ -8,13 +8,10 @@ class List {
     }
 
     async createList() {
-            
         try {
         let response = await database.insertList(this.list);
             return response;
-
         } catch (error) { 
-
             console.error(error)
         }
     }
@@ -28,6 +25,14 @@ class List {
         }
     }
 
+    async deleteList(){
+        try {
+            let response = await database.deleteList(this.id);
+            return response;
+        } catch (error) {
+            console.error(error)
+        } 
+    }
 }
 
 module.exports = List

@@ -12,357 +12,353 @@
 
 <div class = "userOptions">
     <span class ="loggedUser">Logged in as <span id="login_name"></span></span>
-    <button type = "button" id = "btnDelete">Delete User</button>
+    <button type = "button" id = "btnDelete">Delete</button>
+    <button type = "button" id="btnUpdate">Update </button>
     <button type = "button" id = "btnLogOut">Log out</button>
 
 </div>
 
 <div id="myDIV" class="header">
+    <a href = "todo_list.html" style= "color: gray;">Go back to list</a>
     <h2 style="margin:5px; color: #BEF4F9"></span>ID: <span id = "list_id">  </span> - <span id="list_name" ></h2>
     <input type="text" id="inpTask" placeholder="Title...">
     <div class="actions">
-        <input type="button" id="btnAdd" class="addBtn" value="Add Task">
-        
-        
+        <button type="button" id="btnAdd" class="addBtn">Add Task</button>
     </div>
 </div>
 
-<h2 style="color: #BEF4F9; text-align: center; padding-top: 50px; padding-bottom: 50px"> All tasks</h2>
-
+<h2 class="title" style="color: #BEF4F9; text-align: center;"> All tasks</h2>
 
 <ul id="myUL">
-
 </ul>
 
 
-<p id = "outtext">
 
-</p>
+<div class = "taskOptions">
+    <div class ="deleteTask">
+        <h2 class="title"> Delete task</h2>
+        <input type="text" placeholder="Insert ID" id="inpDelTask">
+        <button  type="button" id="btnDelTask">Delete task</button>
+        <p id = "outtext_delete" style = "color:white;"></p>
+    </div>
 
-
-
-<div>
-    <input type="text" placeholder="Insert ID" id="inpDelTask" style="float: left; width: 50%; background-color: #313033;">
-    <input style="width: 49%; float: right;" type="button" id="btnDelTask" value ="Delete task">
+    <div class="updateTask">
+        <h2 class="title"> Update Task</h2>
+        <input type="text" placeholder="Old task name" id="inpOldTask" class = "inpUpdTask">
+        <input type="text" placeholder="New task name" id="inpNewTask" class = "inpUpdTask">
+        <button type="button" id="btnUpdTask">Update Task</button>
+        <p id = "outtext_update" style = "color:white;"></p>
+    </div>
 </div>
 
 
 <script>   
 
-    // hente id fra URL
-    var url_string = window.location.href;
-    var url = new URL(url_string);
-    var list_id_from_url = url.searchParams.get("id");
+// hente id fra URL
+var url_string = window.location.href;
+var url = new URL(url_string);
+var list_id_from_url = url.searchParams.get("id");
 
-    /* ------------------- showing inlogged username ------------------ */
+/* ------------------- showing inlogged username ------------------ */
+let login_name = document.getElementById("login_name");
+let data = localStorage.getItem("user");
 
-    let login_name = document.getElementById("login_name");
-    let data = sessionStorage.getItem("user");
+login_name.innerHTML = data;
 
-    login_name.innerHTML = data;
+/* ------------------- showing list name ------------------ */
+let list_name = document.getElementById("list_name");
+let listdata_name = sessionStorage.getItem("listdata_name");
 
-    /* ------------------- showing list name ------------------ */
+list_name.innerHTML = listdata_name;
 
-    let list_name = document.getElementById("list_name");
-    let listdata_name = sessionStorage.getItem("listdata_name");
+/* ------------------- showing list id ------------------ */
+let list_id = document.getElementById("list_id");
+let listdata_id = sessionStorage.getItem("listdata_id");
 
-    list_name.innerHTML = listdata_name;
+list_id.innerHTML = listdata_id;
 
-    /* ------------------- showing list id ------------------ */
+// Create list
+var myNodelist = document.getElementsByTagName("LI");
+var i;
 
-    let list_id = document.getElementById("list_id");
-    let listdata_id = sessionStorage.getItem("listdata_id");
+for (i = 0; i < myNodelist.length; i++) {
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\u00D7");
+    span.className = "close";
+    span.appendChild(txt);
+    myNodelist[i].appendChild(span);
+}
 
-    list_id.innerHTML = listdata_id;
+// Delete list
+var close = document.getElementsByClassName("close");
+var i;
 
+for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+        var div = this.parentElement;
+        div.style.display = "none";
+    }
+}
 
+// Get unorganized list
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+    if (ev.target.tagName === 'LI') {
+        ev.target.classList.toggle('checked');
+    }
+}, false);
 
-    // Create list
-    var myNodelist = document.getElementsByTagName("LI");
-        var i;
-        for (i = 0; i < myNodelist.length; i++) {
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\u00D7");
-            span.className = "close";
-            span.appendChild(txt);
-            myNodelist[i].appendChild(span);
+/* ------------------- create task button ------------------ */
+
+let inpTask = document.getElementById("inpTask");
+let btn = document.getElementById("btnAdd");
+
+btn.addEventListener("click", async function (evt){
+
+    evt.preventDefault();
+    
+    if(inpTask.value === ""){
+        alert("You must write something!");
+    
+    }else{
+
+        let logindataJson = localStorage.getItem("logindata");
+        let logindata = JSON.parse(logindataJson);
+
+        console.log(logindataJson);
+
+        let task = inpTask.value;
+        let url_id = list_id_from_url;
+
+        let updata = {
+            task: inpTask.value,
+            list_id: url_id
         }
 
-        // Delete list
-        var close = document.getElementsByClassName("close");
-        var i;
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function() {
-                var div = this.parentElement;
-                div.style.display = "none";
-            }
-        }
-
-        // Get unorganized list
-        var list = document.querySelector('ul');
-        list.addEventListener('click', function(ev) {
-            if (ev.target.tagName === 'LI') {
-                ev.target.classList.toggle('checked');
-            }
-        }, false);
-
-        
-        
-        
-
-        /* ------------------- create task button ------------------ */
-
-        let inpTask = document.getElementById("inpTask");
-        let btn = document.getElementById("btnAdd");
-
-        btn.addEventListener("click", async function (evt){
-
-            evt.preventDefault();
-
-            let logindataJson = localStorage.getItem("logindata");
-            let logindata = JSON.parse(logindataJson);
-
-            console.log(logindataJson);
-
-            let task = inpTask.value;
-            let url_id = list_id_from_url;
-
-            let updata = {
-                task: inpTask.value,
-                list_id: url_id
-            }
-
-            console.log(updata)
-
-            let config = {
-                method: "POST",
-                headers: {
-                    "content-type" : "application/json",
-                    "authorization" : logindata.authToken
-                },
-               body: JSON.stringify(updata)
-            }
-
-            try { 
-                let response = await fetch("/todo/task", config);
-                let data = await response.json(); 
-
-            }
-            catch(err){
-                outtext.innerHTML = "Something went wrong";
-            
-            }
-        })
-
-        var button = document.querySelector(".addBtn");
-        
-        button.addEventListener("click", function onclick(event) {
-            
-            var li = document.createElement("li");
-            var inputValue = document.getElementById("inpTask").value;
-            var t = document.createTextNode(inputValue);
-            
-            li.appendChild(t);
-            
-            if (inputValue === '') {
-                alert("You must write something!");
-            } 
-            document.getElementById("inpTask").value = "";
-
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("Slett");
-            span.className = "close";
-            span.appendChild(txt);
-            li.appendChild(span);
-
-            for (i = 0; i < close.length; i++) {
-                close[i].onclick = function() {
-                    var div = this.parentElement;
-                    div.style.display = "none";
-                }
-            }
-         location.reload();
-        });
-
-
-
-        // GET 
-        let container = document.getElementById("myUL");
-        let outtext = document.getElementById("outtext");
-
-        
-        /* ------------------- load all tasks ------------------ */
-        
-        loadTasks();  
-
-        async function loadTasks() {
-            
-            let load_data = {
-                list_id_test: 4
-            }
-
-            console.log(JSON.stringify(load_data));
-
-            let config = {
-                method: "GET",
-                load_body: JSON.stringify(load_data)
-            }
-
-            try {
-                let response = await fetch ("/todo/task", config);
-                let data = await response.json();
-
-                for(let tsk of data.rows){
-
-                    let div = document.createElement("li");
-                    div.id = `${tsk.id}`;
-                    div.className = "delete";
-
-                    let html =
-                        `${tsk.task}`
-                    div.innerHTML = html;
-                    container.appendChild(div);
-                    
-                }
-            } 
-            catch(err){
-            outtext.innerHTML = "Something went wrong";
-            }
-        }  
-
-        
-
-        /* ------------------- delete task button ------------------ */
-
-
-        const btnDel = document.getElementById("btnDelTask");
-        const inpDel = document.getElementById("inpDelTask");
-
-        btnDel.addEventListener("click", async function(evt){
-            
-            let body = {
-                id: inpDel.value
-            }
-
-            let config ={
-                method: "POST",
-                headers:{
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-
-            let response = await fetch ("/todo/task/delete", config);
-            let data = await response.json();
-            
-        })
-
-         /* ------------------- log out button ------------------ */
-        
-         let btnLogOut = document.getElementById("btnLogOut");
-         
-         
-         btnLogOut.addEventListener("click", function (evt){
-
-            const confirmLogOut = confirm("Are you sure you want to log out?");
-
-            if(confirmLogOut === true){
-                localStorage.clear();
-                sessionStorage.clear();
-                location.href = "index.html";
-            q}
-         })
-
-        
-        /* ------------------- delete user button ------------------ */
-
-
-        let btnDelete = document.getElementById("btnDelete");
-        
-
-        btnDelete.addEventListener('click', async function (evt) {
-
-            const username = sessionStorage.getItem("user");
-            const token = sessionStorage.getItem("token");
-
-            const confirmUsername = prompt("Please enter your username!", "");
-            const confirmPassword = prompt("Please enter your password!", "");
-
-            if (confirmUsername || confirmPassword) {
-
-                const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
-                if (confirmUsername !== username) {
-                    alert("Wrong username, try again!");
-                    return;
-                }
-                
-                let body = { 
-                    authToken: token, 
-                    user: username, 
-                    authorization: credentials 
-                };
-
-                let config = {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                    }
-                
-                const confirmed = confirm("Are you sure you want to delete your account?");
-                
-                let response = await fetch("/user/delete", config);
-                
-                let data = await response.json();
-
-                if (confirmed === true) {
-
-                    if (response.status === 200) {
-                    sessionStorage.clear();
-                    localStorage.clear();
-                    location.href = "index.html";
-                    }else {
-                    alert("Deletion was unsuccessful, incorrect account information");
-                    }
-                }
-            }
-        });
-
-
-        /* -------------------fetch server api function------------------ */
-
-        
-        /*async function callServerAPI(body, url) {
-
-            if (body === "" || url === "" || !body.authToken) {
-            return;
-            }
-
-            const config = {
+        let config = {
             method: "POST",
             headers: {
+                "content-type" : "application/json",
+                "authorization" : logindata.authToken
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try { 
+            let response = await fetch("/todo/task", config);
+            let data = await response.json(); 
+            console.log(data);
+
+        }
+        catch(err){
+            outtext.innerHTML = "Something went wrong";
+        
+        }
+    }
+})
+
+var button = document.querySelector(".addBtn");
+
+button.addEventListener("click", function onclick(event) {
+    
+    var li = document.createElement("li");
+    var inputValue = document.getElementById("inpTask").value;
+    var t = document.createTextNode(inputValue);
+    
+    li.appendChild(t);
+    
+    document.getElementById("inpTask").value = "";
+
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("Slett");
+    span.className = "close";
+    span.appendChild(txt);
+    li.appendChild(span);
+
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.display = "none";
+        }
+    }
+   location.reload();
+});
+
+let container = document.getElementById("myUL");
+let outtext = document.getElementById("outtext");
+
+/* ------------------- load all tasks ------------------ */
+loadTasks();  
+
+async function loadTasks() {
+
+    let config = {
+        method: "GET",
+    }
+
+    try {
+        let response = await fetch (`/todo/task/${list_id_from_url}`, config);
+        let data = await response.json();
+
+        console.log(data.rows);
+
+        for(let tsk of data.rows) {
+
+            let div = document.createElement("li");
+            div.id = `${tsk.id}`;
+            div.className = "delete";
+
+            let html =
+                `ID: ${tsk.id} - ${tsk.task}`
+            div.innerHTML = html;
+            container.appendChild(div);
+            
+        }
+    } 
+    catch(err) {
+    outtext.innerHTML = "Something went wrong";
+    }
+}  
+
+/* ------------------- delete task button ------------------ */
+
+const btnDel = document.getElementById("btnDelTask");
+const inpDel = document.getElementById("inpDelTask");
+const outtext_delete= document.getElementById("outtext_delete");
+
+btnDel.addEventListener("click", async function(evt){
+    
+    if(inpDel.value === ""){
+        
+        outtext_delete.innerHTML = "You must write a task ID";
+    
+    }else{
+    
+        let body = {
+            id: inpDel.value,
+            list_id: list_id_from_url
+        }
+
+        let config ={
+            method: "POST",
+            headers:{
                 "content-type": "application/json"
             },
             body: JSON.stringify(body)
+        }
+
+        let response = await fetch ("/todo/task/delete", config);
+        let data = await response.json();
+        location.reload();
+
+    }
+})
+
+/* ------------------- update task button ------------------ */
+const inpOldTask = document.getElementById("inpOldTask");
+const inpNewTask = document.getElementById("inpNewTask");
+const btnUpdTask = document.getElementById("btnUpdTask");
+const outtext_update= document.getElementById("outtext_update");
+
+
+btnUpdTask.addEventListener("click", function(evt){
+
+    if(inpOldTask.value === "" || inpNewTask.value === ""){
+
+        outtext_update.innerHTML = " You must fill both felts";
+
+    }else{
+        let body = {
+                    task : inpOldTask.value,
+                    new_task: inpNewTask.value,
+                }
+
+        let config ={
+            method: "PUT",
+            headers: {
+                "content-type": "application/json"
+            },
+            body:JSON.stringify(body)
+        }
+
+        fetch("/todo/task/update",config);
+
+        location.reload();
+    }     
+})
+
+/* ------------------- log out button ------------------ */
+let btnLogOut = document.getElementById("btnLogOut");
+
+btnLogOut.addEventListener("click", function (evt){
+
+    const confirmLogOut = confirm("Are you sure you want to log out?");
+
+    if(confirmLogOut === true){
+        localStorage.clear();
+        sessionStorage.clear();
+        location.href = "index.html";
+    }
+})
+
+/* ------------------- update user button ------------------ */
+
+btnUpdate = document.getElementById("btnUpdate");
+
+btnUpdate.addEventListener("click", function (evt){
+    location.href = "user_update.html";
+})
+
+
+/* ------------------- delete user button ------------------ */
+let btnDelete = document.getElementById("btnDelete");
+btnDelete.addEventListener("click", async function(evt){
+
+    const username = localStorage.getItem("user");
+
+    const confirmUsername = prompt("Please enter your username!", "");
+    const confirmPassword = prompt("Please enter your password!", "");
+
+    if (confirmUsername || confirmPassword) {
+
+        const credentials = "Basic " + window.btoa(`${confirmUsername}:${confirmPassword}`);
+        if (confirmUsername !== username) {
+            alert("Wrong username, try again!");
+            return;
+        }
+
+        let body = { 
+            user: username, 
+            authorization: credentials 
+        };
+
+
+        let config ={
+            method:"DELETE",
+            headers:{
+                "content-type": "application/json"
+        },
+        body:JSON.stringify(body)
+        }
+
+        const confirmed = confirm("Are you sure you want to delete your account?");
+
+        let response = await fetch("/user/delete", config);
+        console.log(response.status);
+        let data = await response.json();
+
+        if (confirmed === true) {
+
+            if (response.status === 200) {
+                sessionStorage.clear();
+                localStorage.clear();
+                location.href = "index.html";
+            } else {
+                alert("Deletion was unsuccessful, incorrect account information");
             }
-            try{
-                let response = await fetch(url, config);
-                let data = await response.json();
-
-                console.log(response.status);
-                return { "response": response, "data": data };
-            }
-            catch(error){
-                console.log("something went wrong");
-            }
-        };*/
-
-    
-
-
-
-        
+        }
+    }
+})
 
 </script>
 </body>

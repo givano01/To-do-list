@@ -52,12 +52,12 @@ class StorageHandler {
 
 /*  -------------------------- update user data ------------------------------- */
 
-   async updateUser(username, updpassword, password){
+   async updateUser(username, updpassword){
         const client = new pg.Client(this.credentials);
         let results = null;
         try{
             await client.connect();
-            results = await client.query('UPDATE "users" SET "password" = $3 WHERE "username" = $1 and "password" = $2',[username, password, updpassword]);
+            results = await client.query('UPDATE "users" SET "password" = $2 WHERE "username" = $1',[username, updpassword]);
             client.end()
         }catch(err){
             client.end()
@@ -70,26 +70,21 @@ class StorageHandler {
 
      /*  -------------------------- Deleting user data ------------------------------- */
 
-    async deleteUser(username, password) {
+   
+    async deleteUser(username, password){
         const client = new pg.Client(this.credentials);
-        let results = false;
-        try {
+        let results = null;
+        try{
             await client.connect();
-
-            results = await client.query('SELECT * FROM "public".users" WHERE username=$1 AND password=$2', [username, password]);
-            console.log(results.rows);
-            if (results.rows.length !== 0) {
-                if (results.rows[0].username === username && results.rows[0].password === password) {
-                    await client.query('DELETE FROM "public"."users" WHERE username=$1 AND password=$2', [username, password]);
-                    results = true;
-                }
-
-                return results;
-            }
+            results = await client.query('DELETE FROM "public"."users" WHERE username = $1 and password = $2 RETURNING *;', [username, password]);
             client.end();
-        } catch (err) {
+        }catch(err){
+            client.end();
             console.log(err);
+            results = err;
         }
+
+        return results;
     }
         
         
@@ -133,7 +128,6 @@ class StorageHandler {
         }
 
         return results; 
-        
     }
 
     /*  -------------------------- Deleting task data ------------------------------- */
@@ -143,22 +137,33 @@ class StorageHandler {
         let results = null;
         try {
             await client.connect();
-            //results = await client.query('DELETE FROM "public"."todo-list" WHERE "task" =' + task);
-            results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = $0');
-           // results = await client.query('DELETE FROM "public"."todo-list" WHERE "id" = 135', [id]);
-
-
+            results = await client.query('DELETE FROM "public"."todo_task" WHERE "id" = $1',[id]);
             client.end();
-            
         } catch (err) {
             client.end();
             console.log(err);
             results = err;
         }
-
         return results;
-        
     }
+
+    /*  -------------------------- Update task data ------------------------------- */
+
+    async updateTask(task, new_task){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('UPDATE "todo_task" SET "task" = $1 WHERE "task" = $2',[new_task, task]);
+            client.end()
+        }catch(err){
+            client.end()
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
+
 
     /*  -------------------------- Inserting list data ------------------------------- */
 
@@ -175,7 +180,6 @@ class StorageHandler {
             console.log(err);
             results = err;
         }
-
         return results;
     }
 
@@ -204,6 +208,38 @@ class StorageHandler {
         
     }
 
+    /*  -------------------------- Deleting list data ------------------------------- */
+
+    async deleteList(id){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('DELETE FROM "public"."todo_list" WHERE "id" = $1',[id]);
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
+/*  -------------------------- Update list data ------------------------------- */
+
+    async updateList(list, new_list){
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try{
+            await client.connect();
+            results = await client.query('UPDATE "public"."todo_list" SET "list" = $1 WHERE "list" = $2',[new_list, list]);
+            client.end()
+        }catch(err){
+            client.end()
+            console.log(err);
+            results = err;
+        }
+        return results;
+    }
     
     
 }
