@@ -100,10 +100,10 @@ server.post("/todo/task", async function (req, res) {
     /* ------------------- GET TASK ------------------ */
 
     server.get("/todo/task", async function (req, res) {
-      try{
-        let response = await db.getTask();
+      try {
+        let response = await db.getTask(4);
         res.status(200).json(response).end();
-        }catch(error){
+        } catch(error) {
           console.error(error)
         }
     })
